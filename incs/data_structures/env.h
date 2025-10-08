@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/08 18:48:52 by cviel            ###   ########.fr       */
+/*   Created: 2025/10/08 18:08:50 by cviel             #+#    #+#             */
+/*   Updated: 2025/10/08 18:16:50 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ret_val.h"
+#ifndef ENV_H
+# define ENV_H
 
-int main(int ac, char **av)
+typedef	struct s_cam
 {
-    int	ret;
-	
-	if (ac == 1)
-	{
-		printf("Error\n");
-		printf("You must specify a path to a .rt file\n");
-		return (ERROR_ARGUMENT);
-	}
-	ret = parsing(av[1]);
-	if (ret != 0)
-		return (ret);
-	return (0);
-}
+	t_pt	pos;
+	t_vect	normal;
+	float	fov;
+}	t_cam;
+
+typedef struct s_amb
+{
+	float			ratio;
+	unsigned char	color[3];
+}	t_amb;
+
+typedef struct s_light
+{
+	t_pt			pos;
+	float			ratio;
+	unsigned char	color[3];
+}	t_light;
+
+#endif
