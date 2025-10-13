@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:33:10 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/13 16:45:06 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/13 18:08:37 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	matrix_add(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 
 	if (check_same_mx_size(mx1, mx2))
 		return (-1);
-	if (matrix_create(r_mx, mx1->m, mx1->n))
+	if (matrix_create_empty(r_mx, mx1->m, mx1->n))
 		return (ERR_ALLOC);
 	i = 0;
 	while(i < mx1->m)
@@ -46,7 +46,7 @@ int	matrix_multiply_number(t_matrix *r_mx, t_matrix *mx, float nb)
 	size_t	i;
 	size_t	j;
 
-	if (matrix_create(r_mx, mx->m, mx->n))
+	if (matrix_create_empty(r_mx, mx->m, mx->n))
 		return (ERR_ALLOC);
 	i = 0;
 	while(i < mx->m)
@@ -66,12 +66,12 @@ int	result_matrix_setup(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 {
 	if (mx1->m > mx2->m)
 	{
-		if (matrix_create(r_mx, mx1->n, mx2->m))
+		if (matrix_create_empty(r_mx, mx1->n, mx2->m))
 			return (ERR_ALLOC);
 	}
 	else
 	{
-		if (matrix_create(r_mx, mx2->n, mx1->m))
+		if (matrix_create_empty(r_mx, mx2->n, mx1->m))
 			return (ERR_ALLOC);
 	}
 	return (SUCCESS);
@@ -113,7 +113,6 @@ int	matrix_multiply(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 	if (result_matrix_setup(r_mx, mx1, mx2))
 		return (ERR_ALLOC);
 	i = 0;
-	printf("size= %zu, %zu\n", r_mx->m, r_mx->n);
 	while(i < r_mx->m)
 	{
 		j = 0;
