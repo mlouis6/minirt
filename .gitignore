@@ -1,2 +1,7 @@
 log.txt
 .vscode
+*.out
+minilibx-linux/
+tmp/
+*.a
+.build/

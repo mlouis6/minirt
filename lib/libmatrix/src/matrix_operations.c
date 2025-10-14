@@ -6,29 +6,24 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:33:10 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/13 18:08:37 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/14 17:03:21 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
 #include "error.h"
 
-int	check_same_mx_size(t_matrix *mx1, t_matrix *mx2)
-{
-	return (mx1->m - mx2->m || mx1->n - mx2->n);
-}
-
 int	matrix_add(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 {
 	size_t	i;
 	size_t	j;
 
-	if (check_same_mx_size(mx1, mx2))
+	if (mx1->m - mx2->m || mx1->n - mx2->n)
 		return (-1);
 	if (matrix_create_empty(r_mx, mx1->m, mx1->n))
 		return (ERR_ALLOC);
 	i = 0;
-	while(i < mx1->m)
+	while (i < mx1->m)
 	{
 		j = 0;
 		while (j < mx1->n)
@@ -49,7 +44,7 @@ int	matrix_multiply_number(t_matrix *r_mx, t_matrix *mx, float nb)
 	if (matrix_create_empty(r_mx, mx->m, mx->n))
 		return (ERR_ALLOC);
 	i = 0;
-	while(i < mx->m)
+	while (i < mx->m)
 	{
 		j = 0;
 		while (j < mx->n)
@@ -58,21 +53,6 @@ int	matrix_multiply_number(t_matrix *r_mx, t_matrix *mx, float nb)
 			++j;
 		}
 		++i;
-	}
-	return (SUCCESS);
-}
-
-int	result_matrix_setup(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
-{
-	if (mx1->m > mx2->m)
-	{
-		if (matrix_create_empty(r_mx, mx1->n, mx2->m))
-			return (ERR_ALLOC);
-	}
-	else
-	{
-		if (matrix_create_empty(r_mx, mx2->n, mx1->m))
-			return (ERR_ALLOC);
 	}
 	return (SUCCESS);
 }
@@ -113,12 +93,33 @@ int	matrix_multiply(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 	if (result_matrix_setup(r_mx, mx1, mx2))
 		return (ERR_ALLOC);
 	i = 0;
-	while(i < r_mx->m)
+	while (i < r_mx->m)
 	{
 		j = 0;
 		while (j < r_mx->n)
 		{
 			r_mx->val[i][j] = vector_multiply(mx1, mx2, i, j);
+			++j;
+		}
+		++i;
+	}
+	return (SUCCESS);
+}
+
+int	matrix_transpose(t_matrix *r_mx, t_matrix *mx)
+{
+	size_t	i;
+	size_t	j;
+
+	if (matrix_create_empty(r_mx, mx->n, mx->m))
+		return (ERR_ALLOC);
+	i = 0;
+	while (i < mx->m)
+	{
+		j = 0;
+		while (j < mx->n)
+		{
+			r_mx->val[j][i] = mx->val[i][j];
 			++j;
 		}
 		++i;

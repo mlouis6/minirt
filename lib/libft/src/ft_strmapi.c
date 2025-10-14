@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_operations.c                                :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 17:53:22 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/13 17:58:11 by mlouis           ###   ########.fr       */
+/*   Created: 2024/11/15 10:16:06 by mlouis            #+#    #+#             */
+/*   Updated: 2024/11/18 16:55:03 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "matrix.h"
+#include <stdlib.h>
+#include "libft.h"
 
-t_vect3 create_vect3(float x, float y, float z)
+/**
+	*f ->	int: index of str
+			char: new char of str[i]
+ */
+
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	t_vect3 v;
+	char			*str;
+	unsigned int	len;
+	unsigned int	i;
 
-	v.x = x;
-	v.y = y;
-	v.z = z;
-	return (v);
-}
-
-t_vect3	vect3_add(t_vect3 v1, t_vect3 v2)
-{
-	t_vect3 res;
-
-	res.x = v1.x + v2.x;
-	res.y = v1.y + v2.y;
-	res.z = v1.z + v2.z;
-	return (res);
-}
-
-t_vect3	vect3_mutiply(t_vect3 v1, t_vect3 v2)
-{
-	t_vect3 res;
-
-	res.x = v1.x * v2.x;
-	res.y = v1.y * v2.y;
-	res.z = v1.z * v2.z;
-	return (res);
+	if (!s || !f)
+		return (NULL);
+	str = ft_strdup(s);
+	if (!str)
+		return (NULL);
+	i = 0;
+	len = ft_strlen(s);
+	while (i < len)
+	{
+		str[i] = f(i, str[i]);
+		i++;
+	}
+	return (str);
 }

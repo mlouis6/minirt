@@ -1,53 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_manager.c                                   :+:      :+:    :+:   */
+/*   matrix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 18:07:40 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/13 18:07:40 by mlouis           ###   ########.fr       */
+/*   Created: 2025/10/14 16:11:53 by mlouis            #+#    #+#             */
+/*   Updated: 2025/10/14 18:59:58 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "matrix.h"
+#include "libft.h"
 #include "error.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void	setup_values(t_matrix *mx, float **values)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while(i < mx->m)
-	{
-		j = 0;
-		while (j < mx->n)
-		{
-			mx->val[i][j] = values[i][j];
-			++j;
-		}
-		++i;
-	}
-}
-
-void	free_arr(void **arr, size_t i)
-{
-	if (!arr)
-		return ;
-	while(i > 0)
-	{
-		--i;
-		free(arr[i]);
-	}
-	free(arr);
-}
-
-// /**
-//  * @brief create a matrix of dimension m*n
-//  */
+/**
+ * @brief create a matrix of dimension m*n
+ * @brief init all values to 0
+ * @return 0 if successful or another number if error
+ */
 int	matrix_create_empty(t_matrix *mx, size_t m, size_t n)
 {
 	size_t	i;
@@ -71,14 +44,15 @@ int	matrix_create_empty(t_matrix *mx, size_t m, size_t n)
 	return (SUCCESS);
 }
 
-int	matrix_create(t_matrix *mx, size_t m, size_t n, float **values)
+/**
+ * @brief create a matrix of dimension m*n
+ * @brief the values must be allocated
+ */
+void	matrix_create(t_matrix *mx, size_t m, size_t n, float **values)
 {
-	size_t	i;
-
 	mx->m = m;
 	mx->n = n;
 	mx->val = values;
-	return (SUCCESS);
 }
 
 void	matrix_destroy(t_matrix *mx)
@@ -86,30 +60,10 @@ void	matrix_destroy(t_matrix *mx)
 	size_t	i;
 
 	i = 0;
-	while(i < mx->m)
+	while (i < mx->m)
 	{
 		free(mx->val[i]);
 		++i;
 	}
 	free(mx->val);
-}
-
-void	print_matrix(t_matrix *mx)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while(i < mx->m)
-	{
-		j = 0;
-		printf("[ ");
-		while (j < mx->n)
-		{
-			printf("%.2f ", mx->val[i][j]);
-			++j;
-		}
-		printf("]\n");
-		++i;
-	}
 }
