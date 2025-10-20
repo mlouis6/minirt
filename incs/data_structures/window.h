@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/20 09:22:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/20 11:41:30 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 enum
 {
+	ON_KEYDOWN = 2,
 	ON_DESTROY = 33
 };
 
@@ -43,6 +44,7 @@ typedef	struct s_mlx
 
 void	init_window(t_mlx *mlx, char *file);
 int		cross_button_handler(t_mlx *mlx);
+int		key_event(int key, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
 
 #endif

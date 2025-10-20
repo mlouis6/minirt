@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/20 09:15:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/20 11:58:24 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "libft.h"
 #include "ret_val.h"
+#include "scene.h"
 
 int	check_extension(char *filename)
 {
@@ -55,4 +56,19 @@ int	parsing(char *pathname)
 		return (ERROR_SYSCALL);
 	}
 	return (0);
+}
+
+/**
+ * while gnl
+ * 	read first char
+ * 	if A -> parse_ambient
+ * 	if C -> parse_camera
+ * 	if L -> parse_light
+ * 	if A (again) -> ERROR
+ * 	if another letter -> ERROR
+ * 	if missing one -> ERROR
+ */
+int	parse_scene(t_scene *scene, int fd)
+{
+	
 }
