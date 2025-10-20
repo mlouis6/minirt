@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   matrix_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 18:33:10 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/14 17:03:21 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/20 17:43:02 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	matrix_multiply(t_matrix *r_mx, t_matrix *mx1, t_matrix *mx2)
 	size_t	i;
 	size_t	j;
 
-	if (mx1->m != mx2->n && mx1->n != mx2->m)
+	if (mx1->n != mx2->m)
 		return (-1);
 	if (result_matrix_setup(r_mx, mx1, mx2))
 		return (ERR_ALLOC);
