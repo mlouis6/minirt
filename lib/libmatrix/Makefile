@@ -6,18 +6,18 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/14 19:10:48 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/20 09:07:16 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean re
 
-NAME := matrix.a
+NAME := libmatrix.a
 
 INCS := matrix.h error.h
 INC_DIR := inc ../libft/inc
 
-LIBS := ft
+# LIBS := ft
 
 LIBS_TARGET := ../libft/libft.a
 
@@ -38,7 +38,7 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror
 CPPFLAGS := $(addprefix -I,$(INC_DIR)) -MMD -MP
 LDFLAGS = $(addprefix -L,$(dir $(LIBS_TARGET)))
-LDLIBS := $(addprefix -l,$(LIBS))
+# LDLIBS := $(addprefix -l,$(LIBS))
 MAKEFLAGS += --no-print-directory
 
 all: $(NAME)
