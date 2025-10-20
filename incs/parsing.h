@@ -1,0 +1,1 @@
+int	parsing(char *pathname);
