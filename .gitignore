@@ -1,7 +1,10 @@
-log.txt
+*.txt
 .vscode
 *.out
 minilibx-linux/
 tmp/
 *.a
 .build/
+minirt
+*.rt
+*.out.*
