@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/20 09:07:16 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/21 15:27:09 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME := libmatrix.a
 
-INCS := matrix.h error.h
+INCS := matrix.h error.h dim3.h
 INC_DIR := inc ../libft/inc
 
 # LIBS := ft
@@ -22,10 +22,9 @@ INC_DIR := inc ../libft/inc
 LIBS_TARGET := ../libft/libft.a
 
 SRC_DIR := src
-SRCS := matrix.c			\
-		matrix_utils.c		\
-		matrix_operations.c \
-		vector_operations.c
+SRCS := matrix_utils.c		\
+		mat3.c \
+		vect3.c
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR := .build

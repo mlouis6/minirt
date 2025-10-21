@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/20 17:22:22 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/21 15:42:45 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int main(int ac, char **av)
 	if (err)
 		return (err);
 	init_window(&mlx, av[1]);
+	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);
 	return (0);
