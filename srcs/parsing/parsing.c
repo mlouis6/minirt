@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/20 11:58:24 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/20 16:40:12 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	parsing(char *pathname)
  * 	if another letter -> ERROR
  * 	if missing one -> ERROR
  */
-int	parse_scene(t_scene *scene, int fd)
-{
+// int	parse_scene(t_scene *scene, int fd)
+// {
 	
-}
+// }
