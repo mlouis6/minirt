@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:45:55 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/08 18:49:21 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/22 16:55:25 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ enum e_ret_val
 	ERROR_ARGUMENT,
 	ERROR_FILENAME,
 	ERROR_SYSCALL,
+	ERROR_MALLOC
 };
 
 #endif

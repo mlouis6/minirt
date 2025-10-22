@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/21 15:42:20 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/22 16:33:20 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	check_extension(char *filename)
 		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
 	}
-	return (0);	
+	return (SUCCESS);	
 }
 
 int	parsing(char *pathname)
@@ -54,6 +54,6 @@ int	parsing(char *pathname)
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	return (0);
+	return (SUCCESS);
 }
 
