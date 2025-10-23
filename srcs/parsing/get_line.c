@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/22 19:41:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/23 17:36:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 #define BUFF_SIZE 10
 
-int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
+int		handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
 char	*cut_endl(char *s, int len_endl);
 
 int	get_line(int fd, char **ptr_line)
