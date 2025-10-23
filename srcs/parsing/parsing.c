@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/22 16:33:20 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/23 17:54:17 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ int	check_extension(char *filename)
 
 int	parsing(char *pathname)
 {
-	int	ret;
-	int	fd;
+	int		ret;
+	int		fd;
+	char	*line;
+	
 
 	ret = check_extension(pathname);
 	if (ret != 0)
@@ -54,6 +56,14 @@ int	parsing(char *pathname)
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	return (SUCCESS);
+	line = NULL;
+	ret = get_line(fd, &line);
+	while (ret == SUCCESS && line != NULL)
+	{
+		ret = fill_data(line, )
+		free(line);
+		ret = get_lline(fd, &line);
+	}
+	return (ret);
 }
 

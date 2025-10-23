@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/20 11:04:20 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/23 17:55:56 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
 
+# define t_vect3 t_pt3
+
 # include <inttypes.h>
-# include "matrix.h"
+# include "dim3.h"
 
 typedef struct s_color
 {
@@ -31,14 +33,14 @@ typedef struct s_ambient
 
 typedef struct s_camera
 {
-	t_vect3	pos;
+	t_pt3	pos;
 	t_vect3	dir;
 	uint8_t	fov;
 }	t_camera;
 
 typedef struct s_light
 {
-	t_vect3	pos;
+	t_pt3	pos;
 	float	brightness;
 	t_color	color;
 }	t_light;
