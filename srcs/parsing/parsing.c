@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/23 17:54:17 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/23 18:06:00 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include "libft.h"
 #include "ret_val.h"
+#include "scene.h"
 
 int	check_extension(char *filename)
 {
@@ -44,7 +45,7 @@ int	parsing(char *pathname)
 	int		ret;
 	int		fd;
 	char	*line;
-	
+	t_scene	scene;
 
 	ret = check_extension(pathname);
 	if (ret != 0)
@@ -60,7 +61,7 @@ int	parsing(char *pathname)
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)
 	{
-		ret = fill_data(line, )
+		ret = fill_data(line, scene);
 		free(line);
 		ret = get_lline(fd, &line);
 	}

@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   color.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/23 18:05:09 by cviel            ###   ########.fr       */
+/*   Created: 2025/10/23 17:59:41 by cviel             #+#    #+#             */
+/*   Updated: 2025/10/23 18:00:16 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#ifndef COLOR_H
+# define COLOR_H
 
-int	parsing(char *pathname);
-int	get_line(int fd, char **ptr_line);
+# include <inttypes.h>
+
+typedef struct s_color
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+}	t_color;
 
 #endif
