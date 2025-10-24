@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/20 11:04:20 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/21 16:00:23 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define SCENE_H
 
 # include <inttypes.h>
-# include "matrix.h"
+# include "dim3.h"
 
 typedef struct s_color
 {

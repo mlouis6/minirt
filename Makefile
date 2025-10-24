@@ -6,13 +6,13 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/20 09:15:07 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/24 13:15:08 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .PHONY: all clean fclean re
 
-NAME := minirt
+NAME := miniRT
 
 INC := lib/libft/inc incs incs/data_structures lib/minilibx-linux lib/libmatrix/inc
 
@@ -26,7 +26,7 @@ LIB_TARGET := 	libft/libft.a 					\
 BUILD_DIR := .build
 
 SRC_DIR := srcs
-SRC := parsing/parsing.c window/window_manager.c main.c
+SRC := parsing/parsing.c parsing/parse_scene.c window/window_manager.c main.c
 
 SRC := $(SRC:%=$(SRC_DIR)/%)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
@@ -34,7 +34,7 @@ OBJ := $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS = $(OBJ:.o=.d)
 
 CC := cc
-CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra -g3
 CPPFLAGS := $(addprefix -I,$(INC)) -MMD -MP
 LDFLAGS = $(addprefix -Llib/,$(dir $(LIB_TARGET)))
 LDLIBS := $(addprefix -l,$(LIB))

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/21 15:42:20 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/24 14:37:18 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include "libft.h"
 #include "ret_val.h"
+#include "scene.h"
+#include "parsing.h"
 
 int	check_extension(char *filename)
 {
@@ -36,10 +38,10 @@ int	check_extension(char *filename)
 		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
 	}
-	return (0);	
+	return (SUCCESS);	
 }
 
-int	parsing(char *pathname)
+int	parsing(char *pathname, t_scene **scene)
 {
 	int	ret;
 	int	fd;
@@ -54,6 +56,7 @@ int	parsing(char *pathname)
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	return (0);
+	ret = parse_scene(scene, fd);
+	return (ret);
 }
 

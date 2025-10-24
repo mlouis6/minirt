@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/21 15:27:09 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/22 08:48:21 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,7 @@ INC_DIR := inc ../libft/inc
 LIBS_TARGET := ../libft/libft.a
 
 SRC_DIR := src
-SRCS := matrix_utils.c		\
-		mat3.c \
+SRCS := mat3.c \
 		vect3.c
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 
