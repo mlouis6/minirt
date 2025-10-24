@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/23 18:04:15 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/24 18:38:29 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 typedef enum e_type
 {
+	NONE,
 	PLANE,
 	SPHERE,
 	CYLINDER
@@ -57,6 +58,6 @@ typedef struct s_obj
 	t_type	type;
 	t_shape	shape;
 	t_color	color;
-};
+}	t_obj;
 
 #endif
