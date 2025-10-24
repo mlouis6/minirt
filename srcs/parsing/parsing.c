@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/23 18:06:00 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/24 17:02:57 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,42 @@
 #include "ret_val.h"
 #include "scene.h"
 
-int	check_extension(char *filename)
+int	check_extension(int ac, char **av);
+int	get_scene(int fd, t_scene *ptr_scene);
+
+int	parsing(int ac, char **av, t_scene *ptr_scene)
+{
+    int	ret;
+	int	fd;
+
+	ret = check_extension(ac, av);
+	if (ret != SUCCESS)
+		return (ret);
+	fd = open(av[1], O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\n");	
+		perror("open :");
+		return (ERROR_SYSCALL);
+	}
+	ret = get_scene(fd, ptr_scene);
+	if (ret != SUCCESS);
+		return (ret);
+	return (check_elements(*ptr_scene));
+}
+
+int	check_extension(int ac, char **av)
 {
 	int	len_file;
 	int	len_ext;
 
-	len_file = ft_strlen(filename);
+	if (ac == 1)
+	{
+		printf("Error\n");
+		printf("You must specify a path to a .rt file\n");
+		return (ERROR_ARGUMENT);
+	}
+	len_file = ft_strlen(av[1]);
 	len_ext = ft_strlen(".rt");
 	if (len_file <= len_ext)
 	{
@@ -31,7 +61,7 @@ int	check_extension(char *filename)
 		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
 	}
-	if (ft_strncmp(&filename[len_file - len_ext], ".rt", 4) != 0)
+	if (ft_strncmp(&av[1][len_file - len_ext], ".rt", 4) != 0)
 	{
 		printf("Error\n");
 		printf("Wrong filename or file extension\n");
@@ -40,31 +70,37 @@ int	check_extension(char *filename)
 	return (SUCCESS);	
 }
 
-int	parsing(char *pathname)
+void	init_scene(t_scene *ptr_scene)
+{
+	ptr_scene->amb.lightning = -1;
+	ptr_scene->cam.fov = -1;
+	ptr_scene->light.brightness = -1;
+	ptr_scene->root = NULL;
+}
+
+int	fill_info(char *line, t_scene *ptr_scene)
+{
+	
+}
+
+int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;
-	int		fd;
 	char	*line;
-	t_scene	scene;
 
-	ret = check_extension(pathname);
-	if (ret != 0)
-		return (ret);
-	fd = open(pathname, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\n");	
-		perror("open :");
-		return (ERROR_SYSCALL);
-	}
+	init_scene(ptr_scene);
 	line = NULL;
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)
 	{
-		ret = fill_data(line, scene);
+		ret = fill_scene_info(line, ptr_scene);
 		free(line);
-		ret = get_lline(fd, &line);
+		if (ret != SUCCESS)
+			return (ret);
+		ret = get_line(fd, &line);
 	}
+	if (ret != SUCCESS)
+		return (ret);
 	return (ret);
 }
 

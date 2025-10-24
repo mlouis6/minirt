@@ -3,42 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/21 15:42:45 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/24 17:03:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include "parsing.h"
-#include "ret_val.h"
-#include "window.h"
-#include "ret_val.h"
 #include <stdio.h>
-
-static int	check_args(int ac, char **av)
-{
-    int	ret;
-
-	if (ac == 1)
-	{
-		printf("Error\n");
-		printf("You must specify a path to a .rt file\n");
-		return (ERROR_ARGUMENT);
-	}
-	ret = parsing(av[1]);
-	return (ret);
-}
+#include "ret_val.h"
+#include "parsing.h"
+#include "window.h"
+#include "scene.h"
 
 int main(int ac, char **av)
 {
 	int		err;
 	t_mlx	mlx;
+	t_scene	scene;
 
-	err = check_args(ac, av);
+	err = parsing(ac, av, &scene);
 	if (err)
+	{
+		free_scene(scene);
 		return (err);
+	}
 	init_window(&mlx, av[1]);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
