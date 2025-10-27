@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 18:18:06 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:05:33 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "libft.h"
 #include "ret_val.h"
 #include "scene.h"
@@ -39,7 +40,7 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 		return (ERROR_SYSCALL);
 	}
 	ret = get_scene(fd, ptr_scene);
-	if (ret != SUCCESS);
+	if (ret != SUCCESS)
 		return (ret);
 	return (check_elements(*ptr_scene));
 }
@@ -82,7 +83,6 @@ void	init_scene(t_scene *ptr_scene)
 
 int	fill_scene_info(char *line, t_scene *ptr_scene)
 {
-	int	ret;
 	int	i;
 
 	i = 0;

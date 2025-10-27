@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/23 17:36:23 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:23:32 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include "ret_val.h"
+#include "libft.h"
 
 #define BUFF_SIZE 10
 
@@ -49,10 +50,10 @@ int	get_line(int fd, char **ptr_line)
 int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 {
 	char	*endl;
-	char	*big_line;
+	// char	*big_line;
 	int		len_endl;
 
-	len_endl = ft_strchr(buff, '\n');
+	len_endl = ft_strlen(buff); //ft_strchr(buff, '\n');
 	if (len_endl >= 0)
 	{
 		endl = cut_endl(buff, len_endl);

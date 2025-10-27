@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:05:43 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/14 18:59:45 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/24 15:24:39 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,7 @@ OBJS := $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS = $(OBJS:.o=.d)
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g3
 CPPFLAGS := $(addprefix -I,$(INC)) -MMD -MP
 MAKEFLAGS += --no-print-directory
 

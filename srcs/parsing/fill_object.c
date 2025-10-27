@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   fill_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 18:44:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:02:42 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "ret_val.h"
 #include "objects.h"
 #include "bvh.h"
 #include "scene.h"
+#include "parsing.h"
+#include <stdlib.h>
 
 int	fill_object_info(char *line, t_scene *ptr_scene, t_type type)
 {

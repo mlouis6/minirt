@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/20 09:15:07 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/27 11:24:51 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,9 @@ LIB_TARGET := 	libft/libft.a 					\
 BUILD_DIR := .build
 
 SRC_DIR := srcs
-SRC := parsing/parsing.c window/window_manager.c main.c
+SRC := 	parsing/parsing.c parsing/parsing_utils.c parsing/fill_object.c parsing/fill_scene.c parsing/get_line.c \
+		window/window_manager.c \
+		main.c
 
 SRC := $(SRC:%=$(SRC_DIR)/%)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)

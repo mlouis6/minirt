@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   fill_scene.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 18:31:21 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:20:22 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ret_val.h"
 #include "scene.h"
+#include "libft.h"
+#include "parsing.h"
 
 int	fill_ambient_info(char *line, t_scene *ptr_scene)
 {
@@ -45,8 +47,8 @@ int	fill_camera_info(char *line, t_scene *ptr_scene)
 	int	ret;
 	int	i;
 	
-	if (ptr_scene->cam.fov != -1)
-		return (INVALID_FILE);
+	// if (ptr_scene->cam.fov != -1)
+	// 	return (INVALID_FILE);
 	i = 0;
 	while (ft_strchr(WHITE_SPACES, line[i]) != NULL)
 		i++;
@@ -56,7 +58,8 @@ int	fill_camera_info(char *line, t_scene *ptr_scene)
 	while (ft_strchr(WHITE_SPACES, line[i]) != NULL)
 		i++;
 	ret = get_norm_vect(line, &i, &ptr_scene->cam.dir);
-	if (ret != SUCCESS);
+	if (ret != SUCCESS)
+		return (ret);
 	while (ft_strchr(WHITE_SPACES, line[i]) != NULL)
 		i++;
 	ret = get_integer(line, &i, &ptr_scene->cam.fov);
@@ -81,7 +84,7 @@ int	fill_light_info(char *line, t_scene *ptr_scene)
 	i = 0;
 	while (ft_strchr(WHITE_SPACES, line[i]) != NULL)
 		i++;
-	ret = get_coordinates(line, &i, ptr_scene->light.pos);
+	ret = get_coordinates(line, &i, &ptr_scene->light.pos);
 	if (ret != SUCCESS)
 		return (ret);
 	ret = get_float(line, &i, &ptr_scene->light.brightness);

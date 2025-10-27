@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 17:03:21 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 11:24:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 #include "window.h"
 #include "scene.h"
 
+void	free_scene(t_scene *scene)
+{
+	(void) scene;
+}
+
 int main(int ac, char **av)
 {
 	int		err;
@@ -26,7 +31,7 @@ int main(int ac, char **av)
 	err = parsing(ac, av, &scene);
 	if (err)
 	{
-		free_scene(scene);
+		free_scene(&scene);
 		return (err);
 	}
 	init_window(&mlx, av[1]);
