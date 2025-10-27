@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 13:37:58 by mlouis            #+#    #+#             */
-/*   Updated: 2024/11/18 16:51:08 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/27 16:10:09 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 	return:	trimmed str (begin & end from set chars)
 			|| NULL is malloc fails
  */
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	char	*str;

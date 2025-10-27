@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/20 11:43:14 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/22 08:50:32 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	cross_button_handler(t_mlx *mlx)
 	return (0);
 }
 
-int key_event(int key, t_mlx *mlx)
+int	key_event(int key, t_mlx *mlx)
 {
 	if (key == KEY_ESC)
 		close_window(mlx);
