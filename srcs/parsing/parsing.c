@@ -6,11 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/25 09:01:35 by cviel            ###   ########.fr       */
-=======
-/*   Updated: 2025/10/27 17:41:33 by cviel            ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2025/10/27 21:23:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,46 +99,34 @@ void	init_scene(t_scene *ptr_scene)
 	ptr_scene->root = NULL;
 }
 
-<<<<<<< HEAD
 int	fill_scene_info(char *line, t_scene *ptr_scene)
 {
 	int		ret;
 	char	**line_split;
 	int		i;
 
-	i = 0;
-	ret = split_line(line, WHITE_SPACES, &line_split);
-	if (ret != SUCCESS)
+	line_split = split_line(line, WHITE_SPACES);
+	if (line_split == NULL)
+		return (ERROR_MALLOC);
+	if (line_split[0] == NULL)
 	{
 		free_split(line_split);
-		return (ret);
+		return (SUCCESS);
 	}
-	
+	i = 0;
+	while (i < NB_ITEM)
+	{
+		if (ft_strcmp(line_split[0], g_fill_item[i].name) == 0)
+		{
+			ret = g_fill_item[i].f(line_split, ptr_scene);
+			free_split(line_split);
+			return (ret);
+		}
+		++i;
+	}
+	free_split(line_split);
 	return (INVALID_FILE);
 }
-=======
-// need a ft_split wiht a charset for this function,
-// even maybe a ft_split which returns an error code instead of returning an allocated char ** 
-// int	fill_scene_info(char *line, t_scene *ptr_scene)
-// {
-// 	int		ret;
-// 	char	**line_info;
-	
-// 	if (line[i] == 'A')
-// 		return (fill_ambient_info(&line[i + 1], ptr_scene));
-// 	if (line[i] == 'C')
-// 		return (fill_camera_info(&line[i + 1], ptr_scene));
-// 	if (line[i] == 'L')
-// 		return (fill_light_info(&line[i + 1], ptr_scene));
-// 	if (ft_strncmp(&line[i], "pl", 2) == 0)
-// 		return (fill_object_info(&line[i + 2], ptr_scene, PLANE));
-// 	if (ft_strncmp(&line[i], "sp", 2) == 0)
-// 		return (fill_object_info(&line[i + 2], ptr_scene, SPHERE));
-// 	if (ft_strncmp(&line[i], "cy", 2) == 0)
-// 		return (fill_object_info(&line[i + 2], ptr_scene, CYLINDER));
-// 	return (INVALID_FILE);
-// }
->>>>>>> main
 
 int	get_scene(int fd, t_scene *ptr_scene)
 {

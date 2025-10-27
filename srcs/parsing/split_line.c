@@ -6,43 +6,42 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/25 08:53:51 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 21:00:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
-#include "ret_val.h"
 
-int	split_line(char *line, char *set, char ***ptr_split)
+char	**split_line(char *line, char *set)
 {
-    int nb_words;
-    int len_word;
-    int i;
-    int j;
+	char	**split;	
+	int 	count;
+    int 	i;
     
-    *ptr_split = NULL;
-    nb_words = count_words(line, set);
-    if (nb_words == 0)
-        return (SUCCESS);
-    *ptr_split = malloc(sizeof(char *) * (nb_words + 1));
-    if (*ptr_split == NULL)
-        return (ERROR_MALLOC);
+    count = count_words(line, set);
+    split = malloc(sizeof(char *) * (count + 1));
+    if (split == NULL)
+        return (NULL);
     i = 0;
-    j = 0;
-    while (line[i] != '\0')
+    while (*line != '\0')
     {
-		len_word = word_len(line + i, set);
-        if (len_word == 0)
+		count = word_len(line, set);
+        if (count == 0)
             break ;
-        *ptr_split[j] = malloc(sizeof(char) * (len_word + 1));
-        if (*ptr_split[j] == NULL)
-            return (ERROR_MALLOC);
-        ft_strlcpy(*ptr_split[j], line, len_word + 1);
-        ++j;
+        split[i] = malloc(sizeof(char) * (count + 1));
+        if (split[i] == NULL)
+		{
+			free_split(split);
+            return (NULL);
+		}
+		while (ft_strchr(set, *line) != NULL)
+			++i;
+        ft_strlcpy(split[i], line, count + 1);
+		++i;
     }
-	*ptr_split[j] = NULL;
-    return (SUCCESS);
+	split[i] = NULL;
+	return (split);
 }
 
 int count_words(char *line, char *set)
