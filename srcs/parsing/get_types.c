@@ -1,36 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bvh.h                                              :+:      :+:    :+:   */
+/*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 18:48:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 22:17:38 by cviel            ###   ########.fr       */
+/*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
+/*   Updated: 2025/10/24 22:14:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BVH_H
-# define BVH_H
+#include "ret_val.h"
 
-#include "objects.h"
-
-typedef struct s_box
+int	get_integer(char *line, int	*ptr_i, int *ptr_int)
 {
-	float	x_min;
-	float	x_max;
-	float	y_min;
-	float	y_max;
-	float	z_min;
-	float	z_max;
-}	t_box;
-
-typedef struct s_bvh
-{
-	t_obj			obj;
-	t_box			box;
-	struct s_bvh	*left;
-	struct s_bvh	*right;
-}	t_bvh;
-
-#endif
+}

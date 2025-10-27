@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bvh.h                                              :+:      :+:    :+:   */
+/*   bvh_operations.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/23 18:48:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/24 22:17:38 by cviel            ###   ########.fr       */
+/*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
+/*   Updated: 2025/10/24 22:33:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BVH_H
-# define BVH_H
+#include <unistd.h>
+#include "bvh.h"
 
-#include "objects.h"
-
-typedef struct s_box
+void	bvh_add(t_bvh **root, t_bvh *node)
 {
-	float	x_min;
-	float	x_max;
-	float	y_min;
-	float	y_max;
-	float	z_min;
-	float	z_max;
-}	t_box;
+	node->box = find_box(node->obj);
+	if (*root != NULL)
+	{
+		if ((*root)->obj.type == NONE)
+		{
+			return ;
+		}
+	}
+	*root = node;
+}
 
-typedef struct s_bvh
+t_box	find_box(t_obj obj)
 {
-	t_obj			obj;
-	t_box			box;
-	struct s_bvh	*left;
-	struct s_bvh	*right;
-}	t_bvh;
+	t_box	box;
 
-#endif
+	return (box);
+}
+
+t_box	regroup()
