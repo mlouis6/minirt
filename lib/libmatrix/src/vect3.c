@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vect3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/21 18:58:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 12:57:46 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ float	vect3_mult(t_vect3 v1, t_vect3 v2)
 
 t_vect3	mat3_mult_vect3(t_mat3 mx, t_vect3 v)
 {
-	t_vect3 res;
+	t_vect3	res;
 	uint8_t	i;
 	float	*ptr;		
 

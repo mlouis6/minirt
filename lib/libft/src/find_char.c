@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   find_char.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:20:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 15:56:53 by mlouis           ###   ########.fr       */
+/*   Created: 2025/10/27 14:04:35 by mlouis            #+#    #+#             */
+/*   Updated: 2025/10/27 14:09:29 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-size_t	ft_strlen(const char *s)
+int	find_char(const char *s, char c)
 {
-	size_t	i;
+	int	i;
 
 	if (!s)
 		return (0);
 	i = 0;
-	while (s[i])
+	while (s[i] && s[i] != c)
 		i++;
+	if (s[i] != c)
+		return (-1);
 	return (i);
 }

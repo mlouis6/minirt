@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 11:22:33 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/27 13:01:20 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ int	get_integer(char *line, int *pos, uint8_t *nb);
 int	get_color(char *line, int *pos, t_color *color);
 int	check_elements(t_scene scene);
 void	bvh_add(t_bvh *root, t_bvh *node);
+// int	parsing(char *pathname, t_scene **scene);
+int	parse_scene(t_scene **scene, int fd);
 
 #endif

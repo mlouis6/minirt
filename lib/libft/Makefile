@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:05:43 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/24 15:24:39 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/27 14:06:04 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,8 @@ SRCS := ft_isalpha.c				\
 		ft_putnbr_base_fd.c			\
 		ft_putnbr_positive_fd.c		\
 		get_next_line.c				\
-		get_next_line_utils.c
+		get_next_line_utils.c		\
+		find_char.c
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR := .build

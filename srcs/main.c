@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 11:24:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/27 12:57:39 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,17 @@ void	free_scene(t_scene *scene)
 	(void) scene;
 }
 
-int main(int ac, char **av)
+static void	print_scene(t_scene scene)
+{
+	printf("A= [%.1f] [%d,%d,%d]\n", scene.amb.lightning,
+		scene.amb.color.r, scene.amb.color.g, scene.amb.color.b);
+	printf("C= [%.1f,%.1f,%.1f] [%.0f,%.0f,%.0f] [%d]\n", scene.cam.pos.x, scene.cam.pos.y, scene.cam.pos.z,
+		scene.cam.dir.x, scene.cam.dir.y, scene.cam.dir.z, scene.cam.fov);
+	printf("L= [%.1f,%.1f,%.1f] [%.1f] [%d,%d,%d]\n", scene.light.pos.x, scene.light.pos.y, scene.light.pos.z,
+		scene.light.brightness, scene.light.color.r, scene.light.color.g, scene.light.color.b);
+}
+
+int	main(int ac, char **av)
 {
 	int		err;
 	t_mlx	mlx;
@@ -34,6 +44,7 @@ int main(int ac, char **av)
 		free_scene(&scene);
 		return (err);
 	}
+	print_scene(scene);
 	init_window(&mlx, av[1]);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);

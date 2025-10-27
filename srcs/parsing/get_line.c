@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 11:23:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/27 17:25:34 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define BUFF_SIZE 10
 
 int		handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
-char	*cut_endl(char *s, int len_endl);
+char	*cut_endl2(char *s, int len_endl);
 
 int	get_line(int fd, char **ptr_line)
 {
@@ -28,13 +28,17 @@ int	get_line(int fd, char **ptr_line)
 	int			full_check;
 
 	b_read = 1;
+	full_check = 0;
+	*ptr_line = NULL;
 	while (b_read != 0)
 	{
 		if (buff[0])
 		{
 			ret = handle_buffer(ptr_line, buff, &full_check);
 			if (ret != SUCCESS || full_check == 1)
+			{
 				return (ret);
+			}
 		}
 		b_read = read(fd, buff, BUFF_SIZE);
 		if (b_read == -1)
@@ -50,13 +54,12 @@ int	get_line(int fd, char **ptr_line)
 int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 {
 	char	*endl;
-	// char	*big_line;
 	int		len_endl;
 
-	len_endl = ft_strlen(buff); //ft_strchr(buff, '\n');
+	len_endl = ft_strchr(buff, '\n') - buff;
 	if (len_endl >= 0)
 	{
-		endl = cut_endl(buff, len_endl);
+		endl = cut_endl2(buff, len_endl);
 		if (endl == NULL)
 		{
 			free(*ptr_line);
@@ -75,7 +78,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	return (SUCCESS);
 }
 
-char	*cut_endl(char *s, int len_endl)
+char	*cut_endl2(char *s, int len_endl)
 {
 	char	*end_line;
 	int		i;
@@ -90,11 +93,6 @@ char	*cut_endl(char *s, int len_endl)
 		++i;
 	}
 	end_line[len_endl + 1] = '\0';
-	while (s[i])
-	{
-		s[i - len_endl - 1] = s[i];
-		++i;
-	}
-	ft_bzero(s + i - len_endl - 1, len_endl + 1);
+	ft_memmove(s, s + len_endl + 1, ft_strlen(s));
 	return (end_line);
 }
