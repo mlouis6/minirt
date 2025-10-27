@@ -5,6 +5,7 @@ minilibx-linux/
 tmp/
 *.a
 .build/
-minirt
+miniRT
 *.rt
 *.out.*
+.gdb_history

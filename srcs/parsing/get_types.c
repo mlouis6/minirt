@@ -1,25 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 15:20:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 15:56:53 by mlouis           ###   ########.fr       */
+/*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
+/*   Updated: 2025/10/24 22:14:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "ret_val.h"
 
-size_t	ft_strlen(const char *s)
+int	get_integer(char *line, int	*ptr_i, int *ptr_int)
 {
-	size_t	i;
-
-	if (!s)
-		return (0);
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
 }

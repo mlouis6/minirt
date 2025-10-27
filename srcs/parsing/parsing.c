@@ -6,7 +6,11 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/25 09:01:35 by cviel            ###   ########.fr       */
+=======
+/*   Updated: 2025/10/27 17:41:33 by cviel            ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +18,43 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "libft.h"
 #include "ret_val.h"
 #include "scene.h"
-#include "objects.h"
 #include "parsing.h"
 
 int	check_extension(int ac, char **av);
 int	get_scene(int fd, t_scene *ptr_scene);
 
-int	parsing(int ac, char **av, t_scene *ptr_scene)
+// int	parsing(int ac, char **av, t_scene *ptr_scene)
+// {
+//     int	ret;
+// 	int	fd;
+
+// 	ret = check_extension(ac, av);
+// 	if (ret != SUCCESS)
+// 		return (ret);
+// 	fd = open(av[1], O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		printf("Error\n");	
+// 		perror("open :");
+// 		return (ERROR_SYSCALL);
+// 	}
+// 	ret = get_scene(fd, ptr_scene);
+// 	if (ret != SUCCESS)
+// 		return (ret);
+// 	return (check_elements(*ptr_scene));
+// }
+
+int	parsing(int ac, char **av, t_scene *scene)
 {
-    int	ret;
+	int	ret;
 	int	fd;
 
 	ret = check_extension(ac, av);
-	if (ret != SUCCESS)
+	if (ret != 0)
 		return (ret);
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
@@ -38,10 +63,8 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	ret = get_scene(fd, ptr_scene);
-	if (ret != SUCCESS);
-		return (ret);
-	return (check_elements(*ptr_scene));
+	ret = parse_scene(&scene, fd);
+	return (ret);
 }
 
 int	check_extension(int ac, char **av)
@@ -80,6 +103,7 @@ void	init_scene(t_scene *ptr_scene)
 	ptr_scene->root = NULL;
 }
 
+<<<<<<< HEAD
 int	fill_scene_info(char *line, t_scene *ptr_scene)
 {
 	int		ret;
@@ -96,6 +120,29 @@ int	fill_scene_info(char *line, t_scene *ptr_scene)
 	
 	return (INVALID_FILE);
 }
+=======
+// need a ft_split wiht a charset for this function,
+// even maybe a ft_split which returns an error code instead of returning an allocated char ** 
+// int	fill_scene_info(char *line, t_scene *ptr_scene)
+// {
+// 	int		ret;
+// 	char	**line_info;
+	
+// 	if (line[i] == 'A')
+// 		return (fill_ambient_info(&line[i + 1], ptr_scene));
+// 	if (line[i] == 'C')
+// 		return (fill_camera_info(&line[i + 1], ptr_scene));
+// 	if (line[i] == 'L')
+// 		return (fill_light_info(&line[i + 1], ptr_scene));
+// 	if (ft_strncmp(&line[i], "pl", 2) == 0)
+// 		return (fill_object_info(&line[i + 2], ptr_scene, PLANE));
+// 	if (ft_strncmp(&line[i], "sp", 2) == 0)
+// 		return (fill_object_info(&line[i + 2], ptr_scene, SPHERE));
+// 	if (ft_strncmp(&line[i], "cy", 2) == 0)
+// 		return (fill_object_info(&line[i + 2], ptr_scene, CYLINDER));
+// 	return (INVALID_FILE);
+// }
+>>>>>>> main
 
 int	get_scene(int fd, t_scene *ptr_scene)
 {
@@ -113,8 +160,7 @@ int	get_scene(int fd, t_scene *ptr_scene)
 			return (ret);
 		ret = get_line(fd, &line);
 	}
-	if (ret != SUCCESS)
-		return (ret);
 	return (ret);
 }
+
 

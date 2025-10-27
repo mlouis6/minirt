@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:07:31 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/14 16:58:08 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/27 16:12:00 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 int		ft_toupper(int c);
 int		ft_tolower(int c);
 char	*ft_strchr(const char *s, int c);
+int	ft_strchr_pos(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	*ft_memchr(const void *s, int c, size_t n);
@@ -90,5 +91,6 @@ char	*create_line(char *buffer, char *line);
 int		find_endl(char *str);
 char	*cut_endl(char *str, int n);
 char	*ft_strnjoin(char *s1, char *s2, int n);
+int		find_char(const char *s, char c);
 
 #endif
