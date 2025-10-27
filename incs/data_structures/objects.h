@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:16:24 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 21:50:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,16 @@
 # define OBJECTS_H
 
 # define t_vect3 t_pt3
+# define NB_TYPES 3
 
 # include "dim3.h"
 # include "color.h"
+
+static const t_func g_table_obj[NB_TYPES] = {
+	{"sp", fill_sphere_info},
+	{"pl", fill_plane_info},
+	{"cy", fill_cylinder_info},
+};
 
 typedef enum e_type
 {

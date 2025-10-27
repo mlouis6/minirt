@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 21:16:09 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 21:50:07 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,17 @@
 # define SCENE_H
 
 # define t_vect3 t_pt3
+# define NB_ITEM 3
 
 # include "dim3.h"
 # include "bvh.h"
 # include "color.h"
+
+static const t_func g_table_item[NB_ITEM] = {
+	{"A", fill_ambient_info},
+	{"C", fill_camera_info},
+	{"L", fill_light_info},
+};
 
 typedef struct s_ambient
 {

@@ -6,10 +6,11 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:23:23 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/27 22:16:26 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <inttypes.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -99,33 +100,48 @@ void	init_scene(t_scene *ptr_scene)
 	ptr_scene->root = NULL;
 }
 
-int	fill_scene_info(char *line, t_scene *ptr_scene)
+int	call_match(char **info_split, t_scene *ptr_scene, t_func *table, uint8_t *ptr_check)
 {
-	int		ret;
-	char	**line_split;
-	int		i;
-
-	line_split = split_line(line, WHITE_SPACES);
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	if (line_split[0] == NULL)
-	{
-		free_split(line_split);
+	int	ret;
+	int	i;
+	
+	*ptr_check = FALSE;
+	if (info_split[0] == NULL)
 		return (SUCCESS);
-	}
 	i = 0;
 	while (i < NB_ITEM)
 	{
-		if (ft_strcmp(line_split[0], g_fill_item[i].name) == 0)
+		if (ft_strcmp(info_split[0], table[i].name) == 0)
 		{
-			ret = g_fill_item[i].f(line_split, ptr_scene);
-			free_split(line_split);
+			*ptr_check = TRUE;
+			ret = g_fill_item[i].f(info_split, ptr_scene);
 			return (ret);
 		}
 		++i;
 	}
+	return (SUCCESS);
+}
+
+int	fill_scene_info(char *line, t_scene *ptr_scene)
+{
+	int		ret;
+	char	**line_split;
+	uint8_t	check;
+
+	line_split = split_line(line, WHITE_SPACES);
+	if (line_split == NULL)
+		return (ERROR_MALLOC);
+	ret = call_match(line_split, ptr_scene, g_table_item, &check);
+	if (ret != SUCCESS || check == TRUE)
+	{
+		free_split(line_split);
+		return (ret);
+	}
+	ret = fill_object_info(line_split, ptr_scene, &check);
 	free_split(line_split);
-	return (INVALID_FILE);
+	if (check == FALSE)
+		return (INVALID_FILE);
+	return (ret);
 }
 
 int	get_scene(int fd, t_scene *ptr_scene)
