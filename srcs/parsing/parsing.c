@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 22:16:26 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/28 17:36:54 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,11 @@ int	fill_scene_info(char *line, t_scene *ptr_scene)
 	}
 	ret = fill_object_info(line_split, ptr_scene, &check);
 	free_split(line_split);
+	if (ret != SUCCESS)
+		return (ret);
 	if (check == FALSE)
 		return (INVALID_FILE);
-	return (ret);
+	return (SUCCESS);
 }
 
 int	get_scene(int fd, t_scene *ptr_scene)

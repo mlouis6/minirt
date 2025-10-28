@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 18:48:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 22:00:34 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/28 18:48:38 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_bvh
 {
 	t_obj			obj;
 	t_box			box;
+	int				nb_leaves;
 	struct s_bvh	*left;
 	struct s_bvh	*right;
 }	t_bvh;
