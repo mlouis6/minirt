@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/27 12:56:08 by mlouis           ###   ########.fr        #
+#    Updated: 2025/10/29 12:49:27 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,8 @@ BUILD_DIR := .build
 
 SRC_DIR := srcs
 SRC := 	parsing/parsing.c parsing/parsing_utils.c parsing/parse_scene.c parsing/fill_object.c parsing/fill_scene.c parsing/get_line.c \
+		parsing/bvh_operations.c parsing/split_line.c \
+		ray/ray.c \
 		window/window_manager.c \
 		main.c
 

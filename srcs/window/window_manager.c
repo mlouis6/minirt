@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/22 08:50:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/29 16:00:07 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ void	init_window(t_mlx *mlx, char *file)
 	mlx->width = WINDOW_WIDTH;
 	mlx->win = NULL;
 	mlx->mlx = mlx_init();
+	mlx->img_width = WINDOW_WIDTH;
+	if (WINDOW_HEIGHT < 1)
+		mlx->img_height = 1;
+	else
+		mlx->img_height = WINDOW_HEIGHT;
 	if (!mlx->mlx)
 		close_window(mlx);
 	if (!check_window_size(mlx))
@@ -66,4 +71,10 @@ int	close_window(t_mlx *mlx) // , int err_stage)
 	mlx_destroy_display(mlx->mlx);
 	free(mlx->mlx);
 	exit(1);
+}
+
+void	display_background(t_mlx *mlx)
+{
+	mlx_new_image();
+	mlx_put_image_to_window();
 }
