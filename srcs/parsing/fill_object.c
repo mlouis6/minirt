@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/28 19:18:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/30 16:02:04 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 	ret = call_match(line_split, ptr_scene, g_table_obj, ptr_check);
 	if (ret != SUCCESS || *ptr_check == FALSE)
 		return (ret);
-	node->box = find_box(node->obj);
-	node->nb_leaves = 0;
 	ret = bvh_add(&ptr_scene->root, node);
 	if (ret != SUCCESS)
 		free(node);

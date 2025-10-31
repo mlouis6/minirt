@@ -6,24 +6,24 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/28 22:46:51 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 16:12:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <math.h>
 #include "ret_val.h"
 #include "bvh.h"
 
-
+t_box	find_box(t_obj obj);
 t_box	box_regroup(t_box box1, t_box box2);
 int		box_contained(t_box big, t_box small);
+t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost);
 int		insert_above(t_bvh **ptr_root, t_bvh *node);
 
 int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 {
 	int		ret;
-	t_bvh	*new_root;
+	t_bvh	*insert;
 	
 	node->box = find_box(node->obj);
 	if (*ptr_root != NULL)
@@ -32,7 +32,8 @@ int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 			ret = insert_above(ptr_root, node);
 		else
 		{
-			
+			insert = find_insert(*ptr_root, node, NULL);
+			ret = bvh_add(&insert, node);
 		}
 		if (ret != SUCCESS)
 			return (ret);
@@ -40,7 +41,7 @@ int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 		return (SUCCESS);
 	}
 	*ptr_root = node;
-	node->nb_leaves = 0;
+	node->nb_leaves = 1;
 	return (SUCCESS);
 }
 
@@ -72,6 +73,29 @@ int	insert_above(t_bvh **ptr_root, t_bvh *node)
 	*ptr_root = new_root;
 	(*ptr_root)->nb_leaves = (*ptr_root)->left->nb_leaves + (*ptr_root)->right->nb_leaves;
 	return (SUCCESS);
+}
+
+t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
+{
+	double	left_cost;
+	double	right_cost;
+	t_bvh	*left_path;
+	t_bvh	*right_path;
+	
+	left_path = root->left;
+	right_path = root->right;
+	left_cost = cost(root->left, node);
+	right_cost = cost(root->right, node);
+	if (left_cost == right_cost)
+	{
+		if (left_path->obj.type == NONE && box_contained(left_path->box, node->box) == TRUE)
+			left_path = find_insert(left_path, node, &left_cost);
+		if (left_path->obj.type == NONE && box_contained(right_path->box, node->box) == TRUE)
+			right_path = find_insert(right_path, node, &right_cost);
+	}
+	if (left_cost < right_cost)
+		return (left_path);
+	return (right_path);
 }
 
 t_box	find_box(t_obj obj)
