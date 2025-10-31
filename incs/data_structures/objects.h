@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:50:18 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 16:22:26 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static const t_func g_table_obj[NB_TYPES] = {
 
 typedef enum e_type
 {
-	PLANE,
 	SPHERE,
+	PLANE,
 	CYLINDER,
 	NONE
 }	t_type;

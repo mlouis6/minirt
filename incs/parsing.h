@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/28 18:53:34 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 17:41:25 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int		get_color(char *line, t_color *color);
 int		check_elements(t_scene scene);
 int		bvh_add(t_bvh *root, t_bvh *node);
 // int	parsing(char *pathname, t_scene **scene);
-int	parse_scene(t_scene **scene, int fd);
+int		parse_scene(t_scene **scene, int fd);
 
 #endif
