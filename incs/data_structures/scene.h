@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 21:50:07 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 20:40:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,15 @@ typedef struct s_light
 }	t_light;
 
 //? maybe too verbose because scene->light.color.b is gonna be so looooooong
+// probably gonna use simple arrays for infinite objects (ex : planes)
+// since they dont fit in a finite box
 typedef struct s_scene
 {
 	t_ambient	amb;
 	t_camera	cam;
 	t_light		light;
 	t_bvh		*root;
+	//t_array	inf_obj;
 }	t_scene;
 
 #endif

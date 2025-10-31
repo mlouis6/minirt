@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:31:22 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 20:47:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ int	fill_camera_info(char **line_split, t_scene *ptr_scene)
 	// if (ptr_scene->cam.fov != -1)
 	// 	return (INVALID_FILE);
 	i = 1;
-	ret = get_coordinates(line_split, &ptr_scene->cam.pos);
+	ret = get_coordinates(line_split[i], &ptr_scene->cam.pos);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_norm_vect(line_split, &ptr_scene->cam.dir);
+	ret = get_norm_vect(line_split[i], &ptr_scene->cam.dir);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_integer(line_split, &ptr_scene->cam.fov);
+	ret = get_integer(line_split[i], &ptr_scene->cam.fov);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_scene->cam.fov < 0 || ptr_scene->cam.fov > 180)
@@ -73,17 +73,17 @@ int	fill_light_info(char **line_split, t_scene *ptr_scene)
 	if (ptr_scene->light.brightness != -1)
 		return (INVALID_FILE);
 	i = 1;
-	ret = get_coordinates(line_split, &ptr_scene->light.pos);
+	ret = get_coordinates(line_split[i], &ptr_scene->light.pos);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_float(line_split, &ptr_scene->light.brightness);
+	ret = get_float(line_split[i], &ptr_scene->light.brightness);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_scene->light.brightness < 0 || ptr_scene->light.brightness > 1)
 		return (INVALID_FILE);
 	++i;
-	ret = get_color(line_split, &ptr_scene->light.color);
+	ret = get_color(line_split[i], &ptr_scene->light.color);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;

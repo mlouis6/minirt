@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/31 16:12:49 by cviel            ###   ########.fr       */
+/*   Updated: 2025/10/31 20:38:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ret_val.h"
 #include "bvh.h"
 
+double	cost(t_bvh *root, t_bvh *node);
 t_box	find_box(t_obj obj);
 t_box	box_regroup(t_box box1, t_box box2);
 int		box_contained(t_box big, t_box small);
@@ -73,6 +74,17 @@ int	insert_above(t_bvh **ptr_root, t_bvh *node)
 	*ptr_root = new_root;
 	(*ptr_root)->nb_leaves = (*ptr_root)->left->nb_leaves + (*ptr_root)->right->nb_leaves;
 	return (SUCCESS);
+}
+
+double	cost(t_bvh *root, t_bvh *node)
+{
+	t_box	box;
+
+	box = box_regroup(root->box, node->box);
+	return (2 * ((box.x_max - box.x_min) * (box.y_max - box.y_min) + \
+			(box.x_max - box.x_min) * (box.z_max - box.z_min) + \
+			(box.y_max - box.y_min) * (box.z_max - box.z_min)
+			* (root->nb_leaves + 1)));
 }
 
 t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
