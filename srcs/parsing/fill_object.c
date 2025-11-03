@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/31 20:47:19 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 21:54:42 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int fill_plane_info(char **line_split, t_obj *ptr_obj)
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_norm_vect(line_split[i], &ptr_obj->shape.plane.normal);
+	ret = get_norm_vect3(line_split[i], &ptr_obj->shape.plane.normal);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
@@ -91,27 +91,27 @@ int fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 	int	i;
 
 	i = 1;
-	ret = get_coordinates(line_split, &ptr_obj->shape.cyl.origin);
+	ret = get_coordinates(line_split[i], &ptr_obj->shape.cyl.origin);
 	if (ret != SUCCESS)
 		return (ret);
 	i++;
-	ret = get_norm_vect(line_split, &ptr_obj->shape.cyl.normal);
+	ret = get_norm_vect3(line_split[i], &ptr_obj->shape.cyl.normal);
 	if (ret != SUCCESS)
 		return (ret);
 	i++;
-	ret = get_float(line_split, &ptr_obj->shape.cyl.radius);
+	ret = get_float(line_split[i], &ptr_obj->shape.cyl.radius);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_obj->shape.sphere.radius < 0)
 		return (INVALID_FILE);
 	ptr_obj->shape.cyl.radius /= 2;
-	ret = get_float(line_split, &ptr_obj->shape.cyl.height);
+	ret = get_float(line_split[i], &ptr_obj->shape.cyl.height);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_obj->shape.cyl.height < 0)
 		return (INVALID_FILE);
 	++i;
-	ret = get_color(line_split, &ptr_obj->color);
+	ret = get_color(line_split[i], &ptr_obj->color);
 	if (ret != SUCCESS)
 		return (ret);
 	i++;

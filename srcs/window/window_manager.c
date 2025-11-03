@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   window_manager.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/22 08:50:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/03 21:57:14 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "mlx.h"
 #include "libft.h"
 #include "window.h"
 

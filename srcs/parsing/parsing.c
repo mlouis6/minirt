@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/28 17:36:54 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 21:47:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	init_scene(t_scene *ptr_scene)
 	ptr_scene->root = NULL;
 }
 
-int	call_match(char **info_split, t_scene *ptr_scene, t_func *table, uint8_t *ptr_check)
+int	call_match(char **info_split, t_scene *ptr_scene, const t_func table[NB_ITEM], uint8_t *ptr_check)
 {
 	int	ret;
 	int	i;
@@ -111,10 +111,10 @@ int	call_match(char **info_split, t_scene *ptr_scene, t_func *table, uint8_t *pt
 	i = 0;
 	while (i < NB_ITEM)
 	{
-		if (ft_strcmp(info_split[0], table[i].name) == 0)
+		if (ft_strncmp(info_split[0], table[i].name, ft_strlen(table[i].name)) == 0)
 		{
 			*ptr_check = TRUE;
-			ret = g_fill_item[i].f(info_split, ptr_scene);
+			ret = table[i].f(info_split, ptr_scene);
 			return (ret);
 		}
 		++i;

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:46:27 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/31 21:19:01 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 19:17:24 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 #include "ret_val.h"
 #include "scene.h"
 
-int	get_integer(char *line, int *ptr_i, int *ptr_int)
+int	get_integer(char *line, int *ptr_int)
 {
+	int		i;
 	uint8_t	sign;
 	
-	*ptr_i = 0;
-	if (line[0] == '-')
+	i = 0;
+	if (line[i] == '-')
 	{
 		sign = -1;
-		++(*ptr_i);
+		++i;
 	}
-	else if (line[0] == '+')
-		++(*ptr_i);
+	else if (line[i] == '+')
+		++i;
 	*ptr_int = 0;
-	while (line[*ptr_i] >= '0' && line[*ptr_i] <= '9')
+	while (line[i] >= '0' && line[i] <= '9')
 	{
-		*ptr_int = *ptr_int * 10 + line[*ptr_i] - '0';
-		++(*ptr_i);
+		*ptr_int = *ptr_int * 10 + line[i] - '0';
+		++i;
 	}
-	if (line[*ptr_i] != '\0')
+	if (line[i] != '\0')
 		return (INVALID_FILE);
 	*ptr_int *= sign;
 	return (SUCCESS);
@@ -53,47 +54,36 @@ double	powerd(int n, int p)
 	return (m);
 }
 
-int	get_double(char *line, int *ptr_i, double *ptr_double)
+int	get_double(char *line, double *ptr_double)
 {
 	uint8_t	sign;
 	int		comma;
+	int		i;
 	
-	*ptr_i = 0;
-	if (line[0] == '-')
+	if (line[i] == '-')
 	{
 		sign = -1;
-		++(*ptr_i);
+		++i;
 	}
-	else if (line[0] == '+')
-		++(*ptr_i);
+	else if (line[i] == '+')
+		++i;
 	*ptr_double = 0;
-	while (line[*ptr_i] >= '0' && line[*ptr_i] <= '9')
+	while (line[i] >= '0' && line[i] <= '9')
 	{
-		*ptr_double = *ptr_double * 10 + line[*ptr_i] - '0';
-		++(*ptr_i);
+		*ptr_double = *ptr_double * 10 + line[i] - '0';
+		++i;
 	}
 	comma = 0;
-	if (line[*ptr_i] == '.')
+	if (line[i] == '.')
 		++comma;
-	while (line[*ptr_i] >= '0' && line[*ptr_i] <= '9')
+	while (line[i] >= '0' && line[i] <= '9')
 	{
-		*ptr_double = *ptr_double + (line[*ptr_i] - '0') / powerd(10, comma);
+		*ptr_double = *ptr_double + (line[i] - '0') / powerd(10, comma);
 		++comma;
-		++(*ptr_i);
-	}	
-	if (line[*ptr_i] != '\0')
+		++i;
+	}
+	if (line[i] != '\0')
 		return (INVALID_FILE);
 	*ptr_double *= sign;
 	return (SUCCESS);
-}
-
-int	get_coordinates(char *line, int *ptr_i, t_pt3 *ptr_point)
-{
-	int	ret;
-	
-	*ptr_i = 0;
-	ret = get_double(line, ptr_i, (*ptr_point).x);
-	if (ret != SUCCESS)
-		return (ret);
-	 
 }
