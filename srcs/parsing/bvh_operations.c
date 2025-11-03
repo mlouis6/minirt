@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/31 20:38:55 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 22:02:25 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ double	cost(t_bvh *root, t_bvh *node)
 	box = box_regroup(root->box, node->box);
 	return (2 * ((box.x_max - box.x_min) * (box.y_max - box.y_min) + \
 			(box.x_max - box.x_min) * (box.z_max - box.z_min) + \
-			(box.y_max - box.y_min) * (box.z_max - box.z_min)
-			* (root->nb_leaves + 1)));
+			(box.y_max - box.y_min) * (box.z_max - box.z_min))
+			* (root->nb_leaves + 1));
 }
 
 t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
