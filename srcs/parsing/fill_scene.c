@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 21:56:52 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:17:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "scene.h"
 #include "libft.h"
 #include "parsing.h"
-
+#include <stdio.h>
 int	fill_ambient_info(char **line_split, t_scene *ptr_scene)
 {
 	int	ret;
@@ -23,7 +23,7 @@ int	fill_ambient_info(char **line_split, t_scene *ptr_scene)
 	if (ptr_scene->amb.lightning != -1)
 		return (INVALID_FILE);
 	i = 1;
-	ret = get_float(line_split[i], &ptr_scene->amb.lightning);
+	ret = get_double(line_split[i], &ptr_scene->amb.lightning);
 	if (ret != SUCCESS \
 		|| ptr_scene->amb.lightning < 0 || ptr_scene->amb.lightning > 1)
 		return (INVALID_FILE);
@@ -32,6 +32,7 @@ int	fill_ambient_info(char **line_split, t_scene *ptr_scene)
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
+	printf("%s\n", line_split[3]);
 	if (line_split[i] != NULL)
 		return (INVALID_FILE);
 	return (SUCCESS);
@@ -75,7 +76,7 @@ int	fill_light_info(char **line_split, t_scene *ptr_scene)
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_float(line_split[i], &ptr_scene->light.brightness);
+	ret = get_double(line_split[i], &ptr_scene->light.brightness);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ret != SUCCESS \

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/03 21:56:20 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 22:50:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 typedef struct s_ambient
 {
-	float	lightning;
+	double	lightning;
 	t_color	color;
 }	t_ambient;
 
@@ -35,7 +35,7 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_pt3	pos;
-	float	brightness;
+	double	brightness;
 	t_color	color;
 }	t_light;
 

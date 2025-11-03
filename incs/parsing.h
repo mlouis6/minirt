@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 21:55:15 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:27:43 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int 	fill_sphere_info(char **line_split, t_obj *ptr_obj);
 int 	fill_cylinder_info(char **line_split, t_obj *ptr_obj);
 int		get_coordinates(char *line, t_pt3 *ptr_point);
 int		get_norm_vect3(char *line, t_vect3 *ptr_vect3);
-int		get_float(char *line, float *nb);
+int		get_double(char *line, double *nb);
 int		get_integer(char *line, int *nb);
 int		get_color(char *line, t_color *color);
 int		check_elements(t_scene scene);

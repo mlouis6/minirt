@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 21:47:55 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:14:44 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_scene(int fd, t_scene *ptr_scene);
 // 	return (check_elements(*ptr_scene));
 // }
 
-int	parsing(int ac, char **av, t_scene *scene)
+int	parsing(int ac, char **av, t_scene *ptr_scene)
 {
 	int	ret;
 	int	fd;
@@ -60,7 +60,7 @@ int	parsing(int ac, char **av, t_scene *scene)
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	ret = parse_scene(&scene, fd);
+	ret = get_scene(fd, ptr_scene);
 	return (ret);
 }
 
@@ -145,7 +145,7 @@ int	fill_scene_info(char *line, t_scene *ptr_scene)
 		return (INVALID_FILE);
 	return (SUCCESS);
 }
-
+#include <stdio.h>
 int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;

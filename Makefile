@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/03 21:59:28 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/03 22:42:06 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,20 +14,19 @@
 
 NAME := miniRT
 
-INC := lib/libft/inc incs incs/data_structures lib/minilibx-linux lib/libmatrix/inc
+INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc #lib/minilibx-linux
 
-LIB := ft m mlx Xext X11 z matrix
+LIB := ft matrix #m mlx Xext X11 z matrix
 
 LIB_TARGET := 	libft/libft.a 					\
 				libmatrix/libmatrix.a 			\
-				minilibx-linux/libmlx_Linux.a 	\
-				minilibx-libft/libmlx.a
+				#minilibx-linux/libmlx_Linux.a 	\
+				#minilibx-libft/libmlx.a
 
 BUILD_DIR := .build
 
 SRC_DIR := srcs
 SRC := 	parsing/parsing.c \
-		# parsing/parsing_utils.c \ #
 		parsing/parse_scene.c \
 		parsing/fill_object.c \
 		parsing/fill_scene.c \
@@ -36,8 +35,10 @@ SRC := 	parsing/parsing.c \
 		parsing/find_box.c \
 		parsing/get_types.c \
 		parsing/get_variable.c \
-		window/window_manager.c \
+		parsing/split_line.c \
 		main.c
+#		window/window_manager.c \
+#		parsing/parsing_utils.c \ 
 
 SRC := $(SRC:%=$(SRC_DIR)/%)
 OBJ := $(SRC:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
@@ -59,7 +60,7 @@ $(NAME): $(OBJ) $(LIB_TARGET)
 $(LIB_TARGET):
 	$(MAKE) -C lib/libft
 	$(MAKE) -C lib/libmatrix
-	$(MAKE) -C lib/minilibx-linux
+#	$(MAKE) -C lib/minilibx-linux
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)

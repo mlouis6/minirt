@@ -6,11 +6,12 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 22:02:25 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 22:40:49 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include "ret_val.h"
 #include "bvh.h"
 
@@ -25,6 +26,7 @@ int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 {
 	int		ret;
 	t_bvh	*insert;
+	double	best_cost;
 	
 	node->box = find_box(node->obj);
 	if (*ptr_root != NULL)
@@ -33,7 +35,7 @@ int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 			ret = insert_above(ptr_root, node);
 		else
 		{
-			insert = find_insert(*ptr_root, node, NULL);
+			insert = find_insert(*ptr_root, node, &best_cost);
 			ret = bvh_add(&insert, node);
 		}
 		if (ret != SUCCESS)
@@ -93,7 +95,7 @@ t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
 	double	right_cost;
 	t_bvh	*left_path;
 	t_bvh	*right_path;
-	
+
 	left_path = root->left;
 	right_path = root->right;
 	left_cost = cost(root->left, node);
@@ -106,7 +108,11 @@ t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
 			right_path = find_insert(right_path, node, &right_cost);
 	}
 	if (left_cost < right_cost)
+	{
+		*ptr_cost = left_cost;
 		return (left_path);
+	}
+	*ptr_cost = right_cost;
 	return (right_path);
 }
 
@@ -114,18 +120,54 @@ t_box	find_box(t_obj obj)
 {
 	t_box	box;
 
+	if (obj.type == SPHERE)
+		box = box_sphere(obj.shape);
+	else
+		box = box_cylinder(obj.shape);
 	return (box);
+}
+
+double	mind(double x, double y)
+{
+	if (x < y)
+		return (x);
+	return (y);
+}
+
+double	maxd(double x, double y)
+{
+	if (x > y)
+		return (x);
+	return (y);
 }
 
 t_box	box_regroup(t_box box1, t_box box2)
 {
 	t_box box;
 
-	box.x_min = min(box1.x_min, box2.x_min);
-	box.x_max = max(box1.x_max, box2.x_max);
-	box.y_min = min(box1.y_min, box2.y_min);
-	box.y_max = max(box1.y_max, box2.y_max);
-	box.z_min = min(box1.z_min, box2.z_min);
-	box.z_max = max(box1.z_max, box2.z_max);
+	box.x_min = mind(box1.x_min, box2.x_min);
+	box.x_max = maxd(box1.x_max, box2.x_max);
+	box.y_min = mind(box1.y_min, box2.y_min);
+	box.y_max = maxd(box1.y_max, box2.y_max);
+	box.z_min = mind(box1.z_min, box2.z_min);
+	box.z_max = maxd(box1.z_max, box2.z_max);
 	return (box);
+}
+
+#include <stdio.h>
+void	print_bvh(t_bvh *root, int depth)
+{
+	int	i;
+
+	if (root == NULL)
+		return ;
+	i = 0;
+	while (i < depth)
+	{
+		printf("_");
+		++i;
+	}
+	printf("object on node : %i, box : [%f -> %f] [%f -> %f] [%f -> %f]\n", root->obj.type, root->box.x_min, root->box.x_max, root->box.y_min, root->box.y_max, root->box.z_min, root->box.z_max);
+	print_bvh(root->left, depth + 1);
+	print_bvh(root->right, depth + 1);
 }

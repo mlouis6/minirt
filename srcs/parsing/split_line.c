@@ -6,12 +6,17 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:00:05 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:28:14 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+#include "libft.h"
+
+int count_words(char *line, char *set);
+int	word_len(char *line, char *set);
+void	free_split(char **split);
 
 char	**split_line(char *line, char *set)
 {
@@ -20,12 +25,19 @@ char	**split_line(char *line, char *set)
     int 	i;
     
     count = count_words(line, set);
+	#include <stdio.h>
+	printf("line = %s\n", line);
+	printf("count = %d", count);
     split = malloc(sizeof(char *) * (count + 1));
     if (split == NULL)
         return (NULL);
     i = 0;
     while (*line != '\0')
     {
+		#include <stdio.h>
+		printf("i = %d, line = '%c'\n", i, *line);
+		while (ft_strchr(set, *line) != NULL)
+			++line;
 		count = word_len(line, set);
         if (count == 0)
             break ;
@@ -35,9 +47,9 @@ char	**split_line(char *line, char *set)
 			free_split(split);
             return (NULL);
 		}
-		while (ft_strchr(set, *line) != NULL)
-			++i;
         ft_strlcpy(split[i], line, count + 1);
+		while (*line != '\0' && ft_strchr(set, *line) == NULL)
+			++line;
 		++i;
     }
 	split[i] = NULL;
@@ -47,19 +59,18 @@ char	**split_line(char *line, char *set)
 int count_words(char *line, char *set)
 {
     int nb_words;
-    int i;
 
     nb_words = 0;
-    i = 0;
-    while (line[i] != '\0')
+    while (*line != '\0')
     {
-        while (ft_strchr(set, line[i]) != NULL)
-            ++i;
-        if (line[i] == '\0')
+        while (ft_strchr(set, *line) != NULL)
+            ++line;
+        if (*line == '\0')
             break ;
+		printf("word_count : %d\n", *line);
 		++nb_words;
-		while (ft_strchr(set, line[i]) == NULL)
-			++i;
+		while (*line != '\0' && ft_strchr(set, *line) == NULL)
+			++line;
     }
 	return (nb_words);
 }

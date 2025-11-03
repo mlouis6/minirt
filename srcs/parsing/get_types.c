@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 21:15:04 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:10:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "scene.h"
 #include "dim3.h"
 #include "color.h"
+#include "libft.h"
 
 int	get_coordinates(char *line, t_pt3 *ptr_point)
 {
@@ -52,7 +53,7 @@ int	get_coordinates(char *line, t_pt3 *ptr_point)
 	free_split(line_split);
 	return (ret);
 }
-
+#include <stdio.h>
 int	get_color(char *line, t_color *ptr_color)
 {
 	int		ret;
@@ -120,7 +121,7 @@ double	norm_sq(t_vect3 vect3)
 	return (powd(vect3.x, 2) + powd(vect3.y, 2) + powd(vect3.z, 2));
 }
 
-int	get_norm_vect3(char *line, int *ptr_i, t_vect3 *ptr_vect3)
+int	get_norm_vect3(char *line, t_vect3 *ptr_vect3)
 {
 	int	ret;
 	

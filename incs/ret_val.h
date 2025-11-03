@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:45:55 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 21:52:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/03 23:27:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # define TRUE 1
 # define FALSE 0
-
-# define WHITE_SPACES "\t\n\v\f\r "
 
 enum e_ret_val
 {
