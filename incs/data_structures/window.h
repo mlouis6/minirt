@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/29 15:59:11 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/30 17:05:50 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,15 @@ enum
 	KEY_ESC = 65307
 };
 
+typedef	struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		len;
+	int		endian;
+}	t_img; 
+
 typedef	struct s_mlx
 {
 	void	*mlx;
@@ -49,11 +58,14 @@ typedef	struct s_mlx
 	int		screen_y;
 	int		img_height;
 	int		img_width;
+	t_img	img;
 }	t_mlx;
 
+# include "color.h"
 void	init_window(t_mlx *mlx, char *file);
 int		cross_button_handler(t_mlx *mlx);
 int		key_event(int key, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
+void	display_background(t_mlx *mlx, t_color c);
 
 #endif

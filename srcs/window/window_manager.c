@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/29 16:00:07 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/10/30 17:14:33 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	key_event(int key, t_mlx *mlx)
 
 int	close_window(t_mlx *mlx) // , int err_stage)
 {
+	if (mlx->img.img)
+		mlx_destroy_image(mlx->mlx, mlx->img.img);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
 	mlx_destroy_display(mlx->mlx);
@@ -73,8 +75,56 @@ int	close_window(t_mlx *mlx) // , int err_stage)
 	exit(1);
 }
 
-void	display_background(t_mlx *mlx)
+#include "color.h"
+
+static inline int	encode_color(t_color c)
 {
-	mlx_new_image();
-	mlx_put_image_to_window();
+	return (c.r << 16 | c.g << 8 | c.b);
+}
+
+void	put_img(t_img img, int x, int y, int color)
+{
+	char	*pix;
+	int		i;
+
+	i = img.bpp - 8;
+	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+	while (i >= 0)
+	{
+		if (img.endian != 0)
+		{
+			pix++;
+			*pix = (color >> i) & 0xFF;
+		}
+		else
+		{
+			pix++;
+			*pix = (color >> (img.bpp - 8 - i)) & 0xFF;
+		}
+		i -= 8;
+	}
+}
+
+//TODO: add img to mlx struct && move destroy_img to close window
+void	display_background(t_mlx *mlx, t_color c)
+{
+	int		i;
+	int		j;
+	int		rgb;
+
+	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
+	rgb = encode_color(c);
+	i = 0;
+	while (i < WINDOW_HEIGHT)
+	{
+		j = 0;
+		while (j < WINDOW_WIDTH)
+		{
+			put_img(mlx->img, j, i, rgb);
+			++j;
+		}
+		++i;
+	}
+	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }

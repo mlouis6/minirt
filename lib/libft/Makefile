@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:05:43 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/27 14:06:04 by mlouis           ###   ########.fr        #
+#    Updated: 2025/11/04 15:02:44 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS := ft_isalpha.c				\
 		ft_isalnum.c				\
 		ft_isascii.c				\
 		ft_isprint.c				\
+		ft_isspace.c				\
 		ft_strlen.c					\
 		ft_memset.c					\
 		ft_bzero.c					\
@@ -68,7 +69,8 @@ SRCS := ft_isalpha.c				\
 		ft_putnbr_positive_fd.c		\
 		get_next_line.c				\
 		get_next_line_utils.c		\
-		find_char.c
+		find_char.c					\
+		ft_strtod.c
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR := .build

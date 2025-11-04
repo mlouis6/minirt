@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.c                                              :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/30 14:39:42 by mlouis           ###   ########.fr       */
+/*   Created: 2025/11/04 14:59:32 by mlouis            #+#    #+#             */
+/*   Updated: 2025/11/04 15:00:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "ray.h"
-// #include "window.h"
-
-// static inline t_pt3	ray_at(t_ray ray, double t)
-// {
-// 	return (vect3_add(ray.origin, vect3_mult_nb(ray.dir, t)));
-// }
-
+int	ft_isspace(int c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}

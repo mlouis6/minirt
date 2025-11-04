@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:07:31 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/28 14:09:57 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 15:03:07 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 // memory and string manipulation functions (to order at some point)
 size_t	ft_strlen(const char *s);
 void	*ft_memset(void *s, int c, size_t n);
@@ -93,5 +94,6 @@ int		find_endl(char *str);
 char	*cut_endl(char *str, int n);
 char	*ft_strnjoin(char *s1, char *s2, int n);
 int		find_char(const char *s, char c);
+double	ft_strtod(char *str, char **endptr);
 
 #endif
