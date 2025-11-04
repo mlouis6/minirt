@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/30 17:14:33 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 10:18:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,84 @@ static inline int	encode_color(t_color c)
 	return (c.r << 16 | c.g << 8 | c.b);
 }
 
+#include "ray.h"
+#include "dim3.h"
+#include "color.h"
+
+// int	hit_sphere(double radius, const t_ray r)
+// {
+// 	t_pt3 tmp = vect3_mult_nb(r.origin, -1);
+// 	t_vect3 oc = vect3_add(r.dir, tmp);
+// 	double a, b, c, discriminant;
+// 	a = vect3_mult(r.dir, r.dir);
+// 	b = -2.0 * vect3_mult(r.dir, oc);
+// 	c = vect3_mult(oc, oc) - radius * radius;
+// 	discriminant = b * b - 4 * a * c;
+// 	return (discriminant >= 0);
+// }
+
+// int	ray_color(const t_ray r)
+// {
+// 	t_color co;
+// 	t_color co1;
+// 	t_color co2;
+// 	co.r = 255; co.g = 0; co.b = 0;
+// 	co1.r = 255; co1.g = 255; co1.b = 255;
+// 	co2.r = 255 * 0.5; co2.g = 255 * 0.7; co2.b = 255;
+// 	if (hit_sphere(0.5, r))
+// 		return (encode_color(co));
+// 	double a = 0.5 * r.dir.y + 1.0;
+// 	return (1.0 - a) * encode_color(co1) + a * encode_color(co2);
+// }
+
 void	put_img(t_img img, int x, int y, int color)
+{
+	char	*pix;
+	int		i;
+	// t_color co;
+	// co.r = 255; co.g = 0; co.b = 0;
+	// t_ray	r;
+
+	// r.dir.x = 
+	i = img.bpp - 8;
+	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+	while (i >= 0)
+	{
+		// if (hit_sphere(0.5, r))
+		// 	color = encode_color(co);
+		if (img.endian != 0)
+			*pix++ = ((color >> i) & 0xFF) * 0.2;
+		else
+			*pix++ = ((color >> (img.bpp - 8 - i)) & 0xFF) * 0.2;
+		i -= 8;
+	}
+}
+
+// //TODO: add img to mlx struct && move destroy_img to close window
+// void	display_background(t_mlx *mlx, t_color c)
+// {
+// 	int		i;
+// 	int		j;
+// 	int		rgb;
+
+// 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
+// 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
+// 	rgb = encode_color(c);
+// 	i = 0;
+// 	while (i < WINDOW_HEIGHT)
+// 	{
+// 		j = 0;
+// 		while (j < WINDOW_WIDTH)
+// 		{
+// 			put_img(mlx->img, j, i, rgb);
+// 			++j;
+// 		}
+// 		++i;
+// 	}
+// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+// }
+
+void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
 {
 	char	*pix;
 	int		i;
@@ -92,39 +169,40 @@ void	put_img(t_img img, int x, int y, int color)
 	while (i >= 0)
 	{
 		if (img.endian != 0)
-		{
-			pix++;
-			*pix = (color >> i) & 0xFF;
-		}
+			*pix++ = ((encode_color(ambi.color) >> i) & 0xFF) * ambi.lightning;
 		else
-		{
-			pix++;
-			*pix = (color >> (img.bpp - 8 - i)) & 0xFF;
-		}
+			*pix++ = ((encode_color(ambi.color) >> (img.bpp - 8 - i)) & 0xFF) * ambi.lightning;
 		i -= 8;
 	}
 }
 
-//TODO: add img to mlx struct && move destroy_img to close window
-void	display_background(t_mlx *mlx, t_color c)
+
+void	display_background(t_mlx *mlx, t_scene scene)
 {
 	int		i;
 	int		j;
-	int		rgb;
 
 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
-	rgb = encode_color(c);
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
 		j = 0;
 		while (j < WINDOW_WIDTH)
 		{
-			put_img(mlx->img, j, i, rgb);
+			put_img_ambient(mlx->img, j, i, scene.amb);
 			++j;
 		}
 		++i;
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
+
+/**
+ * cast ray
+ * if hit box -> check right or left child -> loop til leaf -> color
+ * else		  -> cast next ray
+ */
+
+
+

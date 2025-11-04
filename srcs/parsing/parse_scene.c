@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/21 15:42:00 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 17:20:19 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 15:03:16 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,6 @@
 static t_ambient	parse_ambient_light(char **strs, int *err);
 static t_camera		parse_camera(char **strs, int *err);
 static t_light		parse_light(char **strs, int *err);
-
-double	ft_strtod(char *str)
-{
-	double	res;
-	char	**tmp;
-	int		i;
-
-	res = 0.0;
-	tmp = ft_split(str, '.');
-	if (tmp[1])
-	{
-		res = ft_atoi(tmp[1]);
-		i = ft_strlen(tmp[1]);
-		while (i > 0)
-		{
-			res /= 10;
-			--i;
-		}
-	}
-	res += ft_atoi(tmp[0]);
-	if (tmp[1])
-		free_arr((void *)tmp, 3);
-	else
-		free_arr((void *)tmp, 2);
-	return (res);
-}
 
 /**
  * while gnl
