@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 17:25:34 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 20:49:44 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ char	*cut_endl2(char *s, int len_endl)
 		++i;
 	}
 	end_line[len_endl + 1] = '\0';
-	ft_memmove(s, s + len_endl + 1, ft_strlen(s));
+	ft_memmove(s, s + len_endl + 1, BUFF_SIZE - len_endl + 1);
 	return (end_line);
 }

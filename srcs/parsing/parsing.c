@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:14:44 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/04 20:45:36 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@ int	fill_scene_info(char *line, t_scene *ptr_scene)
 		return (INVALID_FILE);
 	return (SUCCESS);
 }
-#include <stdio.h>
+
 int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;

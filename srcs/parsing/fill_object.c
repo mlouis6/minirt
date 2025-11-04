@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 22:29:12 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/04 21:06:35 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,18 @@ int fill_sphere_info(char **line_split, t_obj *ptr_obj)
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.sphere.center);
 	if (ret != SUCCESS)
 		return (ret);
-	i++;
+	++i;
 	ret = get_double(line_split[i], &ptr_obj->shape.sphere.radius);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_obj->shape.sphere.radius < 0)
 		return (INVALID_FILE);
 	ptr_obj->shape.sphere.radius /= 2;
-	i++;
+	++i;
 	ret = get_color(line_split[i], &ptr_obj->color);
 	if (ret != SUCCESS)
 		return (ret);
-	i++;
+	++i;
 	if (line_split[i] != NULL)
 		return (INVALID_FILE);
 	return (SUCCESS);
@@ -94,17 +94,18 @@ int fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.cyl.origin);
 	if (ret != SUCCESS)
 		return (ret);
-	i++;
+	++i;
 	ret = get_norm_vect3(line_split[i], &ptr_obj->shape.cyl.normal);
 	if (ret != SUCCESS)
 		return (ret);
-	i++;
+	++i;
 	ret = get_double(line_split[i], &ptr_obj->shape.cyl.radius);
 	if (ret != SUCCESS)
 		return (ret);
 	if (ptr_obj->shape.sphere.radius < 0)
 		return (INVALID_FILE);
 	ptr_obj->shape.cyl.radius /= 2;
+	++i;
 	ret = get_double(line_split[i], &ptr_obj->shape.cyl.height);
 	if (ret != SUCCESS)
 		return (ret);
@@ -114,7 +115,7 @@ int fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 	ret = get_color(line_split[i], &ptr_obj->color);
 	if (ret != SUCCESS)
 		return (ret);
-	i++;
+	++i;
 	if (line_split[i] != NULL)
 		return (INVALID_FILE);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:10:33 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/04 21:04:33 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	get_color(char *line, t_color *ptr_color)
 	}
 	ptr_color->b = primary;
 	++i;
-	if (line_split[i] != NULL || line[ft_strlen(line) - 1] == ',')
+	if (line_split[i] != NULL)
 		ret = INVALID_FILE;
 	free_split(line_split);
 	return (ret);
@@ -128,7 +128,7 @@ int	get_norm_vect3(char *line, t_vect3 *ptr_vect3)
 	ret = get_coordinates(line, ptr_vect3);
 	if (ret != SUCCESS)
 		return (ret);
-	if (norm_sq(*ptr_vect3) != 1)
+	if (norm_sq(*ptr_vect3) != 1.0)
 		return (INVALID_FILE);
 	return (SUCCESS);
 }
