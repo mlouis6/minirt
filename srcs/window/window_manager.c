@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/04 10:18:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/05 14:58:23 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,39 @@ void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
 	}
 }
 
+void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
+{
+	char	*pix;
+	int		i;
+
+	i = img.bpp - 8;
+	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+	while (i >= 0)
+	{
+		if (img.endian != 0)
+			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * scene.amb.color;
+		else
+			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * scene.amb.color;
+		i -= 8;
+	}
+}
+
+// void	put_img_object(t_img img, int x, int y, t_obj obj)
+// {
+// 	char	*pix;
+// 	int		i;
+
+// 	i = img.bpp - 8;
+// 	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+// 	while (i >= 0)
+// 	{
+// 		if (img.endian != 0)
+// 			*pix++ = ((encode_color(ambi.color) >> i) & 0xFF) * ambi.lightning;
+// 		else
+// 			*pix++ = ((encode_color(ambi.color) >> (img.bpp - 8 - i)) & 0xFF) * ambi.lightning;
+// 		i -= 8;
+// 	}
+// }
 
 void	display_background(t_mlx *mlx, t_scene scene)
 {
