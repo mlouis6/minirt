@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 16:40:04 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:42:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int	get_coordinates(char *line, t_pt3 *ptr_point)
 	free_split(line_split);
 	return (ret);
 }
-#include <stdio.h>
+
 int	get_color(char *line, t_color *ptr_color)
 {
 	int		ret;
 	char	**line_split;
-	int 	primary;
+	int		primary;
 	int		i;
 
 	line_split = split_line(line, ",");
@@ -104,7 +104,7 @@ int	get_color(char *line, t_color *ptr_color)
 double	powd(double n, int p)
 {
 	double	m;
-	int 	i;
+	int		i;
 
 	m = 1;
 	i = 0;
@@ -124,7 +124,7 @@ double	norm_sq(t_vect3 vect3)
 int	get_norm_vect3(char *line, t_vect3 *ptr_vect3)
 {
 	int	ret;
-	
+
 	ret = get_coordinates(line, ptr_vect3);
 	if (ret != SUCCESS)
 		return (ret);

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 22:50:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:34:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 # define OBJECTS_H
 
 # define t_vect3 t_pt3
+# define NB_FINITE 2
 
 # include "dim3.h"
 # include "color.h"
 
 typedef enum e_type
 {
+	NONE = 0,
 	SPHERE,
-	PLANE,
 	CYLINDER,
-	NONE
+	PLANE
 }	t_type;
 
 typedef struct s_sph

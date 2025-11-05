@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:10:03 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:44:01 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 #include "scene.h"
 #include "parsing.h"
 
-int	check_extension(int ac, char **av);
-int	get_scene(int fd, t_scene *ptr_scene);
+int		check_extension(int ac, char **av);
+int		get_scene(int fd, t_scene *ptr_scene);
 void	print_scene(t_scene scene);
 
 // int	parsing(int ac, char **av, t_scene *ptr_scene)
@@ -57,7 +57,7 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Error\n");	
+		printf("Error\n");
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
@@ -90,7 +90,7 @@ int	check_extension(int ac, char **av)
 		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
 	}
-	return (SUCCESS);	
+	return (SUCCESS);
 }
 
 void	init_scene(t_scene *ptr_scene)
@@ -159,5 +159,3 @@ int	get_scene(int fd, t_scene *ptr_scene)
 	}
 	return (ret);
 }
-
-

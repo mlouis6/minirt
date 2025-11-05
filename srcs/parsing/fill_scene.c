@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:08:36 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:40:10 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	fill_ambient_info(char **line_split, t_scene *ptr_scene)
 {
 	int	ret;
 	int	i;
-	
+
 	if (ptr_scene->amb.lightning != -1)
 		return (INVALID_FILE);
 	i = 0;
 	ret = get_double(line_split[i], &ptr_scene->amb.lightning);
-	if (ret != SUCCESS \
+	if (ret != SUCCESS
 		|| ptr_scene->amb.lightning < 0 || ptr_scene->amb.lightning > 1)
 		return (INVALID_FILE);
 	++i;
@@ -41,7 +41,7 @@ int	fill_camera_info(char **line_split, t_scene *ptr_scene)
 {
 	int	ret;
 	int	i;
-	
+
 	// if (ptr_scene->cam.fov != -1)
 	// 	return (INVALID_FILE);
 	i = 0;
@@ -54,7 +54,7 @@ int	fill_camera_info(char **line_split, t_scene *ptr_scene)
 		return (ret);
 	++i;
 	ret = get_integer(line_split[i], &ptr_scene->cam.fov);
-	if (ret != SUCCESS \
+	if (ret != SUCCESS
 		|| ptr_scene->cam.fov < 0 || ptr_scene->cam.fov > 180)
 		return (INVALID_FILE);
 	++i;
@@ -78,7 +78,7 @@ int	fill_light_info(char **line_split, t_scene *ptr_scene)
 	ret = get_double(line_split[i], &ptr_scene->light.brightness);
 	if (ret != SUCCESS)
 		return (ret);
-	if (ret != SUCCESS \
+	if (ret != SUCCESS
 		|| ptr_scene->light.brightness < 0 || ptr_scene->light.brightness > 1)
 		return (INVALID_FILE);
 	++i;

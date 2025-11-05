@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/04 20:53:03 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:47:26 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,58 +14,58 @@
 #include <stdlib.h>
 #include "libft.h"
 
-int count_words(char *line, char *set);
-int	word_len(char *line, char *set);
+int		count_words(char *line, char *set);
+int		word_len(char *line, char *set);
 void	free_split(char **split);
 
 char	**split_line(char *line, char *set)
 {
 	char	**split;	
-	int 	count;
-    int 	i;
-    
-    count = count_words(line, set);
-    split = malloc(sizeof(char *) * (count + 1));
-    if (split == NULL)
-        return (NULL);
-    i = 0;
-    while (*line != '\0')
-    {
+	int		count;
+	int		i;
+
+	count = count_words(line, set);
+	split = malloc(sizeof(char *) * (count + 1));
+	if (split == NULL)
+		return (NULL);
+	i = 0;
+	while (*line != '\0')
+	{
 		while (*line != '\0' && ft_strchr(set, *line) != NULL)
 			++line;
 		count = word_len(line, set);
-        if (count == 0)
-            break ;
-        split[i] = malloc(sizeof(char) * (count + 1));
-        if (split[i] == NULL)
+		if (count == 0)
+			break ;
+		split[i] = malloc(sizeof(char) * (count + 1));
+		if (split[i] == NULL)
 		{
 			free_split(split);
-            return (NULL);
+			return (NULL);
 		}
-        ft_strlcpy(split[i], line, count + 1);
+		ft_strlcpy(split[i], line, count + 1);
 		while (ft_strchr(set, *line) == NULL)
 			++line;
 		++i;
-    }
+	}
 	split[i] = NULL;
 	return (split);
 }
 
-int count_words(char *line, char *set)
+int	count_words(char *line, char *set)
 {
-    int nb_words;
+	int	nb_words;
 
-    nb_words = 0;
+	nb_words = 0;
 	while (*line != '\0')
-    {
-        while (*line != '\0' && ft_strchr(set, *line) != NULL)
-            ++line;
-        if (*line == '\0')
-            break ;
+	{
+		while (*line != '\0' && ft_strchr(set, *line) != NULL)
+			++line;
+		if (*line == '\0')
+			break ;
 		++nb_words;
 		while (ft_strchr(set, *line) == NULL)
 			++line;
-    }
+	}
 	return (nb_words);
 }
 

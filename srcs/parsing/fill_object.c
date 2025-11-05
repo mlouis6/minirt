@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:21:31 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:39:09 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 	return (SUCCESS);
 }
 
-int fill_plane_info(char **line_split, t_obj *ptr_obj)
+int	fill_plane_info(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 	int	i;
@@ -85,7 +85,7 @@ int fill_plane_info(char **line_split, t_obj *ptr_obj)
 	return (SUCCESS);
 }
 
-int fill_sphere_info(char **line_split, t_obj *ptr_obj)
+int	fill_sphere_info(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 	int	i;
@@ -112,7 +112,7 @@ int fill_sphere_info(char **line_split, t_obj *ptr_obj)
 	return (SUCCESS);
 }
 
-int fill_cylinder_info(char **line_split, t_obj *ptr_obj)
+int	fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 	int	i;
