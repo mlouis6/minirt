@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/04 20:45:36 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:10:03 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 int	check_extension(int ac, char **av);
 int	get_scene(int fd, t_scene *ptr_scene);
+void	print_scene(t_scene scene);
 
 // int	parsing(int ac, char **av, t_scene *ptr_scene)
 // {
@@ -100,49 +101,27 @@ void	init_scene(t_scene *ptr_scene)
 	ptr_scene->root = NULL;
 }
 
-int	call_match(char **info_split, t_scene *ptr_scene, const t_func table[NB_ITEM], uint8_t *ptr_check)
-{
-	int	ret;
-	int	i;
-	
-	*ptr_check = FALSE;
-	if (info_split[0] == NULL)
-		return (SUCCESS);
-	i = 0;
-	while (i < NB_ITEM)
-	{
-		if (ft_strncmp(info_split[0], table[i].name, ft_strlen(table[i].name)) == 0)
-		{
-			*ptr_check = TRUE;
-			ret = table[i].f(info_split, ptr_scene);
-			return (ret);
-		}
-		++i;
-	}
-	return (SUCCESS);
-}
-
-int	fill_scene_info(char *line, t_scene *ptr_scene)
+int	fill_scene_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 {
 	int		ret;
-	char	**line_split;
-	uint8_t	check;
 
-	line_split = split_line(line, WHITE_SPACES);
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	ret = call_match(line_split, ptr_scene, g_table_item, &check);
-	if (ret != SUCCESS || check == TRUE)
+	if (ft_strncmp(line_split[0], "A", ft_strlen(line_split[0])) == 0)
 	{
-		free_split(line_split);
-		return (ret);
+		*ptr_check = TRUE;
+		ret = fill_ambient_info(line_split + 1, ptr_scene);
 	}
-	ret = fill_object_info(line_split, ptr_scene, &check);
-	free_split(line_split);
-	if (ret != SUCCESS)
+	else if (ft_strncmp(line_split[0], "C", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_camera_info(line_split + 1, ptr_scene);
+	}
+	else if (ft_strncmp(line_split[0], "L", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_light_info(line_split + 1, ptr_scene);
+	}
+	if (*ptr_check == TRUE)
 		return (ret);
-	if (check == FALSE)
-		return (INVALID_FILE);
 	return (SUCCESS);
 }
 
@@ -150,16 +129,32 @@ int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;
 	char	*line;
+	char	**line_split;
+	uint8_t	check;
 
 	init_scene(ptr_scene);
 	line = NULL;
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)
 	{
-		ret = fill_scene_info(line, ptr_scene);
+		line_split = split_line(line, WHITE_SPACES);
+		if (line_split == NULL)
+		{
+			free(line);
+			return (ERROR_MALLOC);
+		}
+		check = FALSE;
+		ret = fill_scene_info(line_split, ptr_scene, &check);
+		if (check == FALSE)
+			ret = fill_object_info(line_split, ptr_scene, &check);
+		free_split(line_split);
 		free(line);
-		if (ret != SUCCESS)
-			return (ret);
+		if (ret != SUCCESS || check == FALSE)
+		{
+			if (ret != SUCCESS)
+				return (ret);
+			return (INVALID_FILE);
+		}
 		ret = get_line(fd, &line);
 	}
 	return (ret);

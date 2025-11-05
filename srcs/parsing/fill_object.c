@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/04 21:06:35 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:21:31 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 #include "scene.h"
 #include "parsing.h"
 
+void	print_bvh(t_bvh *root, int depth);
+
 int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 {
 	int		ret;
@@ -27,13 +29,36 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 	node = malloc(sizeof(t_bvh));
 	if (node == NULL)
 		return (ERROR_MALLOC);
-	ret = call_match(line_split, ptr_scene, g_table_obj, ptr_check);
-	if (ret != SUCCESS || *ptr_check == FALSE)
-		return (ret);
-	ret = bvh_add(&ptr_scene->root, node);
-	if (ret != SUCCESS)
-		free(node);
-	return (ret);
+	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_sphere_info(line_split + 1, &node->obj);
+	}
+	else if (ft_strncmp(line_split[0], "cy", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_cylinder_info(line_split + 1, &node->obj);
+	}
+	else if (ft_strncmp(line_split[0], "pl", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_plane_info(line_split + 1, &node->obj);
+	}
+	if (*ptr_check == TRUE)
+	{
+		if (ret != SUCCESS)
+		{
+			free(node);
+			return (ret);
+		}
+		ret = bvh_add(&ptr_scene->root, node);
+		if (ret != SUCCESS)
+		{
+			free(node);
+			return (ret);
+		}
+	}
+	return (SUCCESS);
 }
 
 int fill_plane_info(char **line_split, t_obj *ptr_obj)
@@ -41,7 +66,8 @@ int fill_plane_info(char **line_split, t_obj *ptr_obj)
 	int	ret;
 	int	i;
 
-	i = 1;
+	ptr_obj->type = PLANE;
+	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.plane.origin);
 	if (ret != SUCCESS)
 		return (ret);
@@ -64,7 +90,8 @@ int fill_sphere_info(char **line_split, t_obj *ptr_obj)
 	int	ret;
 	int	i;
 
-	i = 1;
+	ptr_obj->type = SPHERE;
+	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.sphere.center);
 	if (ret != SUCCESS)
 		return (ret);
@@ -90,7 +117,8 @@ int fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 	int	ret;
 	int	i;
 
-	i = 1;
+	ptr_obj->type = CYLINDER;
+	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.cyl.origin);
 	if (ret != SUCCESS)
 		return (ret);

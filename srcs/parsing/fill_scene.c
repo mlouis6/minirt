@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/04 20:55:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:08:36 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	fill_ambient_info(char **line_split, t_scene *ptr_scene)
 	
 	if (ptr_scene->amb.lightning != -1)
 		return (INVALID_FILE);
-	i = 1;
+	i = 0;
 	ret = get_double(line_split[i], &ptr_scene->amb.lightning);
 	if (ret != SUCCESS \
 		|| ptr_scene->amb.lightning < 0 || ptr_scene->amb.lightning > 1)
@@ -44,7 +44,7 @@ int	fill_camera_info(char **line_split, t_scene *ptr_scene)
 	
 	// if (ptr_scene->cam.fov != -1)
 	// 	return (INVALID_FILE);
-	i = 1;
+	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_scene->cam.pos);
 	if (ret != SUCCESS)
 		return (ret);
@@ -70,7 +70,7 @@ int	fill_light_info(char **line_split, t_scene *ptr_scene)
 
 	if (ptr_scene->light.brightness != -1)
 		return (INVALID_FILE);
-	i = 1;
+	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_scene->light.pos);
 	if (ret != SUCCESS)
 		return (ret);

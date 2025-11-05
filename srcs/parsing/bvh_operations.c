@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 22:40:49 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 17:07:56 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		box_contained(t_box big, t_box small);
 t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost);
 int		insert_above(t_bvh **ptr_root, t_bvh *node);
 
+#include <stdio.h>
 int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 {
 	int		ret;

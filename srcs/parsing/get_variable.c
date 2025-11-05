@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 20:46:27 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:12:28 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 16:39:39 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,11 @@ double	powerd(int n, int p)
 
 int	get_double(char *line, double *ptr_double)
 {
-	uint8_t	sign;
 	int		comma;
 	int		i;
 	
-	sign = 1;
 	i = 0;
-	if (line[i] == '-')
-	{
-		sign = -1;
-		++i;
-	}
-	else if (line[i] == '+')
+	if (line[i] == '-' || line[i] == '+')
 		++i;
 	*ptr_double = 0;
 	while (line[i] >= '0' && line[i] <= '9')
@@ -90,6 +83,7 @@ int	get_double(char *line, double *ptr_double)
 	}
 	if (line[i] != '\0')
 		return (INVALID_FILE);
-	*ptr_double *= sign;
+	if (line[0] == '-')
+		*ptr_double =  - *ptr_double;
 	return (SUCCESS);
 }

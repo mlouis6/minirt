@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:13:00 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/04 21:19:39 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_scene(t_scene *scene)
 	(void) scene;
 }
 
-static void	print_scene(t_scene scene)
+void	print_scene(t_scene scene)
 {
 	printf("A= [%.1f] [%d,%d,%d]\n", scene.amb.lightning,
 		scene.amb.color.r, scene.amb.color.g, scene.amb.color.b);
