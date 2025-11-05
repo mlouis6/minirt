@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:38:31 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/05 20:27:26 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,42 +119,4 @@ t_bvh	*find_insert(t_bvh *root, t_bvh *node, double *ptr_cost)
 	}
 	*ptr_cost = right_cost;
 	return (right_path);
-}
-
-t_box	find_box(t_obj obj)
-{
-	t_box	box;
-
-	if (obj.type == SPHERE)
-		box = box_sphere(obj.shape);
-	else
-		box = box_cylinder(obj.shape);
-	return (box);
-}
-
-double	mind(double x, double y)
-{
-	if (x < y)
-		return (x);
-	return (y);
-}
-
-double	maxd(double x, double y)
-{
-	if (x > y)
-		return (x);
-	return (y);
-}
-
-t_box	box_regroup(t_box box1, t_box box2)
-{
-	t_box box;
-
-	box.x_min = mind(box1.x_min, box2.x_min);
-	box.x_max = maxd(box1.x_max, box2.x_max);
-	box.y_min = mind(box1.y_min, box2.y_min);
-	box.y_max = maxd(box1.y_max, box2.y_max);
-	box.z_min = mind(box1.z_min, box2.z_min);
-	box.z_max = maxd(box1.z_max, box2.z_max);
-	return (box);
 }
