@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:21:32 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 18:34:03 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 18:40:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ int	ft_vector_copy(t_vector *ptr_dest, t_vector src)
 	ptr_dest->free_vector = src.free_vector;
 	ft_memcpy(ptr_dest->data, src.data, src.data_size * src.size);
 	ptr_dest->size = src.size;
+	return (SUCCESS);
 }
