@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/03 22:42:06 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/07 18:56:06 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,13 @@
 
 NAME := miniRT
 
-INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc #lib/minilibx-linux
+INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc lib/lib_vector/inc #lib/minilibx-linux
 
 LIB := ft matrix #m mlx Xext X11 z matrix
 
 LIB_TARGET := 	libft/libft.a 					\
 				libmatrix/libmatrix.a 			\
+				libvector/libvector.a
 				#minilibx-linux/libmlx_Linux.a 	\
 				#minilibx-libft/libmlx.a
 
@@ -32,7 +33,8 @@ SRC := 	parsing/parsing.c \
 		parsing/fill_scene.c \
 		parsing/get_line.c \
 		parsing/bvh_operations.c \
-		parsing/find_box.c \
+		parsing/box_management.c \
+		parsing/math_utils.c \
 		parsing/get_types.c \
 		parsing/get_variable.c \
 		parsing/split_line.c \
@@ -60,6 +62,7 @@ $(NAME): $(OBJ) $(LIB_TARGET)
 $(LIB_TARGET):
 	$(MAKE) -C lib/libft
 	$(MAKE) -C lib/libmatrix
+	$(MAKE) -C lib/lib_vector
 #	$(MAKE) -C lib/minilibx-linux
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
@@ -71,6 +74,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	$(MAKE) clean -C lib/libft
 	$(MAKE) clean -C lib/libmatrix
+	$(MAKE) clean -C lib/lib_vector
 # 	$(MAKE) clean -C lib/minilibx-linux
 	rm -rf $(OBJ) $(DEPS)
 	rm -rf $(BUILD_DIR)
@@ -78,6 +82,7 @@ clean:
 fclean:
 	$(MAKE) fclean -C lib/libft
 	$(MAKE) fclean -C lib/libmatrix
+	$(MAKE) fclean -C lib/lib_vector
 # 	$(MAKE) fclean -C lib/minilibx-linux
 	rm -rf $(OBJ) $(DEPS) $(NAME)
 	rm -rf $(BUILD_DIR)

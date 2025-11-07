@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 22:13:25 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 20:27:26 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 18:54:16 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,6 @@ int	bvh_add(t_bvh **ptr_root, t_bvh *node)
 	*ptr_root = node;
 	node->nb_leaves = 1;
 	return (SUCCESS);
-}
-
-int	box_contained(t_box big, t_box small)
-{
-	if (big.x_min > small.x_min
-		|| big.x_max < small.x_max
-		|| big.y_min > small.y_min
-		|| big.y_max < small.y_max
-		|| big.z_min > small.z_min
-		|| big.z_max < small.z_max)
-	{
-		return (FALSE);
-	}
-	return (TRUE);
 }
 
 int	insert_above(t_bvh **ptr_root, t_bvh *node)
