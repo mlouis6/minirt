@@ -6,12 +6,13 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:36:49 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 20:24:32 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 //#include <mlx.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "ret_val.h"
 #include "parsing.h"
 #include "window.h"
@@ -20,6 +21,34 @@
 void	free_scene(t_scene *scene)
 {
 	(void) scene;
+}
+
+void	print_infinite(t_vector *inf_obj)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (i < NB_INF)
+	{
+		j = 0;
+		while (j < inf_obj[i].size)
+		{
+			printf("obj type = %d, coord [%f,%f,%f], normal vect [%f, %f,% f], color [%d, %d,%d]\n",
+				((t_obj *)inf_obj[i].data)->type,
+				((t_obj *)inf_obj[i].data)->shape.plane.origin.x,
+				((t_obj *)inf_obj[i].data)->shape.plane.origin.y,
+				((t_obj *)inf_obj[i].data)->shape.plane.origin.z,
+				((t_obj *)inf_obj[i].data)->shape.plane.normal.x,
+				((t_obj *)inf_obj[i].data)->shape.plane.normal.y,
+				((t_obj *)inf_obj[i].data)->shape.plane.normal.z,
+				((t_obj *)inf_obj[i].data)->color.r,
+				((t_obj *)inf_obj[i].data)->color.g,
+				((t_obj *)inf_obj[i].data)->color.b);
+			++j;
+		}
+		++i;
+	}
 }
 
 void	print_scene(t_scene scene)

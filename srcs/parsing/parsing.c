@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 19:05:50 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 20:25:24 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "ret_val.h"
 #include "scene.h"
 #include "parsing.h"
+#include "ft_vector.h"
 
 int		check_extension(int ac, char **av);
 int		get_scene(int fd, t_scene *ptr_scene);

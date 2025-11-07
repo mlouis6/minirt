@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:03:59 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 18:38:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 20:24:46 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ int	ft_vector_init(t_vector *ptr_vector, size_t data_size, size_t capacity,
 	ptr_vector->capacity = capacity;
 	ptr_vector->size = 0;
 	ptr_vector->free_vector = free_vector;
-	return (SUCCESS);
+	return (OK);
 }

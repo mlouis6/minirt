@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/07 18:56:06 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/07 20:27:08 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME := miniRT
 
 INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc lib/lib_vector/inc #lib/minilibx-linux
 
-LIB := ft matrix #m mlx Xext X11 z matrix
+LIB := ft matrix vector #m mlx Xext X11 z matrix
 
 LIB_TARGET := 	libft/libft.a 					\
 				libmatrix/libmatrix.a 			\
