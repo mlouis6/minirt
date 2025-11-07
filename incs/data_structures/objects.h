@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:34:05 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 19:02:06 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define t_vect3 t_pt3
 # define NB_FINITE 2
+# define NB_INF 1
 
 # include "dim3.h"
 # include "color.h"

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:44:01 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 19:05:50 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,31 @@ int	check_extension(int ac, char **av)
 	return (SUCCESS);
 }
 
-void	init_scene(t_scene *ptr_scene)
+int	init_scene(t_scene *ptr_scene)
 {
+	int	ret;
+	int	i;
+	
 	ptr_scene->amb.lightning = -1;
 	ptr_scene->cam.fov = -1;
 	ptr_scene->light.brightness = -1;
 	ptr_scene->root = NULL;
+	i = 0;
+	while (i < NB_INF)
+	{
+		ret = ft_vector_init(&ptr_scene->inf_obj[i], sizeof(t_obj), 5, NULL);
+		if (ret != SUCCESS)
+		{
+			while (i >= 0)
+			{
+				ft_vector_free(&ptr_scene->inf_obj[i]);
+				--i;
+			}
+			return (ERROR_MALLOC);
+		}
+		++i;
+	}
+	return (SUCCESS);
 }
 
 int	fill_scene_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
@@ -132,7 +151,9 @@ int	get_scene(int fd, t_scene *ptr_scene)
 	char	**line_split;
 	uint8_t	check;
 
-	init_scene(ptr_scene);
+	ret = init_scene(ptr_scene);
+	if (ret != SUCCESS)
+		return (ret);
 	line = NULL;
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/03 22:50:21 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 19:02:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "dim3.h"
 # include "bvh.h"
 # include "color.h"
+# include "ft_vector.h"
 
 typedef struct s_ambient
 {
@@ -48,7 +49,7 @@ typedef struct s_scene
 	t_camera	cam;
 	t_light		light;
 	t_bvh		*root;
-	//t_array	inf_obj;
+	t_vector	inf_obj[NB_INF];
 }	t_scene;
 
 #endif

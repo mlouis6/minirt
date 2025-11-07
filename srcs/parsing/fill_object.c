@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:39:09 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 19:08:44 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,13 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 			free(node);
 			return (ret);
 		}
-		ret = bvh_add(&ptr_scene->root, node);
+		if (node->obj.type <= NB_FINITE)
+			ret = bvh_add(&ptr_scene->root, node);
+		else
+		{
+			ret = ft_vector_add_single(
+				&ptr_scene->inf_obj[node->obj.type - NB_INF], &node->obj);
+		}
 		if (ret != SUCCESS)
 		{
 			free(node);
