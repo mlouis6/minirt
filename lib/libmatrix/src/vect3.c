@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vect3.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/27 12:57:46 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/03 22:51:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_vect3	vect3_add(t_vect3 v1, t_vect3 v2)
 	return (res);
 }
 
-t_vect3	vect3_mult_nb(t_vect3 v, float nb)
+t_vect3	vect3_mult_nb(t_vect3 v, double nb)
 {
 	t_vect3	res;
 
@@ -33,9 +33,9 @@ t_vect3	vect3_mult_nb(t_vect3 v, float nb)
 	return (res);
 }
 
-float	vect3_mult(t_vect3 v1, t_vect3 v2)
+double	vect3_mult(t_vect3 v1, t_vect3 v2)
 {
-	float	res;
+	double	res;
 
 	res = 0;
 	res += v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
@@ -46,10 +46,10 @@ t_vect3	mat3_mult_vect3(t_mat3 mx, t_vect3 v)
 {
 	t_vect3	res;
 	uint8_t	i;
-	float	*ptr;		
+	double	*ptr;		
 
 	i = 0;
-	ptr = (float *)&v;
+	ptr = (double *)&v;
 	while (i < 3)
 	{
 		res.x += mx.coeff[0][i] * ptr[i];

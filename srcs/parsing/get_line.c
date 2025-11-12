@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/27 17:25:34 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/12 14:54:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define BUFF_SIZE 10
 
 int		handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
-char	*cut_endl2(char *s, int len_endl);
+char	*endl_cut(char *s, int len_endl);
 
 int	get_line(int fd, char **ptr_line)
 {
@@ -59,7 +59,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	len_endl = ft_strchr(buff, '\n') - buff;
 	if (len_endl >= 0)
 	{
-		endl = cut_endl2(buff, len_endl);
+		endl = endl_cut(buff, len_endl);
 		if (endl == NULL)
 		{
 			free(*ptr_line);
@@ -78,7 +78,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	return (SUCCESS);
 }
 
-char	*cut_endl2(char *s, int len_endl)
+char	*endl_cut(char *s, int len_endl)
 {
 	char	*end_line;
 	int		i;
@@ -93,6 +93,6 @@ char	*cut_endl2(char *s, int len_endl)
 		++i;
 	}
 	end_line[len_endl + 1] = '\0';
-	ft_memmove(s, s + len_endl + 1, ft_strlen(s));
+	ft_memmove(s, s + len_endl + 1, BUFF_SIZE - len_endl + 1);
 	return (end_line);
 }

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 13:07:31 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/04 15:15:30 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/12 15:04:47 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*ft_itoa_base(int n, char *base);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
+int		ft_strtoi(char *ptr_str, char **ptr_end);
 // display functions
 int		ft_putchar_fd(char c, int fd);
 int		ft_putstr_fd(char *s, int fd);

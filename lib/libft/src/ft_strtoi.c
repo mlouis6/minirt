@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ret_val.h                                          :+:      :+:    :+:   */
+/*   ft_strtoi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 18:45:55 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:27:08 by cviel            ###   ########.fr       */
+/*   Created: 2025/11/12 14:35:45 by cviel             #+#    #+#             */
+/*   Updated: 2025/11/12 14:50:15 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RET_VAL_H
-# define RET_VAL_H
-
-# define TRUE 1
-# define FALSE 0
-
-enum e_ret_val
+int	ft_strtoi(char *ptr_str, char **ptr_end)
 {
-	SUCCESS = 0,
-	ERROR_ARGUMENT,
-	ERROR_SYSCALL,
-	ERROR_MALLOC,
-	ERROR_FILENAME,
-	INVALID_FILE
-};
+	int	res;
+	int	sign;
 
-#endif
+	res = 0;
+	sign = 1;
+	if (*ptr_str == '-')
+	{
+		sign = -1;
+		++ptr_str;
+	}
+	else if (*ptr_str == '+')
+		++ptr_str;
+	while (*ptr_str >= '0' && *ptr_str <= '9')
+	{
+		res = res * 10 + *ptr_str - '0';
+		++ptr_str;
+	}
+	*ptr_end = ptr_str;
+	return (res * sign);
+}

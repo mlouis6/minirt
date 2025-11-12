@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:05:43 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/04 15:02:44 by mlouis           ###   ########.fr        #
+#    Updated: 2025/11/12 15:05:39 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ SRCS := ft_isalpha.c				\
 		ft_itoa.c					\
 		ft_strmapi.c				\
 		ft_striteri.c				\
+		ft_strtoi.c					\
 		ft_putchar_fd.c				\
 		ft_putstr_fd.c				\
 		ft_putendl_fd.c				\

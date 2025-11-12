@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/04 10:02:43 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/12 15:03:49 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,15 @@
 # define SCENE_H
 
 # define t_vect3 t_pt3
-# define NB_ITEM 3
 
 # include "dim3.h"
-// # include "bvh.h"
+# include "bvh.h"
 # include "color.h"
-// # include "parsing.h"
-
-// static const t_func g_table_item[NB_ITEM] = {
-// 	{"A", fill_ambient_info},
-// 	{"C", fill_camera_info},
-// 	{"L", fill_light_info},
-// };
+# include "ft_vector.h"
 
 typedef struct s_ambient
 {
-	float	lightning;
+	double	lightning;
 	t_color	color;
 }	t_ambient;
 
@@ -37,23 +30,26 @@ typedef struct s_camera
 {
 	t_pt3	pos;
 	t_vect3	dir;
-	uint8_t	fov;
+	int		fov;
 }	t_camera;
 
 typedef struct s_light
 {
 	t_pt3	pos;
-	float	brightness;
+	double	brightness;
 	t_color	color;
 }	t_light;
 
 //? maybe too verbose because scene->light.color.b is gonna be so looooooong
+// probably gonna use simple arrays for infinite objects (ex : planes)
+// since they dont fit in a finite box
 typedef struct s_scene
 {
 	t_ambient	amb;
 	t_camera	cam;
 	t_light		light;
-	// t_bvh		*root;
+	t_bvh		*root;
+	t_vector	inf_obj[NB_INF];
 }	t_scene;
 
 #endif

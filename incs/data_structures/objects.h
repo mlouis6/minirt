@@ -6,7 +6,11 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/10/28 15:43:20 by mlouis           ###   ########.fr       */
+=======
+/*   Updated: 2025/11/07 19:02:06 by cviel            ###   ########.fr       */
+>>>>>>> corentin
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +18,25 @@
 # define OBJECTS_H
 
 # define t_vect3 t_pt3
-# define NB_TYPES 3
+# define NB_FINITE 2
+# define NB_INF 1
 
 # include "dim3.h"
 # include "color.h"
 # include "parsing.h"
 
-// static const t_func g_table_obj[NB_TYPES] = {
-// 	{"sp", fill_sphere_info},
-// 	{"pl", fill_plane_info},
-// 	{"cy", fill_cylinder_info},
-// };
-
 typedef enum e_type
 {
-	PLANE,
+	NONE = 0,
 	SPHERE,
 	CYLINDER,
-	NONE
+	PLANE
 }	t_type;
 
 typedef struct s_sph
 {
 	t_pt3	center;
-	float	radius;
+	double	radius;
 }	t_sph;
 
 typedef struct s_plane
@@ -50,8 +49,8 @@ typedef struct s_cyl
 {
 	t_pt3	origin;
 	t_vect3	normal;
-	float	radius;
-	float	height;
+	double	radius;
+	double	height;
 }	t_cyl;
 
 typedef union u_shape

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ret_val.h                                          :+:      :+:    :+:   */
+/*   ft_vector_init.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 18:45:55 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 23:27:08 by cviel            ###   ########.fr       */
+/*   Created: 2025/11/07 18:03:59 by cviel             #+#    #+#             */
+/*   Updated: 2025/11/07 20:24:46 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RET_VAL_H
-# define RET_VAL_H
+#include <stdlib.h>
+#include "ft_vector.h"
 
-# define TRUE 1
-# define FALSE 0
-
-enum e_ret_val
+int	ft_vector_init(t_vector *ptr_vector, size_t data_size, size_t capacity,
+	void (*free_vector)(void *))
 {
-	SUCCESS = 0,
-	ERROR_ARGUMENT,
-	ERROR_SYSCALL,
-	ERROR_MALLOC,
-	ERROR_FILENAME,
-	INVALID_FILE
-};
-
-#endif
+	ptr_vector->data = malloc(data_size * capacity);
+	if (ptr_vector->data == NULL)
+		return (FAILURE_ALLOC);
+	ptr_vector->data_size = data_size;
+	ptr_vector->capacity = capacity;
+	ptr_vector->size = 0;
+	ptr_vector->free_vector = free_vector;
+	return (OK);
+}

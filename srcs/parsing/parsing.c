@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/28 17:36:54 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/07 20:25:24 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@
 #include "ret_val.h"
 #include "scene.h"
 #include "parsing.h"
+#include "ft_vector.h"
 
-int	check_extension(int ac, char **av);
-int	get_scene(int fd, t_scene *ptr_scene);
+int		check_extension(int ac, char **av);
+int		get_scene(int fd, t_scene *ptr_scene);
+void	print_scene(t_scene scene);
 
 // int	parsing(int ac, char **av, t_scene *ptr_scene)
 // {
@@ -45,7 +47,7 @@ int	get_scene(int fd, t_scene *ptr_scene);
 // 	return (check_elements(*ptr_scene));
 // }
 
-int	parsing(int ac, char **av, t_scene *scene)
+int	parsing(int ac, char **av, t_scene *ptr_scene)
 {
 	int	ret;
 	int	fd;
@@ -56,11 +58,11 @@ int	parsing(int ac, char **av, t_scene *scene)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Error\n");	
+		printf("Error\n");
 		perror("open :");
 		return (ERROR_SYSCALL);
 	}
-	ret = parse_scene(&scene, fd);
+	ret = get_scene(fd, ptr_scene);
 	return (ret);
 }
 
@@ -89,60 +91,57 @@ int	check_extension(int ac, char **av)
 		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
 	}
-	return (SUCCESS);	
+	return (SUCCESS);
 }
 
-void	init_scene(t_scene *ptr_scene)
-{
-	ptr_scene->amb.lightning = -1;
-	ptr_scene->cam.fov = -1;
-	ptr_scene->light.brightness = -1;
-	ptr_scene->root = NULL;
-}
-
-int	call_match(char **info_split, t_scene *ptr_scene, t_func *table, uint8_t *ptr_check)
+int	init_scene(t_scene *ptr_scene)
 {
 	int	ret;
 	int	i;
 	
-	*ptr_check = FALSE;
-	if (info_split[0] == NULL)
-		return (SUCCESS);
+	ptr_scene->amb.lightning = -1;
+	ptr_scene->cam.fov = -1;
+	ptr_scene->light.brightness = -1;
+	ptr_scene->root = NULL;
 	i = 0;
-	while (i < NB_ITEM)
+	while (i < NB_INF)
 	{
-		if (ft_strcmp(info_split[0], table[i].name) == 0)
+		ret = ft_vector_init(&ptr_scene->inf_obj[i], sizeof(t_obj), 5, NULL);
+		if (ret != SUCCESS)
 		{
-			*ptr_check = TRUE;
-			ret = g_fill_item[i].f(info_split, ptr_scene);
-			return (ret);
+			while (i >= 0)
+			{
+				ft_vector_free(&ptr_scene->inf_obj[i]);
+				--i;
+			}
+			return (ERROR_MALLOC);
 		}
 		++i;
 	}
 	return (SUCCESS);
 }
 
-int	fill_scene_info(char *line, t_scene *ptr_scene)
+int	fill_scene_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
 {
 	int		ret;
-	char	**line_split;
-	uint8_t	check;
 
-	line_split = split_line(line, WHITE_SPACES);
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	ret = call_match(line_split, ptr_scene, g_table_item, &check);
-	if (ret != SUCCESS || check == TRUE)
+	if (ft_strncmp(line_split[0], "A", ft_strlen(line_split[0])) == 0)
 	{
-		free_split(line_split);
-		return (ret);
+		*ptr_check = TRUE;
+		ret = fill_ambient_info(line_split + 1, ptr_scene);
 	}
-	ret = fill_object_info(line_split, ptr_scene, &check);
-	free_split(line_split);
-	if (ret != SUCCESS)
+	else if (ft_strncmp(line_split[0], "C", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_camera_info(line_split + 1, ptr_scene);
+	}
+	else if (ft_strncmp(line_split[0], "L", ft_strlen(line_split[0])) == 0)
+	{
+		*ptr_check = TRUE;
+		ret = fill_light_info(line_split + 1, ptr_scene);
+	}
+	if (*ptr_check == TRUE)
 		return (ret);
-	if (check == FALSE)
-		return (INVALID_FILE);
 	return (SUCCESS);
 }
 
@@ -150,19 +149,35 @@ int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;
 	char	*line;
+	char	**line_split;
+	uint8_t	check;
 
-	init_scene(ptr_scene);
+	ret = init_scene(ptr_scene);
+	if (ret != SUCCESS)
+		return (ret);
 	line = NULL;
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)
 	{
-		ret = fill_scene_info(line, ptr_scene);
+		line_split = split_line(line, WHITE_SPACES);
+		if (line_split == NULL)
+		{
+			free(line);
+			return (ERROR_MALLOC);
+		}
+		check = FALSE;
+		ret = fill_scene_info(line_split, ptr_scene, &check);
+		if (check == FALSE)
+			ret = fill_object_info(line_split, ptr_scene, &check);
+		free_split(line_split);
 		free(line);
-		if (ret != SUCCESS)
-			return (ret);
+		if (ret != SUCCESS || check == FALSE)
+		{
+			if (ret != SUCCESS)
+				return (ret);
+			return (INVALID_FILE);
+		}
 		ret = get_line(fd, &line);
 	}
 	return (ret);
 }
-
-

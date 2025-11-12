@@ -6,13 +6,13 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/05 14:58:23 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/12 15:06:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "mlx.h"
 #include "libft.h"
 #include "window.h"
 
