@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/10/30 16:31:36 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 10:21:35 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int ac, char **av)
 	(void) ac; (void) av;
 	// int		err;
 	t_mlx	mlx;
-	// t_scene	scene;
+	t_scene	scene;
 
 	// err = parsing(ac, av, &scene);
 	// if (err)
@@ -49,9 +49,11 @@ int	main(int ac, char **av)
 	// print_scene(scene);
 	init_window(&mlx, av[1]);
 	// mlx_loop_hook(mlx.mlx, &);
-	t_color	c;
-	c.r = 36; c.g = 183; c.b = 94;
-	display_background(&mlx, c);
+	scene.amb.color.r = 255;
+	scene.amb.color.g = 255;
+	scene.amb.color.b = 255;
+	scene.amb.lightning = 0.8;
+	display_background(&mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);

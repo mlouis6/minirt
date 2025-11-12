@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/28 15:52:07 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 10:02:43 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_scene
 	t_ambient	amb;
 	t_camera	cam;
 	t_light		light;
-	t_bvh		*root;
+	// t_bvh		*root;
 }	t_scene;
 
 #endif

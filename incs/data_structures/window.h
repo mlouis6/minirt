@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/10/30 17:05:50 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/12 14:43:27 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # define VIEWPORT_HEIGHT 2.0
 # define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
 //??
+
+# define M_PI 3.14159265358979323846
 
 enum
 {
@@ -62,10 +64,12 @@ typedef	struct s_mlx
 }	t_mlx;
 
 # include "color.h"
+# include "scene.h"
 void	init_window(t_mlx *mlx, char *file);
 int		cross_button_handler(t_mlx *mlx);
 int		key_event(int key, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
-void	display_background(t_mlx *mlx, t_color c);
+// void	display_background(t_mlx *mlx, t_color c);
+void	display_background(t_mlx *mlx, t_scene scene);
 
 #endif

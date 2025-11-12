@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:01:21 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/04 15:03:46 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/04 15:15:15 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,11 @@ static double	integer_part(char *str, int *i)
 
 static double	fractional_part(char *str, int *i)
 {
-	double 	dec;
+	double	dec;
 	double	tmp;
 	double	cmp;
 	int		div;
-	
+
 	cmp = 0;
 	dec = 0;
 	div = 10;
