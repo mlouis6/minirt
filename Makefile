@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/07 20:27:08 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/12 14:57:25 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIB := ft matrix vector #m mlx Xext X11 z matrix
 
 LIB_TARGET := 	libft/libft.a 					\
 				libmatrix/libmatrix.a 			\
-				libvector/libvector.a
+				lib_vector/libvector.a			\
 				#minilibx-linux/libmlx_Linux.a 	\
 				#minilibx-libft/libmlx.a
 
@@ -36,9 +36,8 @@ SRC := 	parsing/parsing.c \
 		parsing/box_management.c \
 		parsing/math_utils.c \
 		parsing/get_types.c \
-		parsing/get_variable.c \
 		parsing/split_line.c \
-		main.c
+		main.c \
 #		window/window_manager.c \
 #		parsing/parsing_utils.c \ 
 
