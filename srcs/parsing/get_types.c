@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:42:11 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/12 14:54:13 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,86 +19,43 @@
 
 int	get_coordinates(char *line, t_pt3 *ptr_point)
 {
-	int		ret;
-	char	**line_split;
-	int		i;
+	char	*ptr_end;
 
-	line_split = split_line(line, ",");
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	i = 0;
-	ret = get_double(line_split[i], &ptr_point->x);
-	if (ret != SUCCESS)
-	{
-		free_split(line_split);
-		return (ret);
-	}
-	++i;
-	ret = get_double(line_split[i], &ptr_point->y);
-	if (ret != SUCCESS)
-	{
-		free_split(line_split);
-		return (ret);
-	}
-	++i;
-	ret = get_double(line_split[i], &ptr_point->z);
-	if (ret != SUCCESS)
-	{
-		free_split(line_split);
-		return (ret);
-	}
-	++i;
-	if (line_split[i] != NULL || line[ft_strlen(line) - 1] == ',')
-		ret = INVALID_FILE;
-	free_split(line_split);
-	return (ret);
+	ptr_point->x = ft_strtod(line, &ptr_end);
+	if (*ptr_end != ',')
+		return (INVALID_FILE);
+	line = ptr_end + 1;
+	ptr_point->y = ft_strtod(line, &ptr_end);
+	if (*ptr_end != ',')
+		return (INVALID_FILE);
+	line = ptr_end + 1;
+	ptr_point->z = ft_strtod(line, &ptr_end);
+	if (*ptr_end != '\0')
+		return (INVALID_FILE);
+	return (SUCCESS);
 }
 
 int	get_color(char *line, t_color *ptr_color)
 {
 	int		ret;
-	char	**line_split;
+	char	*ptr_end;
 	int		primary;
-	int		i;
 
-	line_split = split_line(line, ",");
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	i = 0;
-	ret = get_integer(line_split[i], &primary);
-	if (ret != SUCCESS || primary < 0 || primary > 255)
-	{
-		free_split(line_split);
-		if (ret != SUCCESS)
-			return (ret);
+	primary = ft_strtoi(line, &ptr_end);
+	if (*ptr_end != ',' || primary < 0 || primary > 255)
 		return (INVALID_FILE);
-	}
 	ptr_color->r = primary;
-	++i;
-	ret = get_integer(line_split[i], &primary);
-	if (ret != SUCCESS || primary < 0 || primary > 255)
-	{
-		free_split(line_split);
-		if (ret != SUCCESS)
-			return (ret);
+	line = ptr_end + 1;
+	primary = ft_strtoi(line, &ptr_end);
+	if (*ptr_end != ',' || primary < 0 || primary > 255)
 		return (INVALID_FILE);
-	}
 	ptr_color->g = primary;
-	++i;
-	ret = get_integer(line_split[i], &primary);
-	if (ret != SUCCESS || primary < 0 || primary > 255)
-	{
-		free_split(line_split);
-		if (ret != SUCCESS)
-			return (ret);
+	line = ptr_end + 1;
+	primary = ft_strtoi(line, &ptr_end);
+	if (*ptr_end != '\0' || primary < 0 || primary > 255)
 		return (INVALID_FILE);
-	}
 	ptr_color->b = primary;
-	++i;
-	if (line_split[i] != NULL)
-		ret = INVALID_FILE;
-	free_split(line_split);
-	return (ret);
+	return (SUCCESS);
 }
 
 double	powd(double n, int p)

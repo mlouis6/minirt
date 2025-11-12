@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/04 20:49:44 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/12 14:54:59 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define BUFF_SIZE 10
 
 int		handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
-char	*cut_endl2(char *s, int len_endl);
+char	*endl_cut(char *s, int len_endl);
 
 int	get_line(int fd, char **ptr_line)
 {
@@ -59,7 +59,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	len_endl = ft_strchr(buff, '\n') - buff;
 	if (len_endl >= 0)
 	{
-		endl = cut_endl2(buff, len_endl);
+		endl = endl_cut(buff, len_endl);
 		if (endl == NULL)
 		{
 			free(*ptr_line);
@@ -78,7 +78,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	return (SUCCESS);
 }
 
-char	*cut_endl2(char *s, int len_endl)
+char	*endl_cut(char *s, int len_endl)
 {
 	char	*end_line;
 	int		i;

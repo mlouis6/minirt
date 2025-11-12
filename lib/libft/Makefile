@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/07 17:05:43 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/27 14:06:04 by mlouis           ###   ########.fr        #
+#    Updated: 2025/11/12 14:51:29 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRCS := ft_isalpha.c				\
 		ft_itoa.c					\
 		ft_strmapi.c				\
 		ft_striteri.c				\
+		ft_strtoi.c					\
 		ft_putchar_fd.c				\
 		ft_putstr_fd.c				\
 		ft_putendl_fd.c				\
