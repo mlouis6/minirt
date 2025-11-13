@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 15:00:18 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/13 15:58:58 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 	else
 	{
 		ret = ft_vector_add_single(
-			&ptr_scene->inf_obj[node->obj.type - NB_INF], &node->obj);
+			&ptr_scene->inf_obj[node->obj.type - (NB_FINITE +1)], &node->obj);
 	}
 	if (ret != SUCCESS)
 		free(node);
@@ -80,8 +80,8 @@ int	fill_plane_info(char **line_split, t_obj *ptr_obj)
 
 int	fill_sphere_info(char **line_split, t_obj *ptr_obj)
 {
-	int	ret;
-	int	i;
+	int		ret;
+	int		i;
 	char	*endl;
 
 	endl = NULL;

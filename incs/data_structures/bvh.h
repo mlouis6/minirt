@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 18:48:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/03 21:43:05 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 15:48:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,5 @@ typedef struct s_bvh
 t_box	box_regroup(t_box box1, t_box box2);
 t_box	box_sphere(t_shape shape);
 t_box	box_cylinder(t_shape shape);
-
-static	t_box (*const g_box_finder[NB_FINITE])(t_shape) = 
-{
-	box_sphere,
-	box_cylinder
-};
 
 #endif
