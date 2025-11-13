@@ -6,11 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/10/28 15:43:20 by mlouis           ###   ########.fr       */
-=======
-/*   Updated: 2025/11/07 19:02:06 by cviel            ###   ########.fr       */
->>>>>>> corentin
+/*   Updated: 2025/11/13 14:04:12 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +19,6 @@
 
 # include "dim3.h"
 # include "color.h"
-# include "parsing.h"
 
 typedef enum e_type
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 20:25:24 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 14:46:02 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "libft.h"
 #include "ret_val.h"
 #include "scene.h"
@@ -25,27 +26,6 @@
 int		check_extension(int ac, char **av);
 int		get_scene(int fd, t_scene *ptr_scene);
 void	print_scene(t_scene scene);
-
-// int	parsing(int ac, char **av, t_scene *ptr_scene)
-// {
-//     int	ret;
-// 	int	fd;
-
-// 	ret = check_extension(ac, av);
-// 	if (ret != SUCCESS)
-// 		return (ret);
-// 	fd = open(av[1], O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		printf("Error\n");	
-// 		perror("open :");
-// 		return (ERROR_SYSCALL);
-// 	}
-// 	ret = get_scene(fd, ptr_scene);
-// 	if (ret != SUCCESS)
-// 		return (ret);
-// 	return (check_elements(*ptr_scene));
-// }
 
 int	parsing(int ac, char **av, t_scene *ptr_scene)
 {
@@ -121,28 +101,34 @@ int	init_scene(t_scene *ptr_scene)
 	return (SUCCESS);
 }
 
-int	fill_scene_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
+int	fill_scene_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
 
-	if (ft_strncmp(line_split[0], "A", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
-		ret = fill_ambient_info(line_split + 1, ptr_scene);
-	}
-	else if (ft_strncmp(line_split[0], "C", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
-		ret = fill_camera_info(line_split + 1, ptr_scene);
-	}
-	else if (ft_strncmp(line_split[0], "L", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
-		ret = fill_light_info(line_split + 1, ptr_scene);
-	}
-	if (*ptr_check == TRUE)
+	ret = -1;
+	if (!line_split[0])
 		return (ret);
-	return (SUCCESS);
+	if (ft_strncmp(line_split[0], "A", ft_strlen(line_split[0])) == 0)
+		ret = fill_ambient_info(line_split + 1, ptr_scene);
+	else if (ft_strncmp(line_split[0], "C", ft_strlen(line_split[0])) == 0)
+		ret = fill_camera_info(line_split + 1, ptr_scene);
+	else if (ft_strncmp(line_split[0], "L", ft_strlen(line_split[0])) == 0)
+		ret = fill_light_info(line_split + 1, ptr_scene);
+	return (ret);
+}
+
+int	dispatch_parsing(char **line_split, t_scene *ptr_scene)
+{
+	int		ret;
+
+	ret = fill_scene_info(line_split, ptr_scene);
+	if (ret == -1)
+	{
+		ret = fill_object_info(line_split, ptr_scene);
+		if (ret == -1)
+			return (SUCCESS);
+	}
+	return (ret);
 }
 
 int	get_scene(int fd, t_scene *ptr_scene)
@@ -150,7 +136,6 @@ int	get_scene(int fd, t_scene *ptr_scene)
 	int		ret;
 	char	*line;
 	char	**line_split;
-	uint8_t	check;
 
 	ret = init_scene(ptr_scene);
 	if (ret != SUCCESS)
@@ -160,23 +145,13 @@ int	get_scene(int fd, t_scene *ptr_scene)
 	while (ret == SUCCESS && line != NULL)
 	{
 		line_split = split_line(line, WHITE_SPACES);
-		if (line_split == NULL)
-		{
-			free(line);
-			return (ERROR_MALLOC);
-		}
-		check = FALSE;
-		ret = fill_scene_info(line_split, ptr_scene, &check);
-		if (check == FALSE)
-			ret = fill_object_info(line_split, ptr_scene, &check);
-		free_split(line_split);
 		free(line);
-		if (ret != SUCCESS || check == FALSE)
-		{
-			if (ret != SUCCESS)
-				return (ret);
-			return (INVALID_FILE);
-		}
+		if (line_split == NULL)
+			return (ERROR_MALLOC);
+		ret = dispatch_parsing(line_split, ptr_scene);
+		free_split(line_split);
+		if (ret != SUCCESS)
+			return (ret);
 		ret = get_line(fd, &line);
 	}
 	return (ret);

@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   fill_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 19:08:44 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 15:00:18 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <inttypes.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "libft.h"
 #include "ret_val.h"
 #include "objects.h"
@@ -19,52 +20,38 @@
 #include "scene.h"
 #include "parsing.h"
 
-void	print_bvh(t_bvh *root, int depth);
-
-int	fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check)
+int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
 	t_bvh	*node;
 
+	ret = -1;
+	if (!line_split[0])
+		return (ret);
 	node = malloc(sizeof(t_bvh));
 	if (node == NULL)
 		return (ERROR_MALLOC);
 	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
 		ret = fill_sphere_info(line_split + 1, &node->obj);
-	}
 	else if (ft_strncmp(line_split[0], "cy", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
 		ret = fill_cylinder_info(line_split + 1, &node->obj);
-	}
 	else if (ft_strncmp(line_split[0], "pl", ft_strlen(line_split[0])) == 0)
-	{
-		*ptr_check = TRUE;
 		ret = fill_plane_info(line_split + 1, &node->obj);
-	}
-	if (*ptr_check == TRUE)
+	if (ret != SUCCESS)
 	{
-		if (ret != SUCCESS)
-		{
-			free(node);
-			return (ret);
-		}
-		if (node->obj.type <= NB_FINITE)
-			ret = bvh_add(&ptr_scene->root, node);
-		else
-		{
-			ret = ft_vector_add_single(
-				&ptr_scene->inf_obj[node->obj.type - NB_INF], &node->obj);
-		}
-		if (ret != SUCCESS)
-		{
-			free(node);
-			return (ret);
-		}
+		free(node);
+		return (ret);
 	}
-	return (SUCCESS);
+	if (node->obj.type <= NB_FINITE)
+		ret = bvh_add(&ptr_scene->root, node);
+	else
+	{
+		ret = ft_vector_add_single(
+			&ptr_scene->inf_obj[node->obj.type - NB_INF], &node->obj);
+	}
+	if (ret != SUCCESS)
+		free(node);
+	return (ret);
 }
 
 int	fill_plane_info(char **line_split, t_obj *ptr_obj)
@@ -95,17 +82,17 @@ int	fill_sphere_info(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 	int	i;
+	char	*endl;
 
+	endl = NULL;
 	ptr_obj->type = SPHERE;
 	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.sphere.center);
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_double(line_split[i], &ptr_obj->shape.sphere.radius);
-	if (ret != SUCCESS)
-		return (ret);
-	if (ptr_obj->shape.sphere.radius < 0)
+	ptr_obj->shape.sphere.radius = ft_strtod(line_split[i], &endl);
+	if (*endl || ptr_obj->shape.sphere.radius < 0)
 		return (INVALID_FILE);
 	ptr_obj->shape.sphere.radius /= 2;
 	++i;
@@ -122,7 +109,9 @@ int	fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 	int	i;
+	char	*endl;
 
+	endl = NULL;
 	ptr_obj->type = CYLINDER;
 	i = 0;
 	ret = get_coordinates(line_split[i], &ptr_obj->shape.cyl.origin);
@@ -133,17 +122,13 @@ int	fill_cylinder_info(char **line_split, t_obj *ptr_obj)
 	if (ret != SUCCESS)
 		return (ret);
 	++i;
-	ret = get_double(line_split[i], &ptr_obj->shape.cyl.radius);
-	if (ret != SUCCESS)
-		return (ret);
-	if (ptr_obj->shape.sphere.radius < 0)
+	ptr_obj->shape.cyl.radius = ft_strtod(line_split[i], &endl);
+	if (*endl || ptr_obj->shape.sphere.radius < 0)
 		return (INVALID_FILE);
 	ptr_obj->shape.cyl.radius /= 2;
 	++i;
-	ret = get_double(line_split[i], &ptr_obj->shape.cyl.height);
-	if (ret != SUCCESS)
-		return (ret);
-	if (ptr_obj->shape.cyl.height < 0)
+	ptr_obj->shape.cyl.height = ft_strtod(line_split[i], &endl);
+	if (*endl || ptr_obj->shape.cyl.height < 0)
 		return (INVALID_FILE);
 	++i;
 	ret = get_color(line_split[i], &ptr_obj->color);

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/12 15:06:01 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/13 15:09:38 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static bool	check_window_size(t_mlx *mlx)
 
 void	init_window(t_mlx *mlx, char *file)
 {
-	ft_printf("FILE= [%s]\n", file);
 	mlx->height = WINDOW_HEIGHT;
 	mlx->width = WINDOW_WIDTH;
 	mlx->win = NULL;
@@ -46,8 +45,14 @@ void	init_window(t_mlx *mlx, char *file)
 		close_window(mlx);
 	if (!check_window_size(mlx))
 		exit (1);
-	mlx->win = mlx_new_window(mlx->mlx, mlx->width, mlx->height, "miniRT");
+	mlx->win = mlx_new_window(mlx->mlx, mlx->width, mlx->height, file);
 	if (!mlx->win)
+		close_window(mlx);
+	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
+	if (!mlx->img.img)
+		close_window(mlx);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
+	if (!mlx->img.addr)
 		close_window(mlx);
 }
 
@@ -186,9 +191,9 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 	while (i >= 0)
 	{
 		if (img.endian != 0)
-			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * scene.amb.color;
+			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * encode_color(scene.amb.color);
 		else
-			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * scene.amb.color;
+			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * encode_color(scene.amb.color);
 		i -= 8;
 	}
 }

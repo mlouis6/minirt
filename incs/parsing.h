@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/12 15:05:14 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/13 13:57:50 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define WHITE_SPACES "\t\n\v\f\r "
 
-# include "scene.h"
 # include "color.h"
+# include "scene.h"
 
 int	    parsing(int ac, char **av, t_scene *ptr_scene);
 int	    get_line(int fd, char **ptr_line);
@@ -26,17 +26,13 @@ int		get_line(int fd, char **ptr_line);
 int		fill_ambient_info(char **line_split, t_scene *ptr_scene);
 int		fill_camera_info(char **line_split, t_scene *ptr_scene);
 int		fill_light_info(char **line_split, t_scene *ptr_scene);
-int		fill_object_info(char **line_split, t_scene *ptr_scene, uint8_t *ptr_check);
+int		fill_object_info(char **line_split, t_scene *ptr_scene);
 int 	fill_plane_info(char **line_split, t_obj *ptr_obj);
 int 	fill_sphere_info(char **line_split, t_obj *ptr_obj);
 int 	fill_cylinder_info(char **line_split, t_obj *ptr_obj);
 int		get_coordinates(char *line, t_pt3 *ptr_point);
 int		get_norm_vect3(char *line, t_vect3 *ptr_vect3);
-int		get_double(char *line, double *nb);
-int		get_integer(char *line, int *nb);
 int		get_color(char *line, t_color *color);
-int		check_elements(t_scene scene);
 int		bvh_add(t_bvh **ptr_root, t_bvh *node);
-int		parse_scene(t_scene **scene, int fd);
 
 #endif

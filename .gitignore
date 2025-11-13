@@ -7,4 +7,5 @@ tmp/
 miniRT
 *.rt
 *.out.*
+*.log
 .gdb_history

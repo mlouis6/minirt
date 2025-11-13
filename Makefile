@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/12 15:12:01 by mlouis           ###   ########.fr        #
+#    Updated: 2025/11/13 13:44:16 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,14 +27,13 @@ LIB_TARGET := 	libft/libft.a 					\
 BUILD_DIR := .build
 
 SRC_DIR := srcs
-SRC := 	parsing/parsing.c \
-		parsing/parse_scene.c \
+SRC := 	parsing/box_management.c \
+		parsing/bvh_operations.c \
 		parsing/fill_object.c \
 		parsing/fill_scene.c \
 		parsing/get_line.c \
-		parsing/bvh_operations.c \
-		parsing/box_management.c \
 		parsing/get_types.c \
+		parsing/parsing.c \
 		parsing/split_line.c \
 		ray/ray.c \
 		window/window_manager.c \

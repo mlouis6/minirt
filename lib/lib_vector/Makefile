@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
+#    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/07 18:39:16 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/13 14:57:48 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DEPS = $(OBJS:.o=.d)
 LIB_DIR := ../libft/inc
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror -g3
 CPPFLAGS := $(addprefix -I,$(INC_DIR)) -MMD -MP
 LDFLAGS = $(addprefix -L,$(dir $(LIBS_TARGET)))
 MAKEFLAGS += --no-print-directory

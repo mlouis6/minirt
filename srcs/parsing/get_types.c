@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/12 14:54:13 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 14:10:03 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	get_coordinates(char *line, t_pt3 *ptr_point)
 
 int	get_color(char *line, t_color *ptr_color)
 {
-	int		ret;
 	char	*ptr_end;
 	int		primary;
 
