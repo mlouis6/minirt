@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 15:48:13 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 16:40:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,7 @@ int		get_coordinates(char *line, t_pt3 *ptr_point);
 int		get_norm_vect3(char *line, t_vect3 *ptr_vect3);
 int		get_color(char *line, t_color *color);
 int		bvh_add(t_bvh **ptr_root, t_bvh *node);
+void	free_inf(t_vector *inf_obj);
+void	free_bvh(t_bvh *root);
 
 #endif

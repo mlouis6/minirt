@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 15:58:58 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 16:52:52 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,33 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
 	t_bvh	*node;
+	t_obj	obj;
 
-	ret = -1;
+	ret = INVALID_FILE;
 	if (!line_split[0])
 		return (ret);
-	node = malloc(sizeof(t_bvh));
-	if (node == NULL)
-		return (ERROR_MALLOC);
 	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
-		ret = fill_sphere_info(line_split + 1, &node->obj);
+		ret = fill_sphere_info(line_split + 1, &obj);
 	else if (ft_strncmp(line_split[0], "cy", ft_strlen(line_split[0])) == 0)
-		ret = fill_cylinder_info(line_split + 1, &node->obj);
+		ret = fill_cylinder_info(line_split + 1, &obj);
 	else if (ft_strncmp(line_split[0], "pl", ft_strlen(line_split[0])) == 0)
-		ret = fill_plane_info(line_split + 1, &node->obj);
+		ret = fill_plane_info(line_split + 1, &obj);
 	if (ret != SUCCESS)
-	{
-		free(node);
 		return (ret);
-	}
-	if (node->obj.type <= NB_FINITE)
+	if (obj.type <= NB_FINITE)
+	{
+		node = NULL;
+		node = malloc(sizeof(t_bvh));
+		if (node == NULL)
+			return (ERROR_MALLOC);
+		ft_bzero(node, sizeof(node));
+		node->obj = obj;
 		ret = bvh_add(&ptr_scene->root, node);
+	}
 	else
 	{
 		ret = ft_vector_add_single(
-			&ptr_scene->inf_obj[node->obj.type - (NB_FINITE +1)], &node->obj);
+			&ptr_scene->inf_obj[obj.type - (NB_FINITE + 1)], &obj);
 	}
 	if (ret != SUCCESS)
 		free(node);

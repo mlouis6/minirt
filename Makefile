@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/13 15:52:39 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/13 16:35:26 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC := 	parsing/box_management.c \
 		parsing/get_types.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
+		parsing/free_all.c \
 		ray/ray.c \
 		main.c \
 		#window/window_manager.c \

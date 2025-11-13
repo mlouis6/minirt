@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 16:11:18 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 16:40:37 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ int	main(int ac, char **av)
 	print_scene(scene);
 	print_bvh(scene.root, 0);
 	print_infinite(scene.inf_obj);
+	free_inf(scene.inf_obj);
+	free_bvh(scene.root);
 	// init_window(&mlx, av[1]);
 	// mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	// mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
