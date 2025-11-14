@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 16:40:37 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:25:19 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 
 void	free_scene(t_scene *scene)
 {
-	(void) scene;
+	free_bvh(scene->root);
+	free_inf(scene->inf_obj);
 }
 
 void	print_infinite(t_vector *inf_obj)
@@ -74,7 +75,7 @@ void	print_bvh(t_bvh *root, int depth)
 		printf("_");
 		++i;
 	}
-	printf("object on node : %i, box : [%f -> %f] [%f -> %f] [%f -> %f]\n",
+	printf("object on node : %i, box : [%f -> %f] [%f -> %f] [%f-> %f]\n",
 		root->obj.type, root->box.x_min, root->box.x_max, root->box.y_min, root->box.y_max, root->box.z_min, root->box.z_max);
 	print_bvh(root->left, depth + 1);
 	print_bvh(root->right, depth + 1);
@@ -89,14 +90,16 @@ int	main(int ac, char **av)
 	err = parsing(ac, av, &scene);
 	if (err)
 	{
+		print_scene(scene);
+		print_bvh(scene.root, 0);
+		print_infinite(scene.inf_obj);
 		free_scene(&scene);
 		return (err);
 	}
 	print_scene(scene);
 	print_bvh(scene.root, 0);
 	print_infinite(scene.inf_obj);
-	free_inf(scene.inf_obj);
-	free_bvh(scene.root);
+	free_scene(&scene);
 	// init_window(&mlx, av[1]);
 	// mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	// mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);

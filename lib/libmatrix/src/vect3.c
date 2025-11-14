@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/03 22:51:59 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/14 17:23:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_vect3	vect3_add(t_vect3 v1, t_vect3 v2)
 
 	res.x = v1.x + v2.x;
 	res.y = v1.y + v2.y;
-	res.x = v1.x + v2.x;
+	res.z = v1.z + v2.z;
 	return (res);
 }
 
@@ -29,7 +29,7 @@ t_vect3	vect3_mult_nb(t_vect3 v, double nb)
 
 	res.x = v.x * nb;
 	res.y = v.y * nb;
-	res.x = v.x * nb;
+	res.z = v.z * nb;
 	return (res);
 }
 

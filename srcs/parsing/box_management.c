@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   box_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 20:28:22 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/12 15:11:33 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/14 17:25:05 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_box	box_cylinder(t_shape shape)
 
 t_box	box_regroup(t_box box1, t_box box2)
 {
-	t_box box;
+	t_box	box;
 
 	box.x_min = fmin(box1.x_min, box2.x_min);
 	box.x_max = fmax(box1.x_max, box2.x_max);

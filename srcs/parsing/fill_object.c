@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 16:52:52 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/14 16:57:00 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 	t_bvh	*node;
 	t_obj	obj;
 
-	ret = INVALID_FILE;
+	ret = -1;
 	if (!line_split[0])
 		return (ret);
 	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
@@ -39,12 +39,13 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 		return (ret);
 	if (obj.type <= NB_FINITE)
 	{
-		node = NULL;
 		node = malloc(sizeof(t_bvh));
 		if (node == NULL)
 			return (ERROR_MALLOC);
-		ft_bzero(node, sizeof(node));
 		node->obj = obj;
+		node->left = NULL;
+		node->right = NULL;
+		node->nb_leaves = 1;
 		ret = bvh_add(&ptr_scene->root, node);
 	}
 	else
