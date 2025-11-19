@@ -6,11 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/19 14:40:49 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/19 18:04:02 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dim3.h"
+#include <math.h>
 //mat4 * vect4
 
 t_vect3	vect3_add(t_vect3 v1, t_vect3 v2)

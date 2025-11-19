@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 15:11:11 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/19 18:16:30 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	print_scene(t_scene scene)
 // 	print_bvh(root->left, depth + 1);
 // 	print_bvh(root->right, depth + 1);
 // }
-
+#include "ray.h"
 int	main(int ac, char **av)
 {
 	int		err;
@@ -89,12 +89,14 @@ int	main(int ac, char **av)
 	err = parsing(ac, av, &scene);
 	if (err)
 	{
+		printf("NOPE\n");
 		free_scene(&scene);
 		return (err);
 	}
 	print_scene(scene);
 	// print_bvh(scene.root, 0);
 	init_window(&mlx, av[1]);
+	raycast_loop(scene.root, mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);

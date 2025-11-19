@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/13 13:44:16 by mlouis           ###   ########.fr        #
+#    Updated: 2025/11/14 09:02:48 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC := 	parsing/box_management.c \
 		parsing/get_types.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
+		ray/ray_utils.c \
 		ray/ray.c \
 		window/window_manager.c \
 		main.c

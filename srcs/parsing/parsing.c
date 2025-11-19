@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 14:46:02 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/19 18:16:11 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,10 @@ int	get_scene(int fd, t_scene *ptr_scene)
 		ret = dispatch_parsing(line_split, ptr_scene);
 		free_split(line_split);
 		if (ret != SUCCESS)
+		{
+			
 			return (ret);
+		}
 		ret = get_line(fd, &line);
 	}
 	return (ret);
