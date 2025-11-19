@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/19 18:38:08 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/19 19:29:25 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 # define VIEWPORT_HEIGHT 5.0
 # define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
 //??
-
-# define M_PI 3.14159265358979323846
 
 enum
 {
