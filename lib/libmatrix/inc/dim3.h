@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dim3.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:45:52 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/03 22:51:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/17 10:31:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,10 @@ t_vect3	vect3_add(t_vect3 v1, t_vect3 v2);
 t_vect3	vect3_mult_nb(t_vect3 v, double nb);
 double	vect3_mult(t_vect3 v1, t_vect3 v2);
 t_vect3	mat3_mult_vect3(t_mat3 mx, t_vect3 v);
+
+t_vect3	vect3_sub(t_vect3 v1, t_vect3 v2);
+t_vect3	vect3_normalize(t_vect3 vect);
+t_vect3 vect3_cross(t_vect3 v1, t_vect3 v2);
+t_vect3	vect3_div_nb(t_vect3 v, double nb);
 
 #endif
