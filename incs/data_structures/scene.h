@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/13 16:15:53 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/24 18:00:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # define t_vect3 t_pt3
 
-# include "dim3.h"
-# include "bvh.h"
-# include "color.h"
 # include "ft_vector.h"
+# include "dim3.h"
+# include "color.h"
+# include "objects.h"
 
 typedef struct s_ambient
 {
@@ -45,8 +45,7 @@ typedef struct s_scene
 	t_ambient	amb;
 	t_camera	cam;
 	t_light		light;
-	t_bvh		*root;
-	t_vector	inf_obj[NB_INF];
+	t_vector	obj[NB_OBJ];
 }	t_scene;
 
 #endif

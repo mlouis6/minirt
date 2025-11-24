@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/11/13 16:35:26 by cviel            ###   ########.fr        #
+#    Updated: 2025/11/24 18:16:27 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,17 +27,15 @@ LIB_TARGET := 	libft/libft.a 					\
 BUILD_DIR := .build
 
 SRC_DIR := srcs
-SRC := 	parsing/box_management.c \
-		parsing/bvh_operations.c \
-		parsing/fill_object.c \
+SRC := 	parsing/fill_object.c \
 		parsing/fill_scene.c \
 		parsing/get_line.c \
 		parsing/get_types.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
 		parsing/free_all.c \
-		ray/ray.c \
 		main.c \
+		#ray/ray.c \
 		#window/window_manager.c \
 
 SRC := $(SRC:%=$(SRC_DIR)/%)

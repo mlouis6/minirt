@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/14 16:57:00 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/24 18:04:29 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@
 #include "libft.h"
 #include "ret_val.h"
 #include "objects.h"
-#include "bvh.h"
 #include "scene.h"
 #include "parsing.h"
 
 int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
-	t_bvh	*node;
 	t_obj	obj;
 
 	ret = -1;
@@ -37,25 +35,10 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 		ret = fill_plane_info(line_split + 1, &obj);
 	if (ret != SUCCESS)
 		return (ret);
-	if (obj.type <= NB_FINITE)
-	{
-		node = malloc(sizeof(t_bvh));
-		if (node == NULL)
-			return (ERROR_MALLOC);
-		node->obj = obj;
-		node->left = NULL;
-		node->right = NULL;
-		node->nb_leaves = 1;
-		ret = bvh_add(&ptr_scene->root, node);
-	}
-	else
-	{
-		ret = ft_vector_add_single(
-			&ptr_scene->inf_obj[obj.type - (NB_FINITE + 1)], &obj);
-	}
+	ret = ft_vector_add_single(&ptr_scene->obj[obj.type], &obj);
 	if (ret != SUCCESS)
-		free(node);
-	return (ret);
+		return (ERROR_MALLOC);
+	return (SUCCESS);
 }
 
 int	fill_plane_info(char **line_split, t_obj *ptr_obj)
