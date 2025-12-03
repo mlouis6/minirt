@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/19 18:34:55 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/26 10:06:58 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,37 +232,163 @@
 // 	}
 // }
 
-static inline t_pt3	pt3_img_to_cam(double x, double y, double dist)
-{
-	return ((t_pt3) {x - VIEWPORT_WIDTH / 2, y - VIEWPORT_HEIGHT / 2, dist});
-}
+// t_vect3	vect3_translate(t_vect3 v1, t_vect3 v2)
+// {
+// 	t_vect3 res;
 
-t_vect3	vect3_translate(t_vect3 v1, t_vect3 v2)
-{
-	t_vect3 res;
+// 	res.x = v1.x + v2.x;
+// 	res.y = v1.y + v2.y;
+// 	res.z = v1.z + v2.z;
+// 	return (res);
+// }
 
-	res.x = v1.x + v2.x;
-	res.y = v1.y + v2.y;
-	res.z = v1.z + v2.z;
-	return (res);
-}
+// static inline t_pt3	pt3_img_to_cam(double x, double y, double dist, double VIEWPORT_WIDTH, double VIEWPORT_HEIGHT)
+// {
+// 	return ((t_pt3) {x + 0.5 - VIEWPORT_WIDTH / 2, y + 0.5 - VIEWPORT_HEIGHT / 2, dist});
+// }
+
+// static inline t_pt3	pt3_cam_to_img(double x, double y, double dist, double VIEWPORT_WIDTH, double VIEWPORT_HEIGHT)
+// {
+// 	return (vect3_translate((t_vect3){x - 0.5, y - 0.5, dist}, (t_vect3){VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT/2, 0}));
+// }
+
 
 #include <stdio.h>
+// void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene)
+// {
+// 	(void) bvh; (void) mlx; (void) scene;
+// 	// t_ray	ray;
+
+// 	// ray.origin = scene.cam.pos; // O
+// 	double	dist = 1; //focale
+// 	// t_vect3	vp_center_from_cam = {0,0, dist};
+	
+// 	double	VIEWPORT_WIDTH = 2 * tan(scene.cam.fov);
+// 	double	VIEWPORT_HEIGHT = VIEWPORT_WIDTH / RATIO;
+	
+// 	double	pixel_width = VIEWPORT_WIDTH / WINDOW_WIDTH;
+// 	double	pixel_height = VIEWPORT_HEIGHT / WINDOW_HEIGHT;
+// 	printf("(pixel= %.2fx%.2f)\n", pixel_width, pixel_height);
+
+// 	t_pt3	upper_left = pt3_img_to_cam(0, 0, dist, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+
+// 	// double	u = ()
+
+// 	printf("======== VIEWPORT ========\n");
+// 	printf("\t%.2fx%.2f\n", VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+// 	printf("[%.2f, %.2f, %.2f]\n", upper_left.x, upper_left.y, upper_left.z);
+// 	t_pt3	rand_pt = pt3_img_to_cam(5, 3, dist, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+// 	t_pt3	rand_ts = pt3_cam_to_img(-3, -2, 1, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+// 	// t_pt3	rand_ts = vect3_translate((t_vect3){-3,-2,1}, (t_vect3){VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT/2, 0});
+// 	printf("[%.2f, %.2f, %.2f]\n", rand_pt.x, rand_pt.y, rand_pt.z);
+// 	printf("[%.2f, %.2f, %.2f]\n", rand_ts.x, rand_ts.y, rand_ts.z);
+// }
+
+static inline t_pt3	pt3_img_to_cam(double x, double y, double dist, double VIEWPORT_WIDTH, double VIEWPORT_HEIGHT)
+{
+	return ((t_pt3) {x + 0.5 - VIEWPORT_WIDTH / 2, y + 0.5 - VIEWPORT_HEIGHT / 2, dist});
+}
+
+// static inline t_pt3	pt3_cam_to_img(double x, double y, double dist, double VIEWPORT_WIDTH, double VIEWPORT_HEIGHT)
+// {
+// 	return (vect3_translate((t_vect3){x - 0.5, y - 0.5, dist}, (t_vect3){VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT/2, 0}));
+// }
+
+int		number_hits(t_ray ray, t_obj object, t_scene scene)
+{
+	// TODO: delata check
+	// < 0 = 0 hits
+	// 0 = 1 hit
+	// > 0 = 2 hits
+	//! a = OP² ; b = 2 * vect3(ohm0) * vect(OP) ; c = ohmO² - r²
+	//? ohm = obj center ; r = obj ray
+	// O = ray.origin
+	// P = (x, y, focale)
+	// delta = b² - 4ac
+	double	a;
+	double	b;
+	double	c;
+	// t_vect3	omc = vect3_sub(ray.origin, object.shape.sphere.center);
+	
+	// a = 1;
+	// b = 2 * (vect3_mult(omc, ray.dir));
+	// c = vect3_mult(omc, omc) - pow(object.shape.sphere.radius, 2);
+
+ 	double	VIEWPORT_WIDTH = 2 * tan(scene.cam.fov);
+ 	double	VIEWPORT_HEIGHT = VIEWPORT_WIDTH / RATIO;
+	t_pt3	upper_left = pt3_img_to_cam(0, 0, 1, VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
+	t_vect3	omc = vect3_sub(object.shape.sphere.center, upper_left);
+
+	a = vect3_mult(ray.dir, ray.dir);
+	b = vect3_mult(vect3_mult_nb(ray.dir, -2), omc);
+	c = vect3_mult(omc, omc) - pow(object.shape.sphere.radius, 2);
+	
+	double delta;
+	delta = b * b - 4 * a * c;
+	
+	if (delta >= 0)
+		printf("[b=%.2f ; c=%.2f] delta= %.2f\t", b, c, delta);
+
+	if (delta > 0)
+		return (2);
+	if (delta == 0)
+		return (1);
+	return (0);
+}
+
+// bool	hit_sphere(t_ray ray, t_scene scene)
+// {
+	
+// }
+
+// void	print_pt3(t_pt3 p)
+// {
+// 	printf("[%.6f,%.6f,%.6f]", p.x, p.y, p.z);
+// }
+
+#include "ray.h"
+//TODO:
+// go throught window pixel
+// convert to viewport coordinate
+//? cast ray throught viewport
+//? check hits
+//? cast ray to light
+//? calculate color
+//? put color in window pixel
 void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene)
 {
 	(void) bvh; (void) mlx; (void) scene;
-	// t_ray	ray;
 
-	// ray.origin = scene.cam.pos; // O
-	double	dist = 1; //focale
-	// t_vect3	vp_center_from_cam = {0,0, dist};
-	t_pt3	upper_left = pt3_img_to_cam(0, 0, dist);
+	int	i;
+	int	j;
+	t_pt3	vp_pt;
+	t_ray	ray;
 
-	printf("======== VIEWPORT ========\n");
-	printf("\t%.2fx%.2f\n", VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-	printf("[%.2f, %.2f, %.2f]\n", upper_left.x, upper_left.y, upper_left.z);
-	t_pt3	rand_pt = pt3_img_to_cam(5, 3, dist);
-	t_pt3	rand_ts = vect3_translate((t_vect3){-3,-2,1}, (t_vect3){VIEWPORT_WIDTH/2, VIEWPORT_HEIGHT/2, 0});
-	printf("[%.2f, %.2f, %.2f]\n", rand_pt.x, rand_pt.y, rand_pt.z);
-	printf("[%.2f, %.2f, %.2f]\n", rand_ts.x, rand_ts.y, rand_ts.z);
+	t_obj test;
+
+	test.color.r = 0;
+	test.color.g = 255;
+	test.color.b = 0;
+	test.type = SPHERE;
+	test.shape.sphere.center = (t_pt3) {-60,10,90};
+	test.shape.sphere.radius = 30;
+
+	vp_pt.z = 1;
+	ray.origin = scene.cam.pos;
+	i = 0;
+	while (i < WINDOW_HEIGHT)
+	{
+		j = 0;
+		while (j < WINDOW_WIDTH)
+		{
+			vp_pt.x = (((j + 0.5) / WINDOW_WIDTH) - 0.5) * get_viewport_width(scene.cam);
+			vp_pt.y = (((i + 0.5) / WINDOW_HEIGHT) - 0.5) * get_viewport_height(scene.cam);
+			ray.dir = vect3_normalize(vect3_sub(vp_pt, ray.origin));
+			int	res = number_hits(ray, test, scene);
+			if (res)
+				printf("nb_hits= %d\n", res);
+			++j;
+		}
+		++i;
+	}
 }

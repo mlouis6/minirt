@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:51:42 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/19 18:08:16 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/25 11:50:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ inline t_pt3	ray_at(t_ray ray, double t);
 // void	calculate_t_axis(double t[3][2], t_ray ray, t_box box);
 // double	find_t_enter(t_ray ray, t_box box);
 // double	find_t_exit(t_ray ray, t_box box);
-inline double	get_viewport_height(t_camera cam);
-inline double	get_viewport_width(t_camera cam);
+double	get_viewport_height(t_camera cam);
+double	get_viewport_width(t_camera cam);
 
 
 void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene);

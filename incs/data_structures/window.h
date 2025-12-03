@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/19 19:29:25 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/25 10:36:16 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 //? const globals
 # define RATIO ((double) WINDOW_WIDTH / (double) WINDOW_HEIGHT)
 
-# define VIEWPORT_HEIGHT 5.0
-# define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
+// # define VIEWPORT_HEIGHT 5.0
+// # define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
 //??
 
 enum
