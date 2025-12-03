@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/03 14:05:08 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:17:07 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "window.h"
 #include "dim3.h"
 #include "color.h"
-#include "bvh.h"
 #include "objects.h"
 
 /** bool	hit_box(t_ray ray, t_box box)
@@ -72,7 +71,7 @@
 // u -> right
 // v -> right
 // dir is forward
-// void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene) //! RT1week
+// void	raycast_loop(t_mlx mlx, t_scene scene) //! RT1week
 // {
 // 	int		i;
 // 	int		j;
@@ -103,7 +102,7 @@
 // 		++j;
 // 	}
 
-// 	(void) bvh; (void) mlx;
+// 	(void) mlx;
 
 // 	ray.origin = scene.cam.pos; // should be const
 // 	ray.dir = vect3_normalize(vect3_sub(anchor, scene.cam.pos));
@@ -123,28 +122,7 @@
 // 			// t = vect3_add(scene.cam.pos, //
 
 // 			//! OLD STUFF TO MODIFY
-// 			// ray.dir.x = j;
-// 			// if (hit_bvh(ray, *bvh))
-// 			// {
-// 			// 	ray.tmax = find_t_exit(ray, bvh->box);
-// 			// 	if (bvh->left)
-// 			// 		raycast_loop(bvh->left, mlx, scene);
-// 			// 	else if (bvh->right)
-// 			// 		raycast_loop(bvh->right, mlx, scene);
-// 			// 	else
-// 			// 	{
-// 			// 		// TODO: get object
-// 			// 		// put_img_object(mlx.img, j, i, bvh->obj, scene);
-// 			// 		// put_img_object();
-// 			// 	}
-// 			// 	if (hit_plane(ray, scene.planes))
-// 			// 	{
-// 			// 		// put color cause should be closer
-// 			// 	}
-// 			// }
-// 			// // TODO: check for plane
-// 			// // loop if multiple planes
-// 			// put_img_ambient(mlx.img, j, i, scene.amb);
+
 // 			//! END OLD STUFF
 // 			++j;
 // 		}
@@ -152,7 +130,7 @@
 // 	}
 // }
 
-// void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene)
+// void	raycast_loop(t_mlx mlx, t_scene scene)
 // {
 // 	int		x;
 // 	int		y;
@@ -183,7 +161,7 @@
 // 		++y;
 // 	}
 
-// 	(void) bvh; (void) mlx;
+// 	(void) mlx;
 
 // 	ray.origin = scene.cam.pos; // should be const
 // 	ray.dir = vect3_normalize(vect3_sub(anchor, scene.cam.pos));
@@ -203,28 +181,7 @@
 // 			// t = vect3_add(scene.cam.pos, //
 
 // 			//! OLD STUFF TO MODIFY
-// 			// ray.dir.x = j;
-// 			// if (hit_bvh(ray, *bvh))
-// 			// {
-// 			// 	ray.tmax = find_t_exit(ray, bvh->box);
-// 			// 	if (bvh->left)
-// 			// 		raycast_loop(bvh->left, mlx, scene);
-// 			// 	else if (bvh->right)
-// 			// 		raycast_loop(bvh->right, mlx, scene);
-// 			// 	else
-// 			// 	{
-// 			// 		// TODO: get object
-// 			// 		// put_img_object(mlx.img, j, i, bvh->obj, scene);
-// 			// 		// put_img_object();
-// 			// 	}
-// 			// 	if (hit_plane(ray, scene.planes))
-// 			// 	{
-// 			// 		// put color cause should be closer
-// 			// 	}
-// 			// }
-// 			// // TODO: check for plane
-// 			// // loop if multiple planes
-// 			// put_img_ambient(mlx.img, j, i, scene.amb);
+
 // 			//! END OLD STUFF
 // 			++j;
 // 		}
@@ -254,9 +211,9 @@
 
 
 #include <stdio.h>
-// void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene)
+// void	raycast_loop(t_mlx mlx, t_scene scene)
 // {
-// 	(void) bvh; (void) mlx; (void) scene;
+// 	(void) mlx; (void) scene;
 // 	// t_ray	ray;
 
 // 	// ray.origin = scene.cam.pos; // O
@@ -355,9 +312,9 @@ int		number_hits(t_ray ray, t_obj object, t_scene scene)
 //? cast ray to light
 //? calculate color
 //? put color in window pixel
-void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene)
+void	raycast_loop(t_mlx mlx, t_scene scene)
 {
-	(void) bvh; (void) mlx; (void) scene;
+	(void) mlx; (void) scene;
 
 	int	i;
 	int	j;

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:51:42 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/25 11:50:31 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:15:13 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ double	get_viewport_height(t_camera cam);
 double	get_viewport_width(t_camera cam);
 
 
-void	raycast_loop(t_bvh *bvh, t_mlx mlx, t_scene scene);
+void	raycast_loop(t_mlx mlx, t_scene scene);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/12/03 14:06:15 by mlouis           ###   ########.fr        #
+#    Updated: 2025/12/03 14:41:14 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,15 @@
 
 NAME := miniRT
 
-INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc lib/lib_vector/inc #lib/minilibx-linux
+INC := lib/libft/inc incs incs/data_structures lib/libmatrix/inc lib/lib_vector/inc lib/minilibx-linux
 
-LIB := ft matrix vector m #mlx Xext X11 z
+LIB := ft matrix vector m mlx Xext X11 z
 
 LIB_TARGET := 	libft/libft.a 					\
 				libmatrix/libmatrix.a 			\
 				lib_vector/libvector.a			\
-				#minilibx-linux/libmlx_Linux.a 	\
-				#minilibx-libft/libmlx.a
+				minilibx-linux/libmlx_Linux.a 	\
+				minilibx-libft/libmlx.a
 
 BUILD_DIR := .build
 
@@ -36,7 +36,6 @@ SRC := 	parsing/fill_object.c \
 		ray/ray_utils.c \
 		ray/ray.c \
 		window/window_manager.c \
-		main.c
 		parsing/free_all.c \
 		collisions_check.c \
 		main.c \
@@ -62,7 +61,7 @@ $(LIB_TARGET):
 	$(MAKE) -C lib/libft
 	$(MAKE) -C lib/libmatrix
 	$(MAKE) -C lib/lib_vector
-#	$(MAKE) -C lib/minilibx-linux
+	$(MAKE) -C lib/minilibx-linux
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
@@ -82,7 +81,7 @@ fclean:
 	$(MAKE) fclean -C lib/libft
 	$(MAKE) fclean -C lib/libmatrix
 	$(MAKE) fclean -C lib/lib_vector
-	$(MAKE) fclean -C lib/minilibx-linux
+	$(MAKE) clean -C lib/minilibx-linux
 	rm -rf $(OBJ) $(DEPS) $(NAME)
 	rm -rf $(BUILD_DIR)
 

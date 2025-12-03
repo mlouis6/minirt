@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 09:01:52 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/25 11:59:51 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:15:22 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "window.h"
 #include "dim3.h"
 #include "color.h"
-#include "bvh.h"
 #include "objects.h"
 
 inline t_pt3	ray_at(t_ray ray, double t)
