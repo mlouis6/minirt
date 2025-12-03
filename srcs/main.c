@@ -6,50 +6,91 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/19 19:29:19 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:07:11 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mlx.h>
 #include <stdio.h>
 #include <unistd.h>
 #include "ret_val.h"
+//#include "mlx.h"
 #include "parsing.h"
 #include "window.h"
 #include "scene.h"
 #include "color.h"
 
+int	sphere_check(t_vect3 ray, t_sph sphere, t_pt3 *ptr_hit);
+
 void	free_scene(t_scene *scene)
 {
-	(void) scene;
+	free_obj(scene->obj);
 }
 
-void	print_infinite(t_vector *inf_obj)
+void	print_sphere(t_vector vector_sph)
 {
 	size_t	i;
-	size_t	j;
 
 	i = 0;
-	while (i < NB_INF)
+	while (i < vector_sph.size)
 	{
-		j = 0;
-		while (j < inf_obj[i].size)
-		{
-			printf("obj type = %d, coord [%f,%f,%f], normal vect [%f, %f,% f], color [%d, %d,%d]\n",
-				((t_obj *)inf_obj[i].data)->type,
-				((t_obj *)inf_obj[i].data)->shape.plane.origin.x,
-				((t_obj *)inf_obj[i].data)->shape.plane.origin.y,
-				((t_obj *)inf_obj[i].data)->shape.plane.origin.z,
-				((t_obj *)inf_obj[i].data)->shape.plane.normal.x,
-				((t_obj *)inf_obj[i].data)->shape.plane.normal.y,
-				((t_obj *)inf_obj[i].data)->shape.plane.normal.z,
-				((t_obj *)inf_obj[i].data)->color.r,
-				((t_obj *)inf_obj[i].data)->color.g,
-				((t_obj *)inf_obj[i].data)->color.b);
-			++j;
-		}
+		printf("obj type = %d, center [%f,%f,%f], radius %f\n",
+				((t_obj *)vector_sph.data)[i].type,
+				((t_obj *)vector_sph.data)[i].shape.sphere.center.x,
+				((t_obj *)vector_sph.data)[i].shape.sphere.center.y,
+				((t_obj *)vector_sph.data)[i].shape.sphere.center.z,
+				((t_obj *)vector_sph.data)[i].shape.sphere.radius);
 		++i;
 	}
+}
+
+void	print_cylinder(t_vector vector_cyl)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < vector_cyl.size)
+	{
+		printf("obj type = %d, origin [%f,%f,%f], radius = %f, normal [%f,%f,%f], height = %f\n",
+				((t_obj *)vector_cyl.data)[i].type,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.origin.x,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.origin.y,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.origin.z,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.radius,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.normal.x,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.normal.y,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.normal.z,
+				((t_obj *)vector_cyl.data)[i].shape.cyl.height);
+		++i;
+	}
+}
+
+void	print_plane(t_vector vector_plane)
+{
+	size_t	i;
+	
+	i = 0;
+	while (i < vector_plane.size)
+	{
+		printf("obj type = %d, coord [%f,%f,%f], normal vect [%f,%f,%f], color [%d,%d,%d]\n",
+			((t_obj *)vector_plane.data)[i].type,
+			((t_obj *)vector_plane.data)[i].shape.plane.origin.x,
+			((t_obj *)vector_plane.data)[i].shape.plane.origin.y,
+			((t_obj *)vector_plane.data)[i].shape.plane.origin.z,
+			((t_obj *)vector_plane.data)[i].shape.plane.normal.x,
+			((t_obj *)vector_plane.data)[i].shape.plane.normal.y,
+			((t_obj *)vector_plane.data)[i].shape.plane.normal.z,
+			((t_obj *)vector_plane.data)[i].color.r,
+			((t_obj *)vector_plane.data)[i].color.g,
+			((t_obj *)vector_plane.data)[i].color.b);
+		++i;
+	}
+}
+
+void	print_obj(t_vector *obj)
+{
+	print_sphere(obj[SPHERE]);
+	print_cylinder(obj[CYLINDER]);
+	print_plane(obj[PLANE]);
 }
 
 void	print_scene(t_scene scene)
@@ -61,40 +102,30 @@ void	print_scene(t_scene scene)
 	printf("L= [%.1f,%.1f,%.1f] [%.1f] [%d,%d,%d]\n", scene.light.pos.x, scene.light.pos.y, scene.light.pos.z,
 		scene.light.brightness, scene.light.color.r, scene.light.color.g, scene.light.color.b);
 }
-
-// void	print_bvh(t_bvh *root, int depth)
-// {
-// 	int	i;
-
-// 	if (root == NULL)
-// 		return ;
-// 	i = 0;
-// 	while (i < depth)
-// 	{
-// 		printf("_");
-// 		++i;
-// 	}
-// 	printf("object on node : %i, box : [%f -> %f] [%f -> %f] [%f -> %f]\n",
-// 		root->obj.type, root->box.x_min, root->box.x_max, root->box.y_min, root->box.y_max, root->box.z_min, root->box.z_max);
-// 	print_bvh(root->left, depth + 1);
-// 	print_bvh(root->right, depth + 1);
-// }
 #include "ray.h"
 int	main(int ac, char **av)
 {
 	int		err;
-	t_mlx	mlx;
+	//t_mlx	mlx;
 	t_scene	scene;
 
 	err = parsing(ac, av, &scene);
 	if (err)
 	{
-		printf("NOPE\n");
+		print_scene(scene);
+		print_obj(scene.obj);
 		free_scene(&scene);
 		return (err);
 	}
 	print_scene(scene);
-	// print_bvh(scene.root, 0);
+	print_obj(scene.obj);
+	t_vect3	hit;
+	int	ret = sphere_check(scene.cam.dir,
+		((t_obj *)scene.obj[SPHERE].data)[0].shape.sphere, &hit);
+	printf("%d\n", ret);
+	if (ret == TRUE)
+		printf("%f %f %f\n", hit.x, hit.y, hit.z);
+	free_scene(&scene);
 	init_window(&mlx, av[1]);
 	raycast_loop(scene.root, mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);

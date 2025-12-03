@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/19 18:16:11 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:07:34 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ int	init_scene(t_scene *ptr_scene)
 	ptr_scene->amb.lightning = -1;
 	ptr_scene->cam.fov = -1;
 	ptr_scene->light.brightness = -1;
-	ptr_scene->root = NULL;
+	ft_bzero(ptr_scene->obj, sizeof(t_vector) * NB_OBJ);
 	i = 0;
-	while (i < NB_INF)
+	while (i < NB_OBJ)
 	{
-		ret = ft_vector_init(&ptr_scene->inf_obj[i], sizeof(t_obj), 5, NULL);
+		ret = ft_vector_init(&ptr_scene->obj[i], sizeof(t_obj), 5, NULL);
 		if (ret != SUCCESS)
 		{
 			while (i >= 0)
 			{
-				ft_vector_free(&ptr_scene->inf_obj[i]);
+				ft_vector_free(&ptr_scene->obj[i]);
 				--i;
 			}
 			return (ERROR_MALLOC);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 13:57:50 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/24 18:05:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define WHITE_SPACES "\t\n\v\f\r "
 
 # include "color.h"
+# include "objects.h"
 # include "scene.h"
 
 int	    parsing(int ac, char **av, t_scene *ptr_scene);
@@ -33,6 +34,6 @@ int 	fill_cylinder_info(char **line_split, t_obj *ptr_obj);
 int		get_coordinates(char *line, t_pt3 *ptr_point);
 int		get_norm_vect3(char *line, t_vect3 *ptr_vect3);
 int		get_color(char *line, t_color *color);
-int		bvh_add(t_bvh **ptr_root, t_bvh *node);
+void	free_obj(t_vector *inf_obj);
 
 #endif

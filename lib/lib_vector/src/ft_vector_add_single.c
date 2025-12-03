@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:09:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 20:24:54 by cviel            ###   ########.fr       */
+/*   Updated: 2025/11/13 16:10:41 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ int	ft_vector_add_single(t_vector *ptr_vector, void *elem)
 	}
 	ft_memcpy(ptr_vector->data + ptr_vector->data_size * ptr_vector->size,
 		elem, ptr_vector->data_size);
+	++(ptr_vector->size);
 	return (OK);
 }

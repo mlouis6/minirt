@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/19 18:15:34 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/03 14:04:54 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,29 @@
 #include "libft.h"
 #include "ret_val.h"
 #include "objects.h"
-#include "bvh.h"
 #include "scene.h"
 #include "parsing.h"
 
 int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
-	t_bvh	*node;
+	t_obj	obj;
 
 	ret = -1;
 	if (!line_split[0])
 		return (ret);
-	node = malloc(sizeof(t_bvh));
-	if (node == NULL)
-		return (ERROR_MALLOC);
 	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
-		ret = fill_sphere_info(line_split + 1, &node->obj);
+		ret = fill_sphere_info(line_split + 1, &obj);
 	else if (ft_strncmp(line_split[0], "cy", ft_strlen(line_split[0])) == 0)
-		ret = fill_cylinder_info(line_split + 1, &node->obj);
+		ret = fill_cylinder_info(line_split + 1, &obj);
 	else if (ft_strncmp(line_split[0], "pl", ft_strlen(line_split[0])) == 0)
-		ret = fill_plane_info(line_split + 1, &node->obj);
+		ret = fill_plane_info(line_split + 1, &obj);
 	if (ret != SUCCESS)
-	{
-		free(node);
 		return (ret);
-	}
-	if (node->obj.type <= NB_FINITE)
-		ret = bvh_add(&ptr_scene->root, node);
-	else
-	{
-		ret = ft_vector_add_single(
-			&ptr_scene->inf_obj[node->obj.type - NB_INF], &node->obj);
-	}
+	ret = ft_vector_add_single(&ptr_scene->obj[obj.type], &obj);
 	if (ret != SUCCESS)
-		free(node);
-	return (ret);
+		return (ERROR_MALLOC);
+	return (SUCCESS);
 }
 
 int	fill_plane_info(char **line_split, t_obj *ptr_obj)
@@ -80,8 +67,8 @@ int	fill_plane_info(char **line_split, t_obj *ptr_obj)
 
 int	fill_sphere_info(char **line_split, t_obj *ptr_obj)
 {
-	int	ret;
-	int	i;
+	int		ret;
+	int		i;
 	char	*endl;
 
 	endl = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 14:04:12 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/11/24 18:00:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,14 @@
 # define OBJECTS_H
 
 # define t_vect3 t_pt3
-# define NB_FINITE 2
-# define NB_INF 1
+# define NB_OBJ 3
 
 # include "dim3.h"
 # include "color.h"
 
 typedef enum e_type
 {
-	NONE = 0,
-	SPHERE,
+	SPHERE = 0,
 	CYLINDER,
 	PLANE
 }	t_type;
