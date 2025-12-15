@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:45:52 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/03 22:51:45 by cviel            ###   ########.fr       */
+/*   Updated: 2025/12/15 17:17:53 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 # include <inttypes.h>
+
+#define t_pt3 t_vect3
 
 /** MATRIX 3 */
 typedef struct s_mat3
