@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 17:45:52 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/17 10:31:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/18 11:15:41 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 # include <inttypes.h>
+
+#define t_pt3 t_vect3
 
 /** MATRIX 3 */
 typedef struct s_mat3

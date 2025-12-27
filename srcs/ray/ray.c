@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/03 14:17:07 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/18 11:28:18 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -312,6 +312,10 @@ int		number_hits(t_ray ray, t_obj object, t_scene scene)
 //? cast ray to light
 //? calculate color
 //? put color in window pixel
+
+int	sphere_check(t_ray ray, t_sph sph, t_pt3 *ptr_hit);
+void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene);
+
 void	raycast_loop(t_mlx mlx, t_scene scene)
 {
 	(void) mlx; (void) scene;
@@ -327,8 +331,8 @@ void	raycast_loop(t_mlx mlx, t_scene scene)
 	test.color.g = 255;
 	test.color.b = 0;
 	test.type = SPHERE;
-	test.shape.sphere.center = (t_pt3) {-60,10,90};
-	test.shape.sphere.radius = 30;
+	test.shape.sphere.center = (t_pt3) {-40,10,30};
+	test.shape.sphere.radius = 20;
 
 	vp_pt.z = 1;
 	ray.origin = scene.cam.pos;
@@ -341,9 +345,9 @@ void	raycast_loop(t_mlx mlx, t_scene scene)
 			vp_pt.x = (((j + 0.5) / WINDOW_WIDTH) - 0.5) * get_viewport_width(scene.cam);
 			vp_pt.y = (((i + 0.5) / WINDOW_HEIGHT) - 0.5) * get_viewport_height(scene.cam);
 			ray.dir = vect3_normalize(vect3_sub(vp_pt, ray.origin));
-			int	res = number_hits(ray, test, scene);
+			int	res = sphere_check(ray, test.shape.sphere, &vp_pt);
 			if (res)
-				printf("nb_hits= %d\n", res);
+				put_img_object(mlx.img, j, i, test, scene);
 			++j;
 		}
 		++i;

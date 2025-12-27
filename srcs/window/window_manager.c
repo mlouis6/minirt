@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/13 15:09:38 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/27 16:42:17 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,9 +191,9 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 	while (i >= 0)
 	{
 		if (img.endian != 0)
-			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * encode_color(scene.amb.color);
+			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * encode_color(scene.amb.color) * scene.amb.lightning;
 		else
-			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * encode_color(scene.amb.color);
+			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * encode_color(scene.amb.color) * scene.amb.lightning;
 		i -= 8;
 	}
 }
@@ -214,25 +214,172 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 // 		i -= 8;
 // 	}
 // }
+void	raycast_loop(t_mlx mlx, t_scene scene);
+
+int	sphere_check(t_ray ray, t_sph sph, t_pt3 *ptr_hit);
+#include <stdio.h>
+
+//? VIEWPORT (world space)
+t_vect3	get_forward(void)
+{
+	return ((t_vect3) {0, 0, -1});
+}
+
+
+t_vect3	get_right(void)
+{
+	t_vect3 right;
+	t_vect3 tmp;
+
+	tmp = vect3_cross(get_forward(), (t_vect3) {0, 1, 0});
+	right = vect3_normalize(tmp);
+	return (right);
+}
+
+t_vect3	get_up(void)
+{
+	return (vect3_cross(get_forward(), get_right()));
+}
+
+t_pt3	get_vp_center(t_camera cam, double focale)
+{
+	t_pt3	center;
+
+	center = vect3_add(cam.pos, vect3_mult_nb(get_forward(), focale));
+	return (center);
+}
+
+t_pt3	get_vp_top_left(t_camera cam, double focale)
+{
+	t_pt3	vp_c;
+	t_pt3	vp_tl;
+
+	vp_c = get_vp_center(cam, focale);
+	vp_tl.x = vp_c.x - (get_viewport_width(cam) / 2);
+	vp_tl.y = vp_c.y + (get_viewport_height(cam) / 2); 
+	vp_tl.z = focale;
+	return (vp_tl);
+}
+
+t_pt3	get_vp_bottom_right(t_camera cam, double focale)
+{
+	t_pt3	vp_c;
+	t_pt3	vp_br;
+
+	vp_c = get_vp_center(cam, focale);
+	vp_br.x = vp_c.x + (get_viewport_width(cam) / 2);
+	vp_br.y = vp_c.y - (get_viewport_height(cam) / 2); 
+	vp_br.z = focale;
+	return (vp_br);
+}
+
+//TODO: init viewport in world space
+/**
+ * pt3 center vp = cam.origin + focale + get_forward();
+ * 
+ * top_left_vp.x = vp.center.x - (vp_width / 2);
+ * top_left_vp.y = vp.center.y - (vp_height / 2); 
+ * top_left_vp.z = focale;
+ * 
+ * buttom_right_vp.x = vp.center.x + (vp_width / 2);
+ * buttom_right_vp.y = vp.center.y + (vp_height / 2); 
+ * buttom_right_vp.z = focale;
+ * 
+ */
+
 
 void	display_background(t_mlx *mlx, t_scene scene)
 {
-	int		i;
-	int		j;
+
+	t_pt3	vp_pt;
+	t_ray	ray;
+
+	t_obj test;
+
+	test.color.r = 0;
+	test.color.g = 255;
+	test.color.b = 0;
+	test.type = SPHERE;
+	// test.shape.sphere.center = (t_pt3) {0.0,0.0,20.6};
+	// test.shape.sphere.radius = 12.6;
+	test.shape.sphere.center = (t_pt3) {-50,0,50};
+	test.shape.sphere.radius = 12.6;
+
+	vp_pt.z = 1;
+	// ray.origin = scene.cam.pos;
+	ray.origin = get_vp_center(scene.cam, 1);
 
 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
-	i = 0;
-	while (i < WINDOW_HEIGHT)
+
+	t_pt3	vp_tl = get_vp_top_left(scene.cam, 1);
+	t_pt3	vp_br = get_vp_bottom_right(scene.cam, 1);
+
+	printf("***VIEWPORT***\n");
+	printf("   %.2fx%.2f\n", get_viewport_height(scene.cam), get_viewport_width(scene.cam));
+	printf("**************\n\n");
+	printf("//TOP LEFT//\n");
+	printf("[%.2f, %.2f, %.2f]\n\n", vp_tl.x, vp_tl.y, vp_tl.z);
+	printf("//BOTTOM RIGHT//\n");
+	printf("[%.2f, %.2f, %.2f]\n\n", vp_br.x, vp_br.y, vp_br.z);
+
+	double		i;
+	double		j;
+
+	i = vp_br.y;
+	while (i < vp_tl.y)
 	{
-		j = 0;
-		while (j < WINDOW_WIDTH)
+		j = vp_tl.x;
+		while (j < vp_br.x)
 		{
-			put_img_ambient(mlx->img, j, i, scene.amb);
-			++j;
+			vp_pt.x = (((j + 0.5) / WINDOW_WIDTH) - 0.5) * get_viewport_width(scene.cam);
+			vp_pt.y = (((i + 0.5) / WINDOW_HEIGHT) - 0.5) * get_viewport_height(scene.cam);
+			ray.dir = vect3_normalize(vect3_sub(vp_pt, ray.origin));
+			int	res = sphere_check(ray, test.shape.sphere, &vp_pt);
+			if (res)
+			{
+				printf("lol\n");
+				put_img_object(mlx->img, j, i, test, scene);
+			}
+			else
+			{
+				put_img_ambient(mlx->img, j, i, scene.amb);
+			}
+			// raycast_loop(*mlx, scene);
+			j += 0.1;
 		}
-		++i;
+		i += 0.1;
 	}
+	
+	// int	i;
+	// int	j;
+
+	// i = 0;
+	// while (i < WINDOW_HEIGHT)
+	// {
+	// 	j = 0;
+	// 	while (j < WINDOW_WIDTH)
+	// 	{
+	// 		vp_pt.x = (((j + 0.5) / WINDOW_WIDTH) - 0.5) * get_viewport_width(scene.cam);
+	// 		vp_pt.y = (((i + 0.5) / WINDOW_HEIGHT) - 0.5) * get_viewport_height(scene.cam);
+	// 		ray.dir = vect3_normalize(vect3_sub(vp_pt, ray.origin));
+	// 		int	res = sphere_check(ray, test.shape.sphere, &vp_pt);
+	// 		if (res)
+	// 		{
+	// 			printf("lol\n");
+	// 			put_img_object(mlx->img, j, i, test, scene);
+	// 		}
+	// 		else
+	// 		{
+	// 			put_img_ambient(mlx->img, j, i, scene.amb);
+	// 		}
+	// 		// raycast_loop(*mlx, scene);
+	// 		++j;
+	// 		// j += 0.1;
+	// 	}
+	// 	++i;
+	// 	// i += 0.1;
+	// }
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
 

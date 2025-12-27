@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/03 14:40:03 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/27 16:13:51 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,21 @@ void	print_scene(t_scene scene)
 	printf("L= [%.1f,%.1f,%.1f] [%.1f] [%d,%d,%d]\n", scene.light.pos.x, scene.light.pos.y, scene.light.pos.z,
 		scene.light.brightness, scene.light.color.r, scene.light.color.g, scene.light.color.b);
 }
+
+void	print_error(int err)
+{
+	if (err == ERROR_ARGUMENT)
+		printf("Error\nWrong arg\n");
+	else if (err == ERROR_SYSCALL)
+		printf("Error\nsyscall issue\n");
+	else if (err == ERROR_MALLOC)
+		printf("Error\nCouldn't allocate properly\n");
+	else if (err == ERROR_FILENAME)
+		printf("Error\nExtention of file should be '.rt'\n");
+	else if (err == INVALID_FILE)
+		printf("Error\nFile formatting issue\n");
+}
+
 #include "ray.h"
 int	main(int ac, char **av)
 {
@@ -115,19 +130,21 @@ int	main(int ac, char **av)
 		print_scene(scene);
 		print_obj(scene.obj);
 		free_scene(&scene);
+		print_error(err);
 		return (err);
 	}
 	print_scene(scene);
 	print_obj(scene.obj);
-	t_vect3	hit;
-	int	ret = sphere_check(scene.cam.dir,
-		((t_obj *)scene.obj[SPHERE].data)[0].shape.sphere, &hit);
-	printf("%d\n", ret);
-	if (ret == TRUE)
-		printf("%f %f %f\n", hit.x, hit.y, hit.z);
+	// t_vect3	hit;
+	// int	ret = sphere_check(scene.cam.dir,
+	// 	((t_obj *)scene.obj[SPHERE].data)[0].shape.sphere, &hit);
+	// printf("%d\n", ret);
+	// if (ret == TRUE)
+	// 	printf("%f %f %f\n", hit.x, hit.y, hit.z);
 	free_scene(&scene);
 	init_window(&mlx, av[1]);
-	raycast_loop(mlx, scene);
+	// raycast_loop(mlx, scene);
+	display_background(&mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);

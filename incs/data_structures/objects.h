@@ -6,14 +6,13 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/24 18:00:18 by cviel            ###   ########.fr       */
+/*   Updated: 2025/12/15 17:16:31 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
 
-# define t_vect3 t_pt3
 # define NB_OBJ 3
 
 # include "dim3.h"

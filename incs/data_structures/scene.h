@@ -6,14 +6,12 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/24 18:00:11 by cviel            ###   ########.fr       */
+/*   Updated: 2025/12/15 17:16:26 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_H
 # define SCENE_H
-
-# define t_vect3 t_pt3
 
 # include "ft_vector.h"
 # include "dim3.h"
