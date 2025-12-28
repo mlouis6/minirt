@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/28 16:25:01 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/28 16:55:20 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,15 +152,19 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 {
 	char	*pix;
 	int		i;
-(void)scene;
+	t_color	c;
+
+	c.r = (obj.color.r * scene.amb.color.r)/255 * scene.amb.lightning;
+	c.g = (obj.color.g * scene.amb.color.g)/255 * scene.amb.lightning;
+	c.b = (obj.color.b * scene.amb.color.b)/255 * scene.amb.lightning;
 	i = img.bpp - 8;
 	pix = img.addr + (y * img.len + x * (img.bpp / 8));
 	while (i >= 0)
 	{
 		if (img.endian != 0)
-			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) + ((encode_color(scene.amb.color) >> i) & 0xFF) * scene.amb.lightning;
+			*pix++ = ((encode_color(c) >> i) & 0xFF);
 		else
-			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) + ((encode_color(scene.amb.color) >> i) & 0xFF) * scene.amb.lightning;
+			*pix++ = ((encode_color(c) >> (img.bpp - 8 - i)) & 0xFF);
 		i -= 8;
 	}
 }
