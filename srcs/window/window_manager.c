@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/28 12:33:24 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/28 16:25:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,49 +89,16 @@ static inline int	encode_color(t_color c)
 
 #include "ray.h"
 #include "dim3.h"
-#include "color.h"
-
-// int	hit_sphere(double radius, const t_ray r)
-// {
-// 	t_pt3 tmp = vect3_mult_nb(r.origin, -1);
-// 	t_vect3 oc = vect3_add(r.dir, tmp);
-// 	double a, b, c, discriminant;
-// 	a = vect3_mult(r.dir, r.dir);
-// 	b = -2.0 * vect3_mult(r.dir, oc);
-// 	c = vect3_mult(oc, oc) - radius * radius;
-// 	discriminant = b * b - 4 * a * c;
-// 	return (discriminant >= 0);
-// }
-
-// int	ray_color(const t_ray r)
-// {
-// 	t_color co;
-// 	t_color co1;
-// 	t_color co2;
-// 	co.r = 255; co.g = 0; co.b = 0;
-// 	co1.r = 255; co1.g = 255; co1.b = 255;
-// 	co2.r = 255 * 0.5; co2.g = 255 * 0.7; co2.b = 255;
-// 	if (hit_sphere(0.5, r))
-// 		return (encode_color(co));
-// 	double a = 0.5 * r.dir.y + 1.0;
-// 	return (1.0 - a) * encode_color(co1) + a * encode_color(co2);
-// }
 
 void	put_img(t_img img, int x, int y, int color)
 {
 	char	*pix;
 	int		i;
-	// t_color co;
-	// co.r = 255; co.g = 0; co.b = 0;
-	// t_ray	r;
 
-	// r.dir.x = 
 	i = img.bpp - 8;
 	pix = img.addr + (y * img.len + x * (img.bpp / 8));
 	while (i >= 0)
 	{
-		// if (hit_sphere(0.5, r))
-		// 	color = encode_color(co);
 		if (img.endian != 0)
 			*pix++ = ((color >> i) & 0xFF) * 0.2;
 		else
@@ -180,20 +147,20 @@ void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
 		i -= 8;
 	}
 }
-
+#include <stdio.h>
 void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 {
 	char	*pix;
 	int		i;
-
+(void)scene;
 	i = img.bpp - 8;
 	pix = img.addr + (y * img.len + x * (img.bpp / 8));
 	while (i >= 0)
 	{
 		if (img.endian != 0)
-			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) * encode_color(scene.amb.color) * scene.amb.lightning;
+			*pix++ = ((encode_color(obj.color) >> i) & 0xFF) + ((encode_color(scene.amb.color) >> i) & 0xFF) * scene.amb.lightning;
 		else
-			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) * encode_color(scene.amb.color) * scene.amb.lightning;
+			*pix++ = ((encode_color(obj.color) >> (img.bpp - 8 - i)) & 0xFF) + ((encode_color(scene.amb.color) >> i) & 0xFF) * scene.amb.lightning;
 		i -= 8;
 	}
 }
@@ -215,7 +182,9 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 // 	}
 // }
 
-int	sphere_check(t_ray ray, t_sph sph, t_pt3 *ptr_hit);
+int	sphere_check(t_ray ray, t_sph sph, double *t); // t_pt3 *ptr_hit);
+int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
+int	plane_check(t_ray ray, t_plane pl, double *t);
 #include <stdio.h>
 
 //? VIEWPORT (world space)
@@ -223,8 +192,13 @@ t_vect3	get_right(t_camera cam)
 {
 	t_vect3 right;
 	t_vect3 tmp;
+	t_vect3	up;
 
-	tmp = vect3_cross(cam.dir, (t_vect3) {0, 1, 0});
+	if (cam.dir.z != 0)
+		up = (t_vect3) {0, 1, 0};
+	else
+		up = (t_vect3) {0, 0, 1};
+	tmp = vect3_cross(cam.dir, up);
 	right = vect3_normalize(tmp);
 	return (right);
 }
@@ -252,18 +226,15 @@ t_pt3	get_vp_top_left(t_camera cam, double focale)
 	return (vp_tl);
 }
 
+// TODO:
+/**
+ * take closest hit
+ * loop through all objects
+ * cast ray to light
+ */
+
 void	display_background(t_mlx *mlx, t_scene scene)
 {
-	// SPHERE (test)
-	t_obj test;
-
-	test.color.r = 0;
-	test.color.g = 255;
-	test.color.b = 0;
-	test.type = SPHERE;
-	test.shape.sphere.center = (t_pt3) {-50,0,50};
-	test.shape.sphere.radius = 12.6;
-
 	// VIEWPORT
 	double	focale = 1.0;
 
@@ -277,34 +248,94 @@ void	display_background(t_mlx *mlx, t_scene scene)
 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
 
-	printf("****WINDOW****\n   %dx%d\n**************\n\n", WINDOW_HEIGHT, WINDOW_WIDTH);
-	printf("***VIEWPORT***\n   %.2fx%.2f\n**************\n\n", get_viewport_height(scene.cam), get_viewport_width(scene.cam));
-	printf("camera (fov= %d)\norigin [%.2f, %.2f, %.2f]\ndirection [%.2f, %.2f, %.2f]\n\n", scene.cam.fov, scene.cam.pos.x,  scene.cam.pos.y,  scene.cam.pos.z, scene.cam.dir.x, scene.cam.dir.y, scene.cam.dir.z);
-	printf("//TOP LEFT//\n[%.2f, %.2f, %.2f]\n\n", vp_tl.x, vp_tl.y, vp_tl.z);
-
 	int	i;
 	int	j;
 	t_pt3	curr_pt;
 	double	x;
 	double	y;
-	t_pt3	hit;
+	double	closest;
+	double	t;
 	
+	size_t k;
+
+	t_obj	obj;
+	int		hit;
+
 	i = 0;
+	ray.tmax = 1.0e30;
+
+	// t_obj test;
+
+	// test.color.r = 10;
+	// test.color.g = 0;
+	// test.color.b = 255;
+	// test.type = SPHERE;
+	// test.shape.sphere.center = (t_pt3) {-50,0,50};
+	// test.shape.sphere.radius = 12.6;
+
 	while (i < WINDOW_HEIGHT)
 	{
 		j = 0;
 		while (j < WINDOW_WIDTH)
 		{
+			hit = 0;
+			closest = ray.tmax;
 			x = (j + 0.5) * get_viewport_width(scene.cam) / WINDOW_WIDTH;
 			y = (i + 0.5) * get_viewport_height(scene.cam) / WINDOW_HEIGHT;
 			curr_pt = vect3_add(vp_tl, vect3_sub(vect3_mult_nb(get_right(scene.cam), x), vect3_mult_nb(get_up(scene.cam), y)));
-			
 			ray.dir = vect3_normalize(vect3_sub(curr_pt, ray.origin));
-			int	res = sphere_check(ray, test.shape.sphere, &hit);
-			// printf("curr_pt= [%.2f, %.2f, %.2f]\n", curr_pt.x, curr_pt.y, curr_pt.z);
-			if (res)
+			// sphere
+			k = 0;
+			while (k < scene.obj[SPHERE].size)
 			{
-				put_img_object(mlx->img, j, i, test, scene);
+				int	res = sphere_check(ray, ((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, &t);
+				if (res)
+				{
+					if (t < closest)
+					{
+						obj = ((t_obj *)scene.obj[SPHERE].data)[k];
+						closest = t;
+						hit = 1;
+					}
+				}
+				++k;
+			}
+			// cylinder
+			k = 0;
+			while (k < scene.obj[CYLINDER].size)
+			{
+				int	res = cylinder_check(ray, ((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, &t);
+				if (res)
+				{
+					if (t < closest)
+					{
+						obj = ((t_obj *)scene.obj[CYLINDER].data)[k];
+						closest = t;
+						hit = 1;
+					}
+				}
+				++k;
+			}
+			// plane
+			k = 0;
+			while (k < scene.obj[PLANE].size)
+			{
+				int	res = plane_check(ray, ((t_obj *)scene.obj[PLANE].data)[k].shape.plane, &t);
+				if (res)
+				{
+					if (t < closest)
+					{
+						obj = ((t_obj *)scene.obj[PLANE].data)[k];
+						closest = t;
+						++hit;
+					}
+				}
+				++k;
+			}
+
+			if (hit)
+			{
+				put_img_object(mlx->img, j, i, obj, scene);
 			}
 			else
 			{
