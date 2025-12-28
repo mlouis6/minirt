@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/27 16:13:51 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/28 15:17:38 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 #include "window.h"
 #include "scene.h"
 #include "color.h"
-
-int	sphere_check(t_vect3 ray, t_sph sphere, t_pt3 *ptr_hit);
 
 void	free_scene(t_scene *scene)
 {
@@ -141,12 +139,12 @@ int	main(int ac, char **av)
 	// printf("%d\n", ret);
 	// if (ret == TRUE)
 	// 	printf("%f %f %f\n", hit.x, hit.y, hit.z);
-	free_scene(&scene);
 	init_window(&mlx, av[1]);
 	// raycast_loop(mlx, scene);
 	display_background(&mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);
+	free_scene(&scene);
 	return (0);
 }

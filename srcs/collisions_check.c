@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/18 09:31:09 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/28 15:17:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 double	min_pos(double t1, double t2);
 t_vect3	orth(t_vect3 u, t_vect3 OM);
 
-int	sphere_check(t_ray ray, t_sph sph, t_pt3 *ptr_hit)
+int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 {
 	t_vect3	oc;
 	t_coef	coef;
@@ -35,21 +35,23 @@ int	sphere_check(t_ray ray, t_sph sph, t_pt3 *ptr_hit)
 	sol1 = -coef.b / (2 * coef.a);
 	if (coef.delta == 0 && sol1 > 0)
 	{
-		*ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
+		*t = sol1;
+		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 		return (TRUE);
 	}
 	sol1 = (-coef.b - sqrt(coef.delta)) / (2 * coef.a);
 	sol2 = (-coef.b + sqrt(coef.delta)) / (2 * coef.a);
 	if (coef.delta > 0 && min_pos(sol1, sol2) > 0)
 	{
-		*ptr_hit = vect3_add(ray.origin,
-				vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
+		*t = min_pos(sol1, sol2);
+		// *ptr_hit = vect3_add(ray.origin,
+		// 		vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	cylinder_check(t_ray ray, t_cyl cyl, t_pt3 *ptr_hit)
+int	cylinder_check(t_ray ray, t_cyl cyl, double *t) //, t_pt3 *ptr_hit)
 {
 	t_vect3	oc_orth;
 	t_vect3	ray_orth;
@@ -67,21 +69,23 @@ int	cylinder_check(t_ray ray, t_cyl cyl, t_pt3 *ptr_hit)
 	sol1 = -coef.b / (2 * coef.a);
 	if (coef.delta == 0 && sol1 > 0)
 	{
-		*ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
+		*t = sol1;
+		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 		return (TRUE);
 	}
 	sol1 = (-coef.b - sqrt(coef.delta)) / (2 * coef.a);
 	sol2 = (-coef.b + sqrt(coef.delta)) / (2 * coef.a);
 	if (coef.delta > 0 && min_pos(sol1, sol2) > 0)
 	{
-		*ptr_hit = vect3_add(ray.origin,
-				vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
+		*t = min_pos(sol1, sol2);
+		// *ptr_hit = vect3_add(ray.origin,
+		// 		vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	plane_check(t_ray ray, t_plane pl, t_pt3 *ptr_hit)
+int	plane_check(t_ray ray, t_plane pl, double *t) //, t_pt3 *ptr_hit)
 {
 	t_vect3	oc;
 	double	sol;
@@ -90,7 +94,8 @@ int	plane_check(t_ray ray, t_plane pl, t_pt3 *ptr_hit)
 	sol = vect3_mult(oc, pl.normal) / vect3_mult(ray.dir, pl.normal);
 	if (sol > 0)
 	{
-		*ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol));
+		*t = sol;
+		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol));
 		return (TRUE);
 	}
 	return (FALSE);
