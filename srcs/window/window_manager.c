@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 17:52:35 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 18:42:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	init_window(t_mlx *mlx, char *file)
 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
 	if (!mlx->img.img)
 		close_window(mlx);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
+	mlx->img.addr = mlx_get_data_addr(
+			mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
 	if (!mlx->img.addr)
 		close_window(mlx);
 }
@@ -68,7 +69,7 @@ int	key_event(int key, t_mlx *mlx)
 		close_window(mlx);
 	return (0);
 }
-#include <stdio.h>
+
 int	close_window(t_mlx *mlx) // , int err_stage)
 {
 	if (mlx->img.img)
@@ -80,225 +81,214 @@ int	close_window(t_mlx *mlx) // , int err_stage)
 	exit(1);
 }
 
-#include "color.h"
+// static inline int	encode_color(t_color c)
+// {
+// 	return (c.r << 16 | c.g << 8 | c.b);
+// }
 
-static inline int	encode_color(t_color c)
-{
-	return (c.r << 16 | c.g << 8 | c.b);
-}
+// void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi)
+// {
+// 	char	*pix;
+// 	int		i;
 
-#include "ray.h"
-#include "dim3.h"
+// 	i = img.bpp - 8;
+// 	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
+// 	while (i >= 0)
+// 	{
+// 		if (img.endian != 0)
+// 			*pix++ = ((encode_color(ambi.color) >> i) & 0xFF) * ambi.lightning;
+// 		else
+// 			*pix++ = ((encode_color(ambi.color) >> (img.bpp - 8 - i))
+// 					& 0xFF) * ambi.lightning;
+// 		i -= 8;
+// 	}
+// }
 
-void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi)
-{
-	char	*pix;
-	int		i;
+// void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene)
+// {
+// 	char	*pix;
+// 	int		i;
+// 	t_color	c;
 
-	i = img.bpp - 8;
-	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
-	while (i >= 0)
-	{
-		if (img.endian != 0)
-			*pix++ = ((encode_color(ambi.color) >> i) & 0xFF) * ambi.lightning;
-		else
-			*pix++ = ((encode_color(ambi.color) >> (img.bpp - 8 - i)) & 0xFF) * ambi.lightning;
-		i -= 8;
-	}
-}
-#include <stdio.h>
-void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene)
-{
-	char	*pix;
-	int		i;
-	t_color	c;
+// 	c.r = (obj.color.r * scene.amb.color.r) / 255 * scene.amb.lightning;
+// 	c.g = (obj.color.g * scene.amb.color.g) / 255 * scene.amb.lightning;
+// 	c.b = (obj.color.b * scene.amb.color.b) / 255 * scene.amb.lightning;
+// 	i = img.bpp - 8;
+// 	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
+// 	while (i >= 0)
+// 	{
+// 		if (img.endian != 0)
+// 			*pix++ = ((encode_color(c) >> i) & 0xFF);
+// 		else
+// 			*pix++ = ((encode_color(c) >> (img.bpp - 8 - i)) & 0xFF);
+// 		i -= 8;
+// 	}
+// }
 
-	c.r = (obj.color.r * scene.amb.color.r)/255 * scene.amb.lightning;
-	c.g = (obj.color.g * scene.amb.color.g)/255 * scene.amb.lightning;
-	c.b = (obj.color.b * scene.amb.color.b)/255 * scene.amb.lightning;
-	i = img.bpp - 8;
-	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
-	while (i >= 0)
-	{
-		if (img.endian != 0)
-			*pix++ = ((encode_color(c) >> i) & 0xFF);
-		else
-			*pix++ = ((encode_color(c) >> (img.bpp - 8 - i)) & 0xFF);
-		i -= 8;
-	}
-}
+// t_vect3	get_right(t_camera cam)
+// {
+// 	t_vect3	right;
+// 	t_vect3	tmp;
+// 	t_vect3	up;
 
-int	sphere_check(t_ray ray, t_sph sph, double *t); // t_pt3 *ptr_hit);
-int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
-int	plane_check(t_ray ray, t_plane pl, double *t);
-#include <stdio.h>
+// 	if (cam.dir.z != 0)
+// 		up = (t_vect3){0, 1, 0};
+// 	else
+// 		up = (t_vect3){0, 0, 1};
+// 	tmp = vect3_cross(cam.dir, up);
+// 	right = vect3_normalize(tmp);
+// 	return (right);
+// }
 
-//? VIEWPORT (world space)
-t_vect3	get_right(t_camera cam)
-{
-	t_vect3 right;
-	t_vect3 tmp;
-	t_vect3	up;
+// t_vect3	get_up(t_camera cam)
+// {
+// 	return (vect3_cross(cam.dir, get_right(cam)));
+// }
 
-	if (cam.dir.z != 0)
-		up = (t_vect3) {0, 1, 0};
-	else
-		up = (t_vect3) {0, 0, 1};
-	tmp = vect3_cross(cam.dir, up);
-	right = vect3_normalize(tmp);
-	return (right);
-}
+// t_pt3	get_vp_center(t_camera cam, double focale)
+// {
+// 	t_pt3	center;
 
-t_vect3	get_up(t_camera cam)
-{
-	return (vect3_cross(cam.dir, get_right(cam)));
-}
+// 	center = vect3_add(cam.pos, vect3_mult_nb(cam.dir, focale));
+// 	return (center);
+// }
 
-t_pt3	get_vp_center(t_camera cam, double focale)
-{
-	t_pt3	center;
+// t_pt3	get_vp_top_left(t_camera cam, double focale)
+// {
+// 	t_pt3	vp_c;
+// 	t_pt3	vp_tl;
 
-	center = vect3_add(cam.pos, vect3_mult_nb(cam.dir, focale));
-	return (center);
-}
+// 	vp_c = get_vp_center(cam, focale);
+// 	vp_tl = vect3_add(vect3_sub(vp_c,
+// 				vect3_mult_nb(get_right(cam), get_viewport_width(cam) / 2)),
+// 			vect3_mult_nb(get_up(cam), get_viewport_height(cam) / 2));
+// 	return (vp_tl);
+// }
 
-t_pt3	get_vp_top_left(t_camera cam, double focale)
-{
-	t_pt3	vp_c;
-	t_pt3	vp_tl;
+// t_vp	init_viewport(t_camera cam)
+// {
+// 	t_vp	vp;
 
-	vp_c = get_vp_center(cam, focale);
-	vp_tl = vect3_add(vect3_sub(vp_c,
-		vect3_mult_nb(get_right(cam), get_viewport_width(cam)/2)),
-		vect3_mult_nb(get_up(cam), get_viewport_height(cam)/2));
-	return (vp_tl);
-}
+// 	vp.focale = 1.0;
+// 	vp.height = get_viewport_height(cam);
+// 	vp.width = get_viewport_width(cam);
+// 	vp.top_left = get_vp_top_left(cam, vp.focale);
+// 	return (vp);
+// }
 
+// t_ray	init_ray(t_camera cam)
+// {
+// 	t_ray	ray;
 
-t_vp	init_viewport(t_camera cam)
-{
-	t_vp	vp;
+// 	ray.tmax = 1.0e30;
+// 	ray.curr_t = ray.tmax;
+// 	ray.origin = cam.pos;
+// 	return (ray);
+// }
 
-	vp.focale = 1.0;
-	vp.height = get_viewport_height(cam);
-	vp.width = get_viewport_width(cam);
-	vp.top_left = get_vp_top_left(cam, vp.focale);
-	return (vp);
-}
+// int	dispatch_func_call(t_type OBJ, t_scene scene, size_t k, double *t)
+// {
+// 	int	res;
 
-t_ray	init_ray(t_camera cam)
-{
-	t_ray	ray;
+// 	res = 0;
+// 	if (OBJ == SPHERE)
+// 	{
+// 		res = sphere_check(scene.ray,
+// 				((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
+// 	}
+// 	else if (OBJ == CYLINDER)
+// 	{
+// 		res = cylinder_check(scene.ray,
+// 				((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
+// 	}
+// 	else if (OBJ == PLANE)
+// 	{
+// 		res = plane_check(scene.ray,
+// 				((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
+// 	}
+// 	return (res);
+// }
 
-	ray.tmax = 1.0e30;
-	ray.curr_t = ray.tmax;
-	ray.origin = cam.pos;
-	return (ray);
-}
+// int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj)
+// {
+// 	if (t < *closest)
+// 	{
+// 		*closest = t;
+// 		*obj = curr_obj;
+// 		return (true);
+// 	}
+// 	return (false);
+// }
 
-int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t)
-{
-	int	res;
+// int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
+// {
+// 	size_t	k;
+// 	t_type	obj_type;
+// 	int		res;
+// 	double	t;
+// 	int		hit;
 
-	res = 0;
-	if (OBJ == SPHERE)
-	{
-		res = sphere_check(ray, 
-			((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
-	}
-	else if (OBJ == CYLINDER)
-	{
-		res = cylinder_check(ray,
-			((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
-	}
-	else if (OBJ == PLANE)
-	{
-		res = plane_check(ray,
-			((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
-	}
-	return (res);
-}
+// 	obj_type = 0;
+// 	hit = 0;
+// 	ray->tmax = 1.0e30;
+// 	while (obj_type < NB_TYPE)
+// 	{
+// 		k = 0;
+// 		while (k < scene.obj[obj_type].size)
+// 		{
+// 			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
+// 			if (res && check_closest(t, &(ray->tmax), obj,
+// 					&((t_obj *)scene.obj[obj_type].data)[k]))
+// 				hit = 1;
+// 			++k;
+// 		}
+// 		++obj_type;
+// 	}
+// 	return (hit);
+// }
 
-int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj)
-{
-	if (t < *closest)
-	{
-		*closest = t;
-		*obj = curr_obj;
-		return (true);
-	}
-	return (false);
-}
+// void	complete_scene(t_scene *ptr_scene)
+// {
+// 	ptr_scene->vp = init_viewport(ptr_scene->cam);
+// 	ptr_scene->ray = init_ray(ptr_scene->cam);
+// }
 
-int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
-{
-	size_t 	k;
-	t_type	obj_type;
-	int		res;
-	double	t;
-	int		hit;
+// t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl)
+// {
+// 	t_pt3	vp_pt;
 
-	obj_type = 0;
-	hit = 0;
-	ray->tmax = 1.0e30;
-	while (obj_type < NB_TYPE)
-	{
-		k = 0;
-		while (k < scene.obj[obj_type].size)
-		{
-			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
-			if (res && check_closest(t, &(ray->tmax), obj,
-				&((t_obj *)scene.obj[obj_type].data)[k]))
-				hit = 1;
-			++k;
-		}
-		++obj_type;
-	}
-	return (hit);
-}
+// 	vp_pt.z = 0;
+// 	vp_pt.x = (win_pxl.x + 0.5) * scene.vp.width / WINDOW_WIDTH;
+// 	vp_pt.y = (win_pxl.y + 0.5) * scene.vp.height / WINDOW_HEIGHT;
+// 	vp_pt = vect3_add(scene.vp.top_left, vect3_sub(
+// 				vect3_mult_nb(get_right(scene.cam), vp_pt.x),
+// 				vect3_mult_nb(get_up(scene.cam), vp_pt.y)));
+// 	return (vp_pt);
+// }
 
-void	complete_scene(t_scene *ptr_scene)
-{
-	ptr_scene->vp = init_viewport(ptr_scene->cam);
-	ptr_scene->ray = init_ray(ptr_scene->cam);
-}
+// void	display_background(t_mlx *mlx, t_scene scene)
+// {
+// 	t_pxl	win_pxl;
+// 	t_obj	*obj;
 
-t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl)
-{
-	t_pt3 vp_pt;
-
-	vp_pt.z = 0;
-	vp_pt.x = (win_pxl.x + 0.5) * scene.vp.width / WINDOW_WIDTH;
-	vp_pt.y = (win_pxl.y + 0.5) * scene.vp.height / WINDOW_HEIGHT;
-	vp_pt = vect3_add(scene.vp.top_left, vect3_sub(
-				vect3_mult_nb(get_right(scene.cam), vp_pt.x),
-				vect3_mult_nb(get_up(scene.cam), vp_pt.y)));
-	return (vp_pt);
-}
-
-void	display_background(t_mlx *mlx, t_scene scene)
-{
-	t_pxl	win_pxl;
-	t_obj	*obj;
-
-	obj = NULL;
-	complete_scene(&scene);
-	win_pxl.y = 0;
-	while (win_pxl.y < WINDOW_HEIGHT)
-	{
-		win_pxl.x = 0;
-		while (win_pxl.x < WINDOW_WIDTH)
-		{
-			scene.vp.curr_pt = pixel_to_vp_pt(scene, win_pxl);
-			scene.ray.dir = vect3_normalize(
-				vect3_sub(scene.vp.curr_pt, scene.ray.origin));
-			if (loop_objects(scene, &scene.ray, &obj))
-				put_img_object(mlx->img, win_pxl, *obj, scene);
-			else
-				put_img_ambient(mlx->img, win_pxl, scene.amb);
-			++(win_pxl.x);
-		}
-		++(win_pxl.y);
-	}
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
-}
+// 	obj = NULL;
+// 	complete_scene(&scene);
+// 	win_pxl.y = 0;
+// 	while (win_pxl.y < WINDOW_HEIGHT)
+// 	{
+// 		win_pxl.x = 0;
+// 		while (win_pxl.x < WINDOW_WIDTH)
+// 		{
+// 			scene.vp.curr_pt = pixel_to_vp_pt(scene, win_pxl);
+// 			scene.ray.dir = vect3_normalize(
+// 					vect3_sub(scene.vp.curr_pt, scene.ray.origin));
+// 			if (loop_objects(scene, &scene.ray, &obj))
+// 				put_img_object(mlx->img, win_pxl, *obj, scene);
+// 			else
+// 				put_img_ambient(mlx->img, win_pxl, scene.amb);
+// 			++(win_pxl.x);
+// 		}
+// 		++(win_pxl.y);
+// 	}
+// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
+// }

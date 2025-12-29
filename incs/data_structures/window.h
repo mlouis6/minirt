@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 17:30:25 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 18:52:36 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,9 @@ typedef	struct s_mlx
 	t_img	img;
 }	t_mlx;
 
-# include "color.h"
-# include "scene.h"
 void	init_window(t_mlx *mlx, char *file);
 int		cross_button_handler(t_mlx *mlx);
 int		key_event(int key, t_mlx *mlx);
 int		close_window(t_mlx *mlx);
-// void	display_background(t_mlx *mlx, t_color c);
-void	display_background(t_mlx *mlx, t_scene scene);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/12/03 14:41:14 by mlouis           ###   ########.fr        #
+#    Updated: 2025/12/29 19:07:41 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,9 +33,11 @@ SRC := 	parsing/fill_object.c \
 		parsing/get_types.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
-		ray/ray_utils.c \
 		ray/ray.c \
 		window/window_manager.c \
+		window/viewport.c \
+		window/color.c \
+		window/display.c \
 		parsing/free_all.c \
 		collisions_check.c \
 		main.c \

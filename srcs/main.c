@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/28 15:17:38 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 19:08:09 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	main(int ac, char **av)
 	// 	printf("%f %f %f\n", hit.x, hit.y, hit.z);
 	init_window(&mlx, av[1]);
 	// raycast_loop(mlx, scene);
-	display_background(&mlx, scene);
+	display_scene(&mlx, scene);
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 17:41:52 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 19:06:40 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "ft_vector.h"
 # include "dim3.h"
-# include "color.h"
 # include "objects.h"
+# include "window.h"
 # include "ray.h"
 
 typedef struct s_ambient
@@ -58,7 +58,20 @@ typedef struct s_scene
 	t_ray		ray;
 }	t_scene;
 
-double	get_viewport_height(t_camera cam);
-double	get_viewport_width(t_camera cam);
+t_vp	init_viewport(t_camera cam);
+t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl);
+void	display_scene(t_mlx *mlx, t_scene scene);
+void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi);
+void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene);
+
+t_ray	init_ray(t_camera cam);
+int	dispatch_func_call(t_type OBJ, t_scene scene, size_t k, double *t);
+int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj);
+int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
+void	complete_scene(t_scene *ptr_scene);
+
+int	sphere_check(t_ray ray, t_sph sph, double *t);
+int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
+int	plane_check(t_ray ray, t_plane pl, double *t);
 
 #endif
