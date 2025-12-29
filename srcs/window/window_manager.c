@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/28 16:55:20 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 14:35:48 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,30 +107,6 @@ void	put_img(t_img img, int x, int y, int color)
 	}
 }
 
-// //TODO: add img to mlx struct && move destroy_img to close window
-// void	display_background(t_mlx *mlx, t_color c)
-// {
-// 	int		i;
-// 	int		j;
-// 	int		rgb;
-
-// 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
-// 	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
-// 	rgb = encode_color(c);
-// 	i = 0;
-// 	while (i < WINDOW_HEIGHT)
-// 	{
-// 		j = 0;
-// 		while (j < WINDOW_WIDTH)
-// 		{
-// 			put_img(mlx->img, j, i, rgb);
-// 			++j;
-// 		}
-// 		++i;
-// 	}
-// 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
-// }
-
 void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
 {
 	char	*pix;
@@ -168,23 +144,6 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 		i -= 8;
 	}
 }
-
-// void	put_img_object(t_img img, int x, int y, t_obj obj)
-// {
-// 	char	*pix;
-// 	int		i;
-
-// 	i = img.bpp - 8;
-// 	pix = img.addr + (y * img.len + x * (img.bpp / 8));
-// 	while (i >= 0)
-// 	{
-// 		if (img.endian != 0)
-// 			*pix++ = ((encode_color(ambi.color) >> i) & 0xFF) * ambi.lightning;
-// 		else
-// 			*pix++ = ((encode_color(ambi.color) >> (img.bpp - 8 - i)) & 0xFF) * ambi.lightning;
-// 		i -= 8;
-// 	}
-// }
 
 int	sphere_check(t_ray ray, t_sph sph, double *t); // t_pt3 *ptr_hit);
 int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
@@ -230,133 +189,128 @@ t_pt3	get_vp_top_left(t_camera cam, double focale)
 	return (vp_tl);
 }
 
-// TODO:
-/**
- * take closest hit
- * loop through all objects
- * cast ray to light
- */
+void	init_mlx_img(t_mlx *mlx)
+{
+	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
+	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
+}
+
+typedef	struct s_vp
+{
+	double	height;
+	double	width;
+	t_pt3	top_left;
+	double	focale;
+}	t_vp;
+
+t_vp	init_viewport(t_camera cam)
+{
+	t_vp	vp;
+
+	vp.focale = 1.0;
+	vp.height = get_viewport_height(cam);
+	vp.width = get_viewport_width(cam);
+	vp.top_left = get_vp_top_left(cam, vp.focale);
+	return (vp);
+}
+
+t_ray	init_ray(t_camera cam)
+{
+	t_ray	ray;
+
+	ray.tmax = 1.0e30;
+	ray.origin = cam.pos;
+	return (ray);
+}
+
+int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t)
+{
+	int	res;
+
+	res = 0;
+	if (OBJ == SPHERE)
+		res = sphere_check(ray, ((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
+	else if (OBJ == CYLINDER)
+		res = cylinder_check(ray, ((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
+	else if (OBJ == PLANE)
+		res = plane_check(ray, ((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
+	return (res);
+}
+
+int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj)
+{
+	if (t < *closest)
+	{
+		*closest = t;
+		*obj = curr_obj;
+		return (true);
+	}
+	return (false);
+}
+
+int	loop_objects(t_scene scene, t_ray ray, double *closest, t_obj **obj)
+{
+	size_t 	k;
+	t_type	obj_type;
+	int		res;
+	double	t;
+	int		hit;
+
+	obj_type = 0;
+	hit = 0;
+	*closest = ray.tmax;
+	while (obj_type < NB_TYPE)
+	{
+		k = 0;
+		while (k < scene.obj[obj_type].size)
+		{
+			res = dispatch_func_call(obj_type, scene, ray, k, &t);
+			if (res && check_closest(t, closest, obj,
+				&((t_obj *)scene.obj[obj_type].data)[k]))
+				hit = 1;
+			++k;
+		}
+		++obj_type;
+	}
+	return (hit);
+}
 
 void	display_background(t_mlx *mlx, t_scene scene)
 {
-	// VIEWPORT
-	double	focale = 1.0;
-
-	t_pt3	vp_tl = get_vp_top_left(scene.cam, focale);
-
-	// RAY
+	t_vp	vp;
 	t_ray	ray;
-	ray.origin = scene.cam.pos;
-
-	// IMAGE
-	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
-
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	t_pt3	curr_pt;
 	double	x;
 	double	y;
-	double	closest;
-	double	t;
-	
-	size_t k;
-
-	t_obj	obj;
 	int		hit;
+	t_obj	*obj = NULL;
+	double	closest;
 
+	init_mlx_img(mlx);
+	vp = init_viewport(scene.cam);
+	ray = init_ray(scene.cam);
 	i = 0;
-	ray.tmax = 1.0e30;
-
-	// t_obj test;
-
-	// test.color.r = 10;
-	// test.color.g = 0;
-	// test.color.b = 255;
-	// test.type = SPHERE;
-	// test.shape.sphere.center = (t_pt3) {-50,0,50};
-	// test.shape.sphere.radius = 12.6;
-
 	while (i < WINDOW_HEIGHT)
 	{
 		j = 0;
 		while (j < WINDOW_WIDTH)
 		{
-			hit = 0;
-			closest = ray.tmax;
 			x = (j + 0.5) * get_viewport_width(scene.cam) / WINDOW_WIDTH;
 			y = (i + 0.5) * get_viewport_height(scene.cam) / WINDOW_HEIGHT;
-			curr_pt = vect3_add(vp_tl, vect3_sub(vect3_mult_nb(get_right(scene.cam), x), vect3_mult_nb(get_up(scene.cam), y)));
+			curr_pt = vect3_add(vp.top_left, vect3_sub(vect3_mult_nb(get_right(scene.cam), x), vect3_mult_nb(get_up(scene.cam), y)));
 			ray.dir = vect3_normalize(vect3_sub(curr_pt, ray.origin));
-			// sphere
-			k = 0;
-			while (k < scene.obj[SPHERE].size)
-			{
-				int	res = sphere_check(ray, ((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, &t);
-				if (res)
-				{
-					if (t < closest)
-					{
-						obj = ((t_obj *)scene.obj[SPHERE].data)[k];
-						closest = t;
-						hit = 1;
-					}
-				}
-				++k;
-			}
-			// cylinder
-			k = 0;
-			while (k < scene.obj[CYLINDER].size)
-			{
-				int	res = cylinder_check(ray, ((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, &t);
-				if (res)
-				{
-					if (t < closest)
-					{
-						obj = ((t_obj *)scene.obj[CYLINDER].data)[k];
-						closest = t;
-						hit = 1;
-					}
-				}
-				++k;
-			}
-			// plane
-			k = 0;
-			while (k < scene.obj[PLANE].size)
-			{
-				int	res = plane_check(ray, ((t_obj *)scene.obj[PLANE].data)[k].shape.plane, &t);
-				if (res)
-				{
-					if (t < closest)
-					{
-						obj = ((t_obj *)scene.obj[PLANE].data)[k];
-						closest = t;
-						++hit;
-					}
-				}
-				++k;
-			}
-
+			hit = loop_objects(scene, ray, &closest, &obj);
 			if (hit)
-			{
-				put_img_object(mlx->img, j, i, obj, scene);
-			}
+				put_img_object(mlx->img, j, i, *obj, scene);
 			else
-			{
 				put_img_ambient(mlx->img, j, i, scene.amb);
-			}
 			++j;
 		}
 		++i;
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
-
-/**
- * cast ray
- * if hit box -> check right or left child -> loop til leaf -> color
- * else		  -> cast next ray
- */
-
 
 
