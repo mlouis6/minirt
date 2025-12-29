@@ -11,3 +11,4 @@ miniRT
 .gdb_history
 lib/minilibx-linux/obj/*
 lib/minilibx-linux/test/*
+*.sh

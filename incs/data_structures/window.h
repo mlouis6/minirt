@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/25 10:36:16 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 17:30:25 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ enum
 {
 	KEY_ESC = 65307
 };
+
+typedef	struct s_pxl
+{
+	int	x;
+	int	y;
+}	t_pxl;
 
 typedef	struct s_img
 {

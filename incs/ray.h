@@ -6,32 +6,30 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:51:42 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/03 14:15:13 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 16:32:44 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY_H
 # define RAY_H
 
-# include "window.h"
+// # include "window.h"
 # include "objects.h"
-# include "scene.h"
 
 typedef	struct s_ray
 {
 	t_pt3	origin;
 	t_vect3	dir;
 	double	tmax;
+	double	curr_t;
 }	t_ray;
 
 inline t_pt3	ray_at(t_ray ray, double t);
 // void	calculate_t_axis(double t[3][2], t_ray ray, t_box box);
 // double	find_t_enter(t_ray ray, t_box box);
 // double	find_t_exit(t_ray ray, t_box box);
-double	get_viewport_height(t_camera cam);
-double	get_viewport_width(t_camera cam);
 
 
-void	raycast_loop(t_mlx mlx, t_scene scene);
+// void	raycast_loop(t_mlx mlx, t_scene scene);
 
 #endif

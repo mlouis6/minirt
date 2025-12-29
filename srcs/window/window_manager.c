@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 14:35:48 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/29 17:52:35 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	key_event(int key, t_mlx *mlx)
 		close_window(mlx);
 	return (0);
 }
-
+#include <stdio.h>
 int	close_window(t_mlx *mlx) // , int err_stage)
 {
 	if (mlx->img.img)
@@ -90,30 +90,13 @@ static inline int	encode_color(t_color c)
 #include "ray.h"
 #include "dim3.h"
 
-void	put_img(t_img img, int x, int y, int color)
+void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi)
 {
 	char	*pix;
 	int		i;
 
 	i = img.bpp - 8;
-	pix = img.addr + (y * img.len + x * (img.bpp / 8));
-	while (i >= 0)
-	{
-		if (img.endian != 0)
-			*pix++ = ((color >> i) & 0xFF) * 0.2;
-		else
-			*pix++ = ((color >> (img.bpp - 8 - i)) & 0xFF) * 0.2;
-		i -= 8;
-	}
-}
-
-void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
-{
-	char	*pix;
-	int		i;
-
-	i = img.bpp - 8;
-	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
 	while (i >= 0)
 	{
 		if (img.endian != 0)
@@ -124,7 +107,7 @@ void	put_img_ambient(t_img img, int x, int y, t_ambient ambi)
 	}
 }
 #include <stdio.h>
-void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
+void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene)
 {
 	char	*pix;
 	int		i;
@@ -134,7 +117,7 @@ void	put_img_object(t_img img, int x, int y, t_obj obj, t_scene scene)
 	c.g = (obj.color.g * scene.amb.color.g)/255 * scene.amb.lightning;
 	c.b = (obj.color.b * scene.amb.color.b)/255 * scene.amb.lightning;
 	i = img.bpp - 8;
-	pix = img.addr + (y * img.len + x * (img.bpp / 8));
+	pix = img.addr + (win_pxl.y * img.len + win_pxl.x * (img.bpp / 8));
 	while (i >= 0)
 	{
 		if (img.endian != 0)
@@ -185,23 +168,12 @@ t_pt3	get_vp_top_left(t_camera cam, double focale)
 	t_pt3	vp_tl;
 
 	vp_c = get_vp_center(cam, focale);
-	vp_tl = vect3_add(vect3_sub(vp_c, vect3_mult_nb(get_right(cam), get_viewport_width(cam)/2)), vect3_mult_nb(get_up(cam), get_viewport_height(cam)/2));
+	vp_tl = vect3_add(vect3_sub(vp_c,
+		vect3_mult_nb(get_right(cam), get_viewport_width(cam)/2)),
+		vect3_mult_nb(get_up(cam), get_viewport_height(cam)/2));
 	return (vp_tl);
 }
 
-void	init_mlx_img(t_mlx *mlx)
-{
-	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
-	mlx->img.addr = mlx_get_data_addr(mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
-}
-
-typedef	struct s_vp
-{
-	double	height;
-	double	width;
-	t_pt3	top_left;
-	double	focale;
-}	t_vp;
 
 t_vp	init_viewport(t_camera cam)
 {
@@ -219,6 +191,7 @@ t_ray	init_ray(t_camera cam)
 	t_ray	ray;
 
 	ray.tmax = 1.0e30;
+	ray.curr_t = ray.tmax;
 	ray.origin = cam.pos;
 	return (ray);
 }
@@ -229,11 +202,20 @@ int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t
 
 	res = 0;
 	if (OBJ == SPHERE)
-		res = sphere_check(ray, ((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
+	{
+		res = sphere_check(ray, 
+			((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
+	}
 	else if (OBJ == CYLINDER)
-		res = cylinder_check(ray, ((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
+	{
+		res = cylinder_check(ray,
+			((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
+	}
 	else if (OBJ == PLANE)
-		res = plane_check(ray, ((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
+	{
+		res = plane_check(ray,
+			((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
+	}
 	return (res);
 }
 
@@ -248,7 +230,7 @@ int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj)
 	return (false);
 }
 
-int	loop_objects(t_scene scene, t_ray ray, double *closest, t_obj **obj)
+int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 {
 	size_t 	k;
 	t_type	obj_type;
@@ -258,14 +240,14 @@ int	loop_objects(t_scene scene, t_ray ray, double *closest, t_obj **obj)
 
 	obj_type = 0;
 	hit = 0;
-	*closest = ray.tmax;
+	ray->tmax = 1.0e30;
 	while (obj_type < NB_TYPE)
 	{
 		k = 0;
 		while (k < scene.obj[obj_type].size)
 		{
-			res = dispatch_func_call(obj_type, scene, ray, k, &t);
-			if (res && check_closest(t, closest, obj,
+			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
+			if (res && check_closest(t, &(ray->tmax), obj,
 				&((t_obj *)scene.obj[obj_type].data)[k]))
 				hit = 1;
 			++k;
@@ -275,42 +257,48 @@ int	loop_objects(t_scene scene, t_ray ray, double *closest, t_obj **obj)
 	return (hit);
 }
 
+void	complete_scene(t_scene *ptr_scene)
+{
+	ptr_scene->vp = init_viewport(ptr_scene->cam);
+	ptr_scene->ray = init_ray(ptr_scene->cam);
+}
+
+t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl)
+{
+	t_pt3 vp_pt;
+
+	vp_pt.z = 0;
+	vp_pt.x = (win_pxl.x + 0.5) * scene.vp.width / WINDOW_WIDTH;
+	vp_pt.y = (win_pxl.y + 0.5) * scene.vp.height / WINDOW_HEIGHT;
+	vp_pt = vect3_add(scene.vp.top_left, vect3_sub(
+				vect3_mult_nb(get_right(scene.cam), vp_pt.x),
+				vect3_mult_nb(get_up(scene.cam), vp_pt.y)));
+	return (vp_pt);
+}
+
 void	display_background(t_mlx *mlx, t_scene scene)
 {
-	t_vp	vp;
-	t_ray	ray;
-	int		i;
-	int		j;
-	t_pt3	curr_pt;
-	double	x;
-	double	y;
-	int		hit;
-	t_obj	*obj = NULL;
-	double	closest;
+	t_pxl	win_pxl;
+	t_obj	*obj;
 
-	init_mlx_img(mlx);
-	vp = init_viewport(scene.cam);
-	ray = init_ray(scene.cam);
-	i = 0;
-	while (i < WINDOW_HEIGHT)
+	obj = NULL;
+	complete_scene(&scene);
+	win_pxl.y = 0;
+	while (win_pxl.y < WINDOW_HEIGHT)
 	{
-		j = 0;
-		while (j < WINDOW_WIDTH)
+		win_pxl.x = 0;
+		while (win_pxl.x < WINDOW_WIDTH)
 		{
-			x = (j + 0.5) * get_viewport_width(scene.cam) / WINDOW_WIDTH;
-			y = (i + 0.5) * get_viewport_height(scene.cam) / WINDOW_HEIGHT;
-			curr_pt = vect3_add(vp.top_left, vect3_sub(vect3_mult_nb(get_right(scene.cam), x), vect3_mult_nb(get_up(scene.cam), y)));
-			ray.dir = vect3_normalize(vect3_sub(curr_pt, ray.origin));
-			hit = loop_objects(scene, ray, &closest, &obj);
-			if (hit)
-				put_img_object(mlx->img, j, i, *obj, scene);
+			scene.vp.curr_pt = pixel_to_vp_pt(scene, win_pxl);
+			scene.ray.dir = vect3_normalize(
+				vect3_sub(scene.vp.curr_pt, scene.ray.origin));
+			if (loop_objects(scene, &scene.ray, &obj))
+				put_img_object(mlx->img, win_pxl, *obj, scene);
 			else
-				put_img_ambient(mlx->img, j, i, scene.amb);
-			++j;
+				put_img_ambient(mlx->img, win_pxl, scene.amb);
+			++(win_pxl.x);
 		}
-		++i;
+		++(win_pxl.y);
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img.img, 0, 0);
 }
-
-
