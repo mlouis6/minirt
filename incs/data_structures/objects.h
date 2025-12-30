@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/29 12:36:35 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/30 17:07:13 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 # include "dim3.h"
 # include "color.h"
+# include "ray.h"
 
 typedef enum e_type
 {
@@ -58,6 +59,8 @@ typedef struct s_obj
 	t_type	type;
 	t_shape	shape;
 	t_color	color;
+	t_ray	ray;
+	t_pt3	hit;
 }	t_obj;
 
 #endif

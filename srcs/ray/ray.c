@@ -6,12 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 19:06:49 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/30 18:50:07 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
-// #include <math.h>
+#include <math.h>
 // #include <float.h>
 #include "ray.h"
 #include "window.h"
@@ -19,18 +19,39 @@
 #include "scene.h"
 #include "objects.h"
 
-inline t_pt3	ray_at(t_ray ray, double t)
+static inline t_pt3	ray_at(t_ray ray, double t)
 {
 	return (vect3_add(ray.origin, vect3_mult_nb(ray.dir, t)));
 }
 
-t_ray	init_ray(t_camera cam)
+t_ray	init_ray_cam(t_camera cam)
 {
 	t_ray	ray;
 
 	ray.tmax = 1.0e30;
 	ray.curr_t = ray.tmax;
 	ray.origin = cam.pos;
+	return (ray);
+}
+#include <stdio.h>
+
+t_ray	init_ray_obj(double t, t_scene scene)
+{
+	t_ray	ray;
+	t_vect3	dir;
+	t_pt3	at;
+
+	at = ray_at(scene.ray, t);
+	dir.x = pow(scene.light.pos.x - at.x, 2);
+	dir.y = pow(scene.light.pos.y - at.y, 2);
+	dir.z = pow(scene.light.pos.z - at.z, 2);
+	ray.tmax = 1.0e30; //sqrt(dir.x + dir.y + dir.z);
+	ray.curr_t = ray.tmax;
+	ray.origin = at;
+	ray.dir = vect3_normalize(dir);
+	// printf("DIREC-> [%.2f, %.2f, %.2f]\n", scene.ray.dir.x, scene.ray.dir.y, scene.ray.dir.z);
+	// printf("RAYON-> [%.2f, %.2f, %.2f]\n", scene.ray.origin.x, scene.ray.origin.y, scene.ray.origin.z);
+	// printf("TTTTT-> %.2f\n", t);
 	return (ray);
 }
 
@@ -78,7 +99,6 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 
 	obj_type = 0;
 	hit = 0;
-	ray->tmax = 1.0e30;
 	while (obj_type < NB_TYPE)
 	{
 		k = 0;
@@ -93,10 +113,4 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 		++obj_type;
 	}
 	return (hit);
-}
-
-void	complete_scene(t_scene *ptr_scene)
-{
-	ptr_scene->vp = init_viewport(ptr_scene->cam);
-	ptr_scene->ray = init_ray(ptr_scene->cam);
 }

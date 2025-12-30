@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 19:06:40 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/30 17:45:09 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,24 @@ typedef struct s_scene
 t_vp	init_viewport(t_camera cam);
 t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl);
 void	display_scene(t_mlx *mlx, t_scene scene);
-void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi);
-void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene);
+// void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi);
+// void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene);
+void	put_img(t_img img, t_pxl win_pxl, t_color c);
 
-t_ray	init_ray(t_camera cam);
+t_ray	init_ray_cam(t_camera cam);
+t_ray	init_ray_obj(double t, t_scene scene);
 int	dispatch_func_call(t_type OBJ, t_scene scene, size_t k, double *t);
 int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj);
 int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
-void	complete_scene(t_scene *ptr_scene);
 
 int	sphere_check(t_ray ray, t_sph sph, double *t);
 int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
 int	plane_check(t_ray ray, t_plane pl, double *t);
+
+int	check_hit_light(t_scene scene, t_obj *obj, double t);
+
+t_color init_color(t_ambient amb);
+t_color	add_obj_color(t_color c, t_obj obj);
+t_color	add_light(t_color c, t_scene scene, t_obj obj);
 
 #endif
