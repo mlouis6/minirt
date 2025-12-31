@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/30 18:23:33 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/31 15:51:36 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "mlx.h"
 #include "scene.h"
 #include "window.h"
-
+#include <stdio.h>
 void	display_scene(t_mlx *mlx, t_scene scene)
 {
 	t_pxl	win_pxl;
@@ -40,6 +40,8 @@ void	display_scene(t_mlx *mlx, t_scene scene)
 				color = add_obj_color(color, *obj);
 				if (check_hit_light(scene, obj, scene.ray.tmax))
 					color = add_light(color, scene, *obj);
+				else
+					color = remove_color(color);
 			}
 			put_img(mlx->img, win_pxl, color);
 			++(win_pxl.x);

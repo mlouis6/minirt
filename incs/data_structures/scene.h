@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/30 17:45:09 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/31 15:31:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	put_img(t_img img, t_pxl win_pxl, t_color c);
 
 t_ray	init_ray_cam(t_camera cam);
 t_ray	init_ray_obj(double t, t_scene scene);
-int	dispatch_func_call(t_type OBJ, t_scene scene, size_t k, double *t);
+int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t);
 int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj);
 int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
 
@@ -80,5 +80,6 @@ int	check_hit_light(t_scene scene, t_obj *obj, double t);
 t_color init_color(t_ambient amb);
 t_color	add_obj_color(t_color c, t_obj obj);
 t_color	add_light(t_color c, t_scene scene, t_obj obj);
+t_color	remove_color(t_color c);
 
 #endif

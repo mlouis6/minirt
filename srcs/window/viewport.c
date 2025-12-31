@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:37:03 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/29 19:07:03 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/31 12:30:33 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 
 double	get_viewport_height(t_camera cam)
 {
-	// return (2 * tan((cam.fov / 2) * (M_PI / 180)));
-	return (2 * tan(cam.fov / 2));
+	return (2 * tan((cam.fov / 2) * (M_PI / 180)));
+	// return (2 * tan(cam.fov / 2));
 }
 
 double	get_viewport_width(t_camera cam)
@@ -34,11 +34,11 @@ t_vect3	get_right(t_camera cam)
 	t_vect3	tmp;
 	t_vect3	up;
 
-	if (cam.dir.z != 0)
+	// if (cam.dir.z != 0)
 		up = (t_vect3){0, 1, 0};
-	else
-		up = (t_vect3){0, 0, 1};
-	tmp = vect3_cross(cam.dir, up);
+	// else
+	// 	up = (t_vect3){0, 0, 1};
+	tmp = vect3_cross(up, cam.dir);
 	right = vect3_normalize(tmp);
 	return (right);
 }
@@ -55,7 +55,7 @@ t_pt3	get_vp_center(t_camera cam, double focale)
 	center = vect3_add(cam.pos, vect3_mult_nb(cam.dir, focale));
 	return (center);
 }
-
+#include <stdio.h>
 t_pt3	get_vp_top_left(t_camera cam, double focale)
 {
 	t_pt3	vp_c;
@@ -63,8 +63,13 @@ t_pt3	get_vp_top_left(t_camera cam, double focale)
 
 	vp_c = get_vp_center(cam, focale);
 	vp_tl = vect3_add(vect3_sub(vp_c,
-				vect3_mult_nb(get_right(cam), get_viewport_width(cam) / 2)),
+				vect3_mult_nb(get_right(cam), get_viewport_width(cam)/ 2)),
 			vect3_mult_nb(get_up(cam), get_viewport_height(cam) / 2));
+	printf("VIEWPORT [%.2fx%.2f]\n", get_viewport_width(cam), get_viewport_height(cam));
+	printf("top left [%.2f, %.2f, %.2f]\n", vp_tl.x, vp_tl.y, vp_tl.z);
+	printf("right [%.2f, %.2f, %.2f]\n", get_right(cam).x, get_right(cam).y, get_right(cam).z);
+	printf("up [%.2f, %.2f, %.2f]\n", get_up(cam).x, get_up(cam).y, get_up(cam).z);
+	printf("dir [%.2f, %.2f, %.2f]\n", cam.dir.x, cam.dir.y, cam.dir.z);
 	return (vp_tl);
 }
 

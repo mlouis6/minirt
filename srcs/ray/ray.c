@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/30 18:50:07 by mlouis           ###   ########.fr       */
+/*   Updated: 2025/12/31 16:09:52 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,41 +38,39 @@ t_ray	init_ray_cam(t_camera cam)
 t_ray	init_ray_obj(double t, t_scene scene)
 {
 	t_ray	ray;
-	t_vect3	dir;
 	t_pt3	at;
+	t_vect3	dir;
+	int		length;
 
-	at = ray_at(scene.ray, t);
-	dir.x = pow(scene.light.pos.x - at.x, 2);
-	dir.y = pow(scene.light.pos.y - at.y, 2);
-	dir.z = pow(scene.light.pos.z - at.z, 2);
-	ray.tmax = 1.0e30; //sqrt(dir.x + dir.y + dir.z);
+	at = ray_at(scene.ray, t + __DBL_EPSILON__);
+	dir = vect3_sub(scene.light.pos, at);
+	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
+	ray.tmax = length;
 	ray.curr_t = ray.tmax;
 	ray.origin = at;
 	ray.dir = vect3_normalize(dir);
-	// printf("DIREC-> [%.2f, %.2f, %.2f]\n", scene.ray.dir.x, scene.ray.dir.y, scene.ray.dir.z);
-	// printf("RAYON-> [%.2f, %.2f, %.2f]\n", scene.ray.origin.x, scene.ray.origin.y, scene.ray.origin.z);
-	// printf("TTTTT-> %.2f\n", t);
 	return (ray);
 }
+#include <stdlib.h>
 
-int	dispatch_func_call(t_type OBJ, t_scene scene, size_t k, double *t)
+int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t)
 {
 	int	res;
 
 	res = 0;
 	if (OBJ == SPHERE)
 	{
-		res = sphere_check(scene.ray,
+		res = sphere_check(ray,
 				((t_obj *)scene.obj[SPHERE].data)[k].shape.sphere, t);
 	}
 	else if (OBJ == CYLINDER)
 	{
-		res = cylinder_check(scene.ray,
+		res = cylinder_check(ray,
 				((t_obj *)scene.obj[CYLINDER].data)[k].shape.cyl, t);
 	}
 	else if (OBJ == PLANE)
 	{
-		res = plane_check(scene.ray,
+		res = plane_check(ray,
 				((t_obj *)scene.obj[PLANE].data)[k].shape.plane, t);
 	}
 	return (res);
@@ -104,7 +102,7 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 		k = 0;
 		while (k < scene.obj[obj_type].size)
 		{
-			res = dispatch_func_call(obj_type, scene, k, &t);
+			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
 			if (res && check_closest(t, &(ray->tmax), obj,
 					&((t_obj *)scene.obj[obj_type].data)[k]))
 				hit = 1;
