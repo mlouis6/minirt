@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/05 20:56:09 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/05 21:49:44 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	cylinder_check(t_ray ray, t_cyl cyl, double *t) //, t_pt3 *ptr_hit)
 	coef.b = -2.0f * vect3_mult(oc_orth, ray_orth);
 	coef.c = vect3_mult(oc_orth, oc_orth) - pow(cyl.radius, 2);
 	coef.delta = pow(coef.b, 2) - 4 * coef.a * coef.c;
+	if (coef.delta < 0)
+		return (FALSE);
 	sol1 = -coef.b / (2 * coef.a);
 	if (coef.delta == 0 && sol1 > 0)
 	{

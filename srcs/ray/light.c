@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 20:59:42 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/05 21:45:37 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ t_sum_color init_color(t_ambient amb)
 {
 	t_sum_color	sum;
 
-	sum.r = amb.color.r * amb.lightning;
-	sum.g = amb.color.g * amb.lightning;
-	sum.b = amb.color.b * amb.lightning;
+	sum.r = amb.color.r * amb.lightning / 255;
+	sum.g = amb.color.g * amb.lightning / 255;
+	sum.b = amb.color.b * amb.lightning / 255;
 	return (sum);
 }
 
 t_sum_color	add_obj_color(t_sum_color sum, t_obj obj)
 {
-	sum.r = obj.color.r * sum.r;
-	sum.g = obj.color.g * sum.g;
-	sum.b = obj.color.b * sum.b;
+	sum.r = obj.color.r * sum.r / 255;
+	sum.g = obj.color.g * sum.g / 255;
+	sum.b = obj.color.b * sum.b / 255;
 	return (sum);
 }
 
@@ -103,7 +103,7 @@ t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 	else if (obj.type == CYLINDER)
 	{
 		normal = vect3_sub(obj.ray.origin, obj.shape.cyl.origin);
-		normal = vect3_sub(normal, orth(obj.shape.cyl.normal, normal));
+		normal = vect3_normalize(orth(obj.shape.cyl.normal, normal));
 		if (vect3_mult(normal, obj.ray.dir) < 0)
 			normal = vect3_mult_nb(normal, -1);
 	}
@@ -117,9 +117,9 @@ t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 	diffusion = vect3_mult(normal, vect3_normalize(obj.ray.dir));
 	if (diffusion < 0)
 		diffusion = 0;
-	sum.r += scene.light.brightness * diffusion; 
-	sum.g += scene.light.brightness * diffusion; 
-	sum.b += scene.light.brightness * diffusion;
+	sum.r += scene.light.color.r * scene.light.brightness * diffusion / 255;
+	sum.g += scene.light.color.g * scene.light.brightness * diffusion / 255;
+	sum.b += scene.light.color.b * scene.light.brightness * diffusion / 255;
 	return (sum);
 }
 
@@ -127,9 +127,9 @@ t_color	color_normalize(t_sum_color sum)
 {
 	t_color	color;
 
-	color.r = sum.r / (1 + sum.r);
-	color.g = sum.g / (1 + sum.g);
-	color.b = sum.b / (1 + sum.b);
+	color.r = 255 * sum.r / (double)(1 + sum.r);
+	color.g = 255 * sum.g / (double)(1 + sum.g);
+	color.b = 255 * sum.b / (double)(1 + sum.b);
 	return (color);
 }
 

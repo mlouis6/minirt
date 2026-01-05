@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 20:42:34 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/05 21:28:42 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void	display_scene(t_mlx *mlx, t_scene scene)
 			scene.vp.curr_pt = pixel_to_vp_pt(scene, win_pxl);
 			scene.ray.dir = vect3_normalize(
 					vect3_sub(scene.vp.curr_pt, scene.ray.origin));
-			sum = init_color(scene.amb);
+			color = (t_color){0, 0, 0};		
 			if (loop_objects(scene, &scene.ray, &obj))
 			{
+				sum = init_color(scene.amb);
 				obj->hit = ray_at(scene.ray, scene.ray.tmax);
 				if (check_hit_light(scene, obj, scene.ray.tmax))
 					sum = add_light(sum, scene, *obj);
