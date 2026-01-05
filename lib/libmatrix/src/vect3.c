@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/27 15:21:52 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 17:12:17 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_vect3	vect3_sub(t_vect3 v1, t_vect3 v2)
 t_vect3	vect3_normalize(t_vect3 vect)
 {
 	t_vect3	v_norm;
-	int		length;
+	double	length;
 
 	length = sqrt(pow(vect.x, 2) + pow(vect.y, 2) + pow(vect.z, 2));
 	v_norm.x = vect.x / length;

@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:37:03 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/31 12:30:33 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 17:43:40 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 #include "window.h"
 #include "dim3.h"
 
-double	get_viewport_height(t_camera cam)
+double	get_viewport_width(t_camera cam)
 {
 	return (2 * tan((cam.fov / 2) * (M_PI / 180)));
+}
+double	get_viewport_height(t_camera cam)
+{
+	return (RATIO * get_viewport_width(cam));
 	// return (2 * tan(cam.fov / 2));
 }
 
-double	get_viewport_width(t_camera cam)
-{
-	return (RATIO * get_viewport_height(cam));
-}
 
 t_vect3	get_right(t_camera cam)
 {
@@ -35,6 +35,7 @@ t_vect3	get_right(t_camera cam)
 	t_vect3	up;
 
 	// if (cam.dir.z != 0)
+	// TODO: vector orthogonal a la dir
 		up = (t_vect3){0, 1, 0};
 	// else
 	// 	up = (t_vect3){0, 0, 1};

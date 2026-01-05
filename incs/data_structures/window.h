@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/31 13:53:36 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 17:29:03 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define WINDOW_H
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1100
+#  define WINDOW_WIDTH 1000
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 800
+#  define WINDOW_HEIGHT 1000
 # endif
 
 //? const globals
-# define RATIO ((double) WINDOW_WIDTH / (double) WINDOW_HEIGHT)
+# define RATIO ((double) WINDOW_HEIGHT / (double) WINDOW_WIDTH)
 
 // # define VIEWPORT_HEIGHT 5.0
 // # define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
