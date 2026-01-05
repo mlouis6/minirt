@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/31 16:09:52 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 16:13:44 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include "scene.h"
 #include "objects.h"
 
-static inline t_pt3	ray_at(t_ray ray, double t)
+t_pt3	ray_at(t_ray ray, double t)
 {
 	return (vect3_add(ray.origin, vect3_mult_nb(ray.dir, t)));
 }
@@ -42,7 +42,7 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	t_vect3	dir;
 	int		length;
 
-	at = ray_at(scene.ray, t + __DBL_EPSILON__);
+	at = ray_at(scene.ray, t - 1.0e-6);
 	dir = vect3_sub(scene.light.pos, at);
 	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.tmax = length;

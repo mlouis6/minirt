@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/31 15:31:55 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 16:01:15 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,7 @@ t_color init_color(t_ambient amb);
 t_color	add_obj_color(t_color c, t_obj obj);
 t_color	add_light(t_color c, t_scene scene, t_obj obj);
 t_color	remove_color(t_color c);
+
+t_pt3	ray_at(t_ray ray, double t);
 
 #endif

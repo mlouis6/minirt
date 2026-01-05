@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2025/12/31 16:17:52 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 16:28:02 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	check_closest2(double t, double *closest)
 	return (false);
 }
 #include <math.h>
-int	loop_objects2(t_scene scene, t_ray *ray, t_obj obj)
+
+int	loop_objects2(t_scene scene, t_ray *ray)
 {
 	size_t	k;
 	t_type	obj_type;
@@ -40,13 +41,11 @@ int	loop_objects2(t_scene scene, t_ray *ray, t_obj obj)
 
 	obj_type = 0;
 	hit = 0;
-	// check obj passed and get farthest t
 	while (obj_type < NB_TYPE)
 	{
 		k = 0;
 		while (k < scene.obj[obj_type].size)
 		{
-			// if obj == obj continue ;
 			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
 			if (res && check_closest2(t, &(ray->tmax)))
 				hit = 1;
@@ -83,31 +82,40 @@ t_color	add_obj_color(t_color c, t_obj obj)
 	return (c);
 }
 
+void	vect3_print(char *name, t_vect3 v)
+{
+	printf("%s= [%.2f, %.2f, %.2f]\n", name, v.x, v.y, v.z);
+}
+
 t_color	add_light(t_color c, t_scene scene, t_obj obj)
 {
-	double	disp;
+	double	diffusion;
+	t_vect3	normal;
 
-	disp = vect3_mult(scene.ray.dir, obj.ray.dir);
-	if (disp < 0)
+	if (obj.type == PLANE)
 	{
-		// disp = 0;
-		c.r = 0; 
-		c.g = 255; 
-		c.b = 0;
+		normal = obj.shape.plane.normal;
+		if (vect3_mult(normal, obj.ray.dir) < 0)
+			normal = vect3_mult_nb(normal, -1);
 	}
-	else {
-		c.r *= scene.light.brightness * disp; 
-		c.g *= scene.light.brightness * disp; 
-		c.b *= scene.light.brightness * disp;
-
-	}
+	else if (obj.type == CYLINDER)
+		normal = obj.shape.cyl.normal;
+	else
+		normal = vect3_normalize(vect3_sub(obj.ray.origin, obj.shape.sphere.center));
+		// normal = vect3_mult_nb(obj.ray.dir, 1 / obj.shape.sphere.radius);
+	diffusion = vect3_mult(normal, vect3_normalize(obj.ray.dir));
+	if (diffusion < 0)
+		diffusion = 0;
+	c.r *= scene.light.brightness * diffusion; 
+	c.g *= scene.light.brightness * diffusion; 
+	c.b *= scene.light.brightness * diffusion;
 	return (c);
 }
 
 t_color	remove_color(t_color c)
 {
-	c.r = 224; 
-	c.g = 33; 
-	c.b = 128;
+	c.r = 0;
+	c.g = 0;
+	c.b = 0;
 	return (c);
 }
