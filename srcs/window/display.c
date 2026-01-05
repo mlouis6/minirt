@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 16:10:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 20:42:34 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 
 void	display_scene(t_mlx *mlx, t_scene scene)
 {
-	t_pxl	win_pxl;
-	t_obj	*obj;
-	t_color	color;
+	t_pxl		win_pxl;
+	t_obj		*obj;
+	t_color		color;
+	t_sum_color	sum;
 
 	obj = NULL;
 	scene.vp = init_viewport(scene.cam);
@@ -35,15 +36,14 @@ void	display_scene(t_mlx *mlx, t_scene scene)
 			scene.vp.curr_pt = pixel_to_vp_pt(scene, win_pxl);
 			scene.ray.dir = vect3_normalize(
 					vect3_sub(scene.vp.curr_pt, scene.ray.origin));
-			color = init_color(scene.amb);
+			sum = init_color(scene.amb);
 			if (loop_objects(scene, &scene.ray, &obj))
 			{
 				obj->hit = ray_at(scene.ray, scene.ray.tmax);
-				color = add_obj_color(color, *obj);
 				if (check_hit_light(scene, obj, scene.ray.tmax))
-					color = add_light(color, scene, *obj);
-				else
-					color = remove_color(color);
+					sum = add_light(sum, scene, *obj);
+				sum = add_obj_color(sum, *obj);
+				color = color_normalize(sum);
 			}
 			put_img(mlx->img, win_pxl, color);
 			++(win_pxl.x);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collisions_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/28 15:17:55 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 20:56:09 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "deg2.h"
 
 double	min_pos(double t1, double t2);
-t_vect3	orth(t_vect3 u, t_vect3 OM);
+t_vect3	orth(t_vect3 u, t_vect3 om);
 
 int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 {

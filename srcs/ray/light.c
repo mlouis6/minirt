@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 16:28:02 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 20:59:42 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,22 @@ int	check_hit_light(t_scene scene, t_obj *obj, double t)
 	return (false);
 }
 
-t_color init_color(t_ambient amb)
+t_sum_color init_color(t_ambient amb)
 {
-	t_color	c;
+	t_sum_color	sum;
 
-	c.r = amb.color.r * amb.lightning;
-	c.g = amb.color.g * amb.lightning;
-	c.b = amb.color.b * amb.lightning;
-	return (c);
+	sum.r = amb.color.r * amb.lightning;
+	sum.g = amb.color.g * amb.lightning;
+	sum.b = amb.color.b * amb.lightning;
+	return (sum);
 }
 
-t_color	add_obj_color(t_color c, t_obj obj)
+t_sum_color	add_obj_color(t_sum_color sum, t_obj obj)
 {
-	c.r = (obj.color.r * c.r) / 255.0;
-	c.g = (obj.color.g * c.g) / 255.0;
-	c.b = (obj.color.b * c.b) / 255.0;
-	return (c);
+	sum.r = obj.color.r * sum.r;
+	sum.g = obj.color.g * sum.g;
+	sum.b = obj.color.b * sum.b;
+	return (sum);
 }
 
 void	vect3_print(char *name, t_vect3 v)
@@ -87,7 +87,9 @@ void	vect3_print(char *name, t_vect3 v)
 	printf("%s= [%.2f, %.2f, %.2f]\n", name, v.x, v.y, v.z);
 }
 
-t_color	add_light(t_color c, t_scene scene, t_obj obj)
+t_vect3	orth(t_vect3 u, t_vect3 om);
+
+t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 {
 	double	diffusion;
 	t_vect3	normal;
@@ -99,23 +101,42 @@ t_color	add_light(t_color c, t_scene scene, t_obj obj)
 			normal = vect3_mult_nb(normal, -1);
 	}
 	else if (obj.type == CYLINDER)
-		normal = obj.shape.cyl.normal;
+	{
+		normal = vect3_sub(obj.ray.origin, obj.shape.cyl.origin);
+		normal = vect3_sub(normal, orth(obj.shape.cyl.normal, normal));
+		if (vect3_mult(normal, obj.ray.dir) < 0)
+			normal = vect3_mult_nb(normal, -1);
+	}
 	else
+	{
 		normal = vect3_normalize(vect3_sub(obj.ray.origin, obj.shape.sphere.center));
+		if (vect3_mult(normal, obj.ray.dir) < 0)
+			normal = vect3_mult_nb(normal, -1);
 		// normal = vect3_mult_nb(obj.ray.dir, 1 / obj.shape.sphere.radius);
+	}
 	diffusion = vect3_mult(normal, vect3_normalize(obj.ray.dir));
 	if (diffusion < 0)
 		diffusion = 0;
-	c.r *= scene.light.brightness * diffusion; 
-	c.g *= scene.light.brightness * diffusion; 
-	c.b *= scene.light.brightness * diffusion;
-	return (c);
+	sum.r += scene.light.brightness * diffusion; 
+	sum.g += scene.light.brightness * diffusion; 
+	sum.b += scene.light.brightness * diffusion;
+	return (sum);
 }
 
-t_color	remove_color(t_color c)
+t_color	color_normalize(t_sum_color sum)
 {
-	c.r = 0;
-	c.g = 0;
-	c.b = 0;
-	return (c);
+	t_color	color;
+
+	color.r = sum.r / (1 + sum.r);
+	color.g = sum.g / (1 + sum.g);
+	color.b = sum.b / (1 + sum.b);
+	return (color);
 }
+
+// t_color	remove_color(t_color c)
+// {
+// 	c.r = 0;
+// 	c.g = 0;
+// 	c.b = 0;
+// 	return (c);
+// }
