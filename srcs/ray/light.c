@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 21:45:37 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/05 22:12:34 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ t_sum_color init_color(t_ambient amb)
 {
 	t_sum_color	sum;
 
-	sum.r = amb.color.r * amb.lightning / 255;
-	sum.g = amb.color.g * amb.lightning / 255;
-	sum.b = amb.color.b * amb.lightning / 255;
+	sum.r = amb.color.r * amb.lightning / 255.0f;
+	sum.g = amb.color.g * amb.lightning / 255.0f;
+	sum.b = amb.color.b * amb.lightning / 255.0f;
 	return (sum);
 }
 
