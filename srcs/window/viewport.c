@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:37:03 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 17:43:40 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 18:21:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ t_vect3	get_right(t_camera cam)
 	t_vect3	tmp;
 	t_vect3	up;
 
-	// if (cam.dir.z != 0)
 	// TODO: vector orthogonal a la dir
-		up = (t_vect3){0, 1, 0};
-	// else
-	// 	up = (t_vect3){0, 0, 1};
+	up = (t_vect3){0, 1, 0};
 	tmp = vect3_cross(up, cam.dir);
+	if (tmp.x == 0 && tmp.y == 0 && tmp.z == 0)
+		tmp = vect3_cross((t_vect3){0, 0, 1}, cam.dir);
 	right = vect3_normalize(tmp);
 	return (right);
 }

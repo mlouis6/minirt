@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:01 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/13 13:39:55 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/05 18:25:23 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	fill_camera_info(char **line_split, t_scene *ptr_scene)
 		return (ret);
 	++i;
 	ptr_scene->cam.fov = ft_strtoi(line_split[i], &endl);
-	if (*endl || ptr_scene->cam.fov < 0 || ptr_scene->cam.fov > 180)
+	if (*endl || ptr_scene->cam.fov < 0 || ptr_scene->cam.fov >= 180)
 		return (INVALID_FILE);
 	++i;
 	if (line_split[i] != NULL)
