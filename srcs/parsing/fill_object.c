@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_object.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:54:12 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/03 14:04:54 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/06 18:17:04 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,14 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 	ret = -1;
 	if (!line_split[0])
 		return (ret);
-	if (ft_strncmp(line_split[0], "sp", ft_strlen(line_split[0])) == 0)
+	if (ft_strcmp(line_split[0], "sp") == 0)
 		ret = fill_sphere_info(line_split + 1, &obj);
-	else if (ft_strncmp(line_split[0], "cy", ft_strlen(line_split[0])) == 0)
+	else if (ft_strcmp(line_split[0], "cy") == 0)
 		ret = fill_cylinder_info(line_split + 1, &obj);
-	else if (ft_strncmp(line_split[0], "pl", ft_strlen(line_split[0])) == 0)
+	else if (ft_strcmp(line_split[0], "pl") == 0)
 		ret = fill_plane_info(line_split + 1, &obj);
 	if (ret != SUCCESS)
-		return (ret);
+		return (INVALID_FILE);
 	ret = ft_vector_add_single(&ptr_scene->obj[obj.type], &obj);
 	if (ret != SUCCESS)
 		return (ERROR_MALLOC);

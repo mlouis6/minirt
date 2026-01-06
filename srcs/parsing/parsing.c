@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/03 14:07:34 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/06 18:15:20 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,11 +108,11 @@ int	fill_scene_info(char **line_split, t_scene *ptr_scene)
 	ret = -1;
 	if (!line_split[0])
 		return (ret);
-	if (ft_strncmp(line_split[0], "A", ft_strlen(line_split[0])) == 0)
+	if (ft_strcmp(line_split[0], "A") == 0)
 		ret = fill_ambient_info(line_split + 1, ptr_scene);
-	else if (ft_strncmp(line_split[0], "C", ft_strlen(line_split[0])) == 0)
+	else if (ft_strcmp(line_split[0], "C") == 0)
 		ret = fill_camera_info(line_split + 1, ptr_scene);
-	else if (ft_strncmp(line_split[0], "L", ft_strlen(line_split[0])) == 0)
+	else if (ft_strcmp(line_split[0], "L") == 0)
 		ret = fill_light_info(line_split + 1, ptr_scene);
 	return (ret);
 }
@@ -152,7 +152,6 @@ int	get_scene(int fd, t_scene *ptr_scene)
 		free_split(line_split);
 		if (ret != SUCCESS)
 		{
-			
 			return (ret);
 		}
 		ret = get_line(fd, &line);
