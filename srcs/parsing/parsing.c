@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/06 18:15:20 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/06 22:17:57 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 	if (fd == -1)
 	{
 		printf("Error\n");
-		perror("open :");
+		perror("open");
 		return (ERROR_SYSCALL);
 	}
 	ret = get_scene(fd, ptr_scene);

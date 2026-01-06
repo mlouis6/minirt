@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 22:12:34 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/06 22:10:44 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,20 +97,20 @@ t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 	if (obj.type == PLANE)
 	{
 		normal = obj.shape.plane.normal;
-		if (vect3_mult(normal, obj.ray.dir) < 0)
+		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
 			normal = vect3_mult_nb(normal, -1);
 	}
 	else if (obj.type == CYLINDER)
 	{
-		normal = vect3_sub(obj.ray.origin, obj.shape.cyl.origin);
+		normal = vect3_sub(obj.hit, obj.shape.cyl.origin);
 		normal = vect3_normalize(orth(obj.shape.cyl.normal, normal));
-		if (vect3_mult(normal, obj.ray.dir) < 0)
+		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
 			normal = vect3_mult_nb(normal, -1);
 	}
 	else
 	{
-		normal = vect3_normalize(vect3_sub(obj.ray.origin, obj.shape.sphere.center));
-		if (vect3_mult(normal, obj.ray.dir) < 0)
+		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));
+		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
 			normal = vect3_mult_nb(normal, -1);
 		// normal = vect3_mult_nb(obj.ray.dir, 1 / obj.shape.sphere.radius);
 	}
