@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/06 22:10:44 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 17:58:20 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	loop_objects2(t_scene scene, t_ray *ray)
 
 	obj_type = 0;
 	hit = 0;
-	while (obj_type < NB_TYPE)
+	while (obj_type < NB_OBJ)
 	{
 		k = 0;
 		while (k < scene.obj[obj_type].size)
@@ -95,25 +95,19 @@ t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 	t_vect3	normal;
 
 	if (obj.type == PLANE)
-	{
 		normal = obj.shape.plane.normal;
-		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
-			normal = vect3_mult_nb(normal, -1);
-	}
 	else if (obj.type == CYLINDER)
 	{
 		normal = vect3_sub(obj.hit, obj.shape.cyl.origin);
 		normal = vect3_normalize(orth(obj.shape.cyl.normal, normal));
-		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
-			normal = vect3_mult_nb(normal, -1);
 	}
 	else
 	{
 		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));
-		if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
-			normal = vect3_mult_nb(normal, -1);
 		// normal = vect3_mult_nb(obj.ray.dir, 1 / obj.shape.sphere.radius);
 	}
+	if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
+			normal = vect3_mult_nb(normal, -1);
 	diffusion = vect3_mult(normal, vect3_normalize(obj.ray.dir));
 	if (diffusion < 0)
 		diffusion = 0;

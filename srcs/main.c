@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/29 19:08:09 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/07 17:45:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,8 @@ int	main(int ac, char **av)
 	t_scene	scene;
 
 	err = parsing(ac, av, &scene);
-	if (err)
+	if (err != SUCCESS)
 	{
-		print_scene(scene);
-		print_obj(scene.obj);
-		free_scene(&scene);
 		print_error(err);
 		return (err);
 	}
@@ -145,6 +142,6 @@ int	main(int ac, char **av)
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);
-	free_scene(&scene);
+	free_obj(scene.obj);
 	return (0);
 }

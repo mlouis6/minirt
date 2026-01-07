@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 16:13:44 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/07 17:58:04 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 
 	obj_type = 0;
 	hit = 0;
-	while (obj_type < NB_TYPE)
+	while (obj_type < NB_OBJ)
 	{
 		k = 0;
 		while (k < scene.obj[obj_type].size)

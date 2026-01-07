@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2025/12/30 17:07:13 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/07 17:57:42 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ typedef enum e_type
 {
 	SPHERE = 0,
 	CYLINDER,
-	PLANE,
-	NB_TYPE
+	PLANE
 }	t_type;
 
 typedef struct s_sph

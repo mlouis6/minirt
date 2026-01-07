@@ -6,10 +6,11 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/24 17:44:10 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 17:55:21 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "ret_val.h"
 #include "parsing.h"
 #include "scene.h"
@@ -57,24 +58,9 @@ int	get_color(char *line, t_color *ptr_color)
 	return (SUCCESS);
 }
 
-double	powd(double n, int p)
-{
-	double	m;
-	int		i;
-
-	m = 1;
-	i = 0;
-	while (i < p)
-	{
-		m *= n;
-		++i;
-	}
-	return (m);
-}
-
 double	norm_sq(t_vect3 vect3)
 {
-	return (powd(vect3.x, 2) + powd(vect3.y, 2) + powd(vect3.z, 2));
+	return (pow(vect3.x, 2) + pow(vect3.y, 2) + pow(vect3.z, 2));
 }
 
 int	get_norm_vect3(char *line, t_vect3 *ptr_vect3)

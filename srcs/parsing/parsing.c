@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/06 22:17:57 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 17:56:57 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 		return (ERROR_SYSCALL);
 	}
 	ret = get_scene(fd, ptr_scene);
+	if (close(fd) == -1)
+	{
+		printf("Error\n");
+		perror("close");
+		if (ret != SUCCESS)
+			return (ret);
+		return (ERROR_SYSCALL);
+	}
 	return (ret);
 }
 
@@ -117,17 +125,22 @@ int	fill_scene_info(char **line_split, t_scene *ptr_scene)
 	return (ret);
 }
 
-int	dispatch_parsing(char **line_split, t_scene *ptr_scene)
+int	parse_line(char *line, t_scene *ptr_scene)
 {
 	int		ret;
-
+	char	**line_split;
+	
+	line_split = split_line(line, WHITE_SPACES);
+	if (line_split == NULL)
+		return (ERROR_MALLOC);
 	ret = fill_scene_info(line_split, ptr_scene);
 	if (ret == -1)
 	{
 		ret = fill_object_info(line_split, ptr_scene);
 		if (ret == -1)
-			return (SUCCESS);
+			ret = SUCCESS;
 	}
+	free_split(line_split);
 	return (ret);
 }
 
@@ -135,7 +148,6 @@ int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;
 	char	*line;
-	char	**line_split;
 
 	ret = init_scene(ptr_scene);
 	if (ret != SUCCESS)
@@ -144,17 +156,13 @@ int	get_scene(int fd, t_scene *ptr_scene)
 	ret = get_line(fd, &line);
 	while (ret == SUCCESS && line != NULL)
 	{
-		line_split = split_line(line, WHITE_SPACES);
+		ret = parse_line(line, ptr_scene);
 		free(line);
-		if (line_split == NULL)
-			return (ERROR_MALLOC);
-		ret = dispatch_parsing(line_split, ptr_scene);
-		free_split(line_split);
 		if (ret != SUCCESS)
-		{
-			return (ret);
-		}
+			break ;
 		ret = get_line(fd, &line);
 	}
+	if (ret != SUCCESS)
+		free_obj(ptr_scene->obj);
 	return (ret);
 }

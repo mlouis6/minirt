@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/12 14:54:59 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 17:40:58 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int	get_line(int fd, char **ptr_line)
 		{
 			ret = handle_buffer(ptr_line, buff, &full_check);
 			if (ret != SUCCESS || full_check == 1)
-			{
 				return (ret);
-			}
 		}
 		b_read = read(fd, buff, BUFF_SIZE);
 		if (b_read == -1)
