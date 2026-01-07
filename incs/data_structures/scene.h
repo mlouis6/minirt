@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 21:06:40 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,10 @@ int	plane_check(t_ray ray, t_plane pl, double *t);
 
 int	check_hit_light(t_scene scene, t_obj *obj, double t);
 
-t_sum_color init_color(t_ambient amb);
-t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj);
-t_sum_color	add_obj_color(t_sum_color sum, t_obj obj);
-t_color		color_normalize(t_sum_color sum);
+t_color_sum init_color(t_ambient amb);
+t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj);
+t_color_sum	add_obj_color(t_color_sum sum, t_obj obj);
+t_color		color_normalize(t_color_sum sum);
 // t_color		remove_color(t_color c);
 
 t_pt3	ray_at(t_ray ray, double t);

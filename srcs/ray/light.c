@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 17:58:20 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	check_hit_light(t_scene scene, t_obj *obj, double t)
 	return (false);
 }
 
-t_sum_color init_color(t_ambient amb)
+t_color_sum init_color(t_ambient amb)
 {
-	t_sum_color	sum;
+	t_color_sum	sum;
 
 	sum.r = amb.color.r * amb.lightning / 255.0f;
 	sum.g = amb.color.g * amb.lightning / 255.0f;
@@ -74,7 +74,7 @@ t_sum_color init_color(t_ambient amb)
 	return (sum);
 }
 
-t_sum_color	add_obj_color(t_sum_color sum, t_obj obj)
+t_color_sum	add_obj_color(t_color_sum sum, t_obj obj)
 {
 	sum.r = obj.color.r * sum.r / 255;
 	sum.g = obj.color.g * sum.g / 255;
@@ -89,7 +89,7 @@ void	vect3_print(char *name, t_vect3 v)
 
 t_vect3	orth(t_vect3 u, t_vect3 om);
 
-t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
+t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
 {
 	double	diffusion;
 	t_vect3	normal;
@@ -117,7 +117,7 @@ t_sum_color	add_light(t_sum_color sum, t_scene scene, t_obj obj)
 	return (sum);
 }
 
-t_color	color_normalize(t_sum_color sum)
+t_color	color_normalize(t_color_sum sum)
 {
 	t_color	color;
 

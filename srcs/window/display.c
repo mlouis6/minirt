@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 21:28:42 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	display_scene(t_mlx *mlx, t_scene scene)
 	t_pxl		win_pxl;
 	t_obj		*obj;
 	t_color		color;
-	t_sum_color	sum;
+	t_color_sum	sum;
 
 	obj = NULL;
 	scene.vp = init_viewport(scene.cam);
