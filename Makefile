@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
+#    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/12/30 12:49:10 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/07 22:44:19 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,9 @@ LIB_TARGET := 	libft/libft.a 					\
 BUILD_DIR := .build
 
 SRC_DIR := srcs
-SRC := 	parsing/fill_object.c \
-		parsing/fill_scene.c \
-		parsing/get_line.c \
+SRC := 	parsing/get_line.c \
 		parsing/get_types.c \
+		parsing/fill_item.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
 		ray/ray.c \
