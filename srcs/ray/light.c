@@ -3,75 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:06:21 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "scene.h"
 #include "ray.h"
 #include <stdbool.h>
-
-/**
- * check t with new t
- * (might hit itself right from the start)
- */
-#include <stdio.h>
-
-int	check_closest2(double t, double *closest)
-{
-	if (t < *closest)
-	{
-		*closest = t;
-		return (true);
-	}
-	return (false);
-}
 #include <math.h>
-
-int	loop_objects2(t_scene scene, t_ray *ray)
-{
-	size_t	k;
-	t_type	obj_type;
-	int		res;
-	double	t;
-	int		hit;
-
-	obj_type = 0;
-	hit = 0;
-	while (obj_type < NB_OBJ)
-	{
-		k = 0;
-		while (k < scene.obj[obj_type].size)
-		{
-			res = dispatch_func_call(obj_type, scene, *ray, k, &t);
-			if (res && check_closest2(t, &(ray->tmax)))
-				hit = 1;
-			++k;
-		}
-		++obj_type;
-	}
-	return (hit);
-}
 
 int	check_hit_light(t_scene scene, t_obj *obj, double t)
 {
 	obj->ray = init_ray_obj(t, scene);
-	if (!loop_objects2(scene, &(obj->ray)))
+	if (!loop_objects(scene, &(obj->ray), NULL))
 		return (true);
 	return (false);
 }
+
+t_vect3	orth(t_vect3 u, t_vect3 om);
 
 t_color_sum init_color(t_ambient amb)
 {
 	t_color_sum	sum;
 
-	sum.r = amb.color.r * amb.lightning / 255.0f;
-	sum.g = amb.color.g * amb.lightning / 255.0f;
-	sum.b = amb.color.b * amb.lightning / 255.0f;
+	sum.r = amb.color.r * amb.lightning / 255;
+	sum.g = amb.color.g * amb.lightning / 255;
+	sum.b = amb.color.b * amb.lightning / 255;
 	return (sum);
+}
+
+t_color_sum get_specular(t_scene scene, t_ray obj_ray, t_vect3 normal)
+{
+	t_vect3		reflexion;
+	double		specular;
+	t_color_sum	spec_c;
+
+	// if (vect3_mult(obj_ray.dir, normal) > 0)
+	// {
+		reflexion = vect3_sub(vect3_mult_nb(normal, vect3_mult(normal, obj_ray.dir) * 2), obj_ray.dir);
+		specular = pow(vect3_mult(reflexion, scene.ray.dir), 60);
+		// reflexion = vect3_sub(scene.ray.dir, vect3_mult_nb(normal, vect3_mult(scene.ray.dir, normal) * 2));
+		// specular = pow(vect3_mult(obj_ray.dir, reflexion), 60);
+		spec_c.r = scene.light.color.r * scene.light.brightness * specular; // / 255;
+		spec_c.g = scene.light.color.g * scene.light.brightness * specular; // / 255;
+		spec_c.b = scene.light.color.b * scene.light.brightness * specular; // / 255;
+	// }
+	// else
+	// 	spec_c = (t_color_sum) {0, 0, 0};
+	return (spec_c);
 }
 
 t_color_sum	add_obj_color(t_color_sum sum, t_obj obj)
@@ -82,17 +64,13 @@ t_color_sum	add_obj_color(t_color_sum sum, t_obj obj)
 	return (sum);
 }
 
-void	vect3_print(char *name, t_vect3 v)
-{
-	printf("%s= [%.2f, %.2f, %.2f]\n", name, v.x, v.y, v.z);
-}
 
-t_vect3	orth(t_vect3 u, t_vect3 om);
 
 t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
 {
 	double	diffusion;
 	t_vect3	normal;
+	t_color_sum	specular;
 
 	if (obj.type == PLANE)
 		normal = obj.shape.plane.normal;
@@ -104,16 +82,14 @@ t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
 	else
 	{
 		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));
-		// normal = vect3_mult_nb(obj.ray.dir, 1 / obj.shape.sphere.radius);
 	}
 	if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
 			normal = vect3_mult_nb(normal, -1);
-	diffusion = vect3_mult(normal, vect3_normalize(obj.ray.dir));
-	if (diffusion < 0)
-		diffusion = 0;
-	sum.r += scene.light.color.r * scene.light.brightness * diffusion / 255;
-	sum.g += scene.light.color.g * scene.light.brightness * diffusion / 255;
-	sum.b += scene.light.color.b * scene.light.brightness * diffusion / 255;
+	diffusion = fmax(vect3_mult(normal, vect3_normalize(obj.ray.dir)), 0);
+	specular = get_specular(scene, obj.ray, normal);
+	sum.r = sum.r * diffusion + specular.r;
+	sum.g = sum.g * diffusion + specular.g;
+	sum.b = sum.b * diffusion + specular.b;
 	return (sum);
 }
 
@@ -127,10 +103,3 @@ t_color	color_normalize(t_color_sum sum)
 	return (color);
 }
 
-// t_color	remove_color(t_color c)
-// {
-// 	c.r = 0;
-// 	c.g = 0;
-// 	c.b = 0;
-// 	return (c);
-// }
