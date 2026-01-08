@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 22:52:10 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 17:42:22 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,29 @@ int	fill_scene_info(char **line_split, t_scene *ptr_scene)
 	return (ret);
 }
 
+int	choose_object(char **line_split, t_obj *ptr_obj)
+{
+	int	ret;
+	
+	ret = INVALID_FILE;
+	if (ft_strcmp(line_split[0], "sp") == 0)
+	{
+		ptr_obj->type = SPHERE;
+		ret = fill_item(line_split + 1, ptr_obj, g_sph_parser, NB_INFO_SPH);
+	}
+	else if (ft_strcmp(line_split[0], "cy") == 0)
+	{
+		ptr_obj->type = CYLINDER;
+		ret = fill_item(line_split + 1, ptr_obj, g_cyl_parser, NB_INFO_CYL);
+	}
+	else if (ft_strcmp(line_split[0], "pl") == 0)
+	{
+		ptr_obj->type = PLANE;
+		ret = fill_item(line_split + 1, ptr_obj, g_pl_parser, NB_INFO_PL);
+	}
+	return (ret);
+}
+
 int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
@@ -172,21 +195,7 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 	ret = SUCCESS;
 	if (!line_split[0])
 		return (ret);
-	if (ft_strcmp(line_split[0], "sp") == 0)
-	{
-		obj.type = SPHERE;
-		ret = fill_item(line_split + 1, &obj, g_sph_parser, NB_INFO_SPH);
-	}
-	else if (ft_strcmp(line_split[0], "cy") == 0)
-	{
-		obj.type = CYLINDER;
-		ret = fill_item(line_split + 1, &obj, g_cyl_parser, NB_INFO_CYL);
-	}
-	else if (ft_strcmp(line_split[0], "pl") == 0)
-	{
-		obj.type = PLANE;
-		ret = fill_item(line_split + 1, &obj, g_pl_parser, NB_INFO_PL);
-	}
+	ret = choose_object(line_split, &obj);
 	if (ret != SUCCESS)
 		return (INVALID_FILE);
 	ret = ft_vector_add_single(&ptr_scene->obj[obj.type], &obj);

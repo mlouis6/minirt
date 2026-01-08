@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 20:23:29 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 17:43:54 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 #include "window.h"
 #include "scene.h"
 #include "color.h"
-
-void	free_scene(t_scene *scene)
-{
-	free_obj(scene->obj);
-}
 
 void	print_sphere(t_vector vector_sph)
 {

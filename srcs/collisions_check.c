@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 17:45:41 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 17:41:17 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double	min_pos(double t1, double t2);
 t_vect3	orth(t_vect3 u, t_vect3 om);
 double	find_sol(t_cyl cyl, t_coef coef, t_ray ray);
 
-int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
+int	sphere_check(t_ray ray, t_sph sph, double *t)
 {
 	t_vect3	oc;
 	t_coef	coef;
@@ -37,7 +37,6 @@ int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 	if (coef.delta == 0 && sol1 > 0)
 	{
 		*t = sol1;
-		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 		return (TRUE);
 	}
 	sol1 = (-coef.b - sqrt(coef.delta)) / (2 * coef.a);
@@ -45,14 +44,12 @@ int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 	if (coef.delta > 0 && min_pos(sol1, sol2) > 0)
 	{
 		*t = min_pos(sol1, sol2);
-		// *ptr_hit = vect3_add(ray.origin,
-		// 		vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	cylinder_check(t_ray ray, t_cyl cyl, double *t) //, t_pt3 *ptr_hit)
+int	cylinder_check(t_ray ray, t_cyl cyl, double *t)
 {
 	t_vect3	oc_orth;
 	t_vect3	ray_orth;
@@ -97,7 +94,7 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray)
 	return (-1);
 }
 
-int	plane_check(t_ray ray, t_plane pl, double *t) //, t_pt3 *ptr_hit)
+int	plane_check(t_ray ray, t_plane pl, double *t)
 {
 	t_vect3	oc;
 	double	sol;
@@ -107,7 +104,6 @@ int	plane_check(t_ray ray, t_plane pl, double *t) //, t_pt3 *ptr_hit)
 	if (sol > 0)
 	{
 		*t = sol;
-		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol));
 		return (TRUE);
 	}
 	return (FALSE);
