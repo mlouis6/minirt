@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 17:58:04 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:01:25 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	t_vect3	dir;
 	int		length;
 
-	at = ray_at(scene.ray, t - 1.0e-6);
+	at = ray_at(scene.ray, t - __FLT_EPSILON__);//1.0e-6);
 	dir = vect3_sub(scene.light.pos, at);
 	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.tmax = length;
@@ -81,7 +81,8 @@ int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj)
 	if (t < *closest)
 	{
 		*closest = t;
-		*obj = curr_obj;
+		if (obj != NULL)
+			*obj = curr_obj;
 		return (true);
 	}
 	return (false);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:05:45 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,23 @@
 #include "window.h"
 #include <stdio.h>
 
+t_color	color_object(t_scene scene, t_obj *obj)
+{
+	t_color_sum	sum;
+	
+	sum = init_color(scene.amb);
+	obj->hit = ray_at(scene.ray, scene.ray.tmax);
+	sum = add_obj_color(sum, *obj);
+	if (check_hit_light(scene, obj, scene.ray.tmax))
+		sum = add_light(sum, scene, *obj);
+	return (color_normalize(sum));
+}
+
 void	display_scene(t_mlx *mlx, t_scene scene)
 {
 	t_pxl		win_pxl;
 	t_obj		*obj;
 	t_color		color;
-	t_color_sum	sum;
 
 	obj = NULL;
 	scene.vp = init_viewport(scene.cam);
@@ -38,14 +49,7 @@ void	display_scene(t_mlx *mlx, t_scene scene)
 					vect3_sub(scene.vp.curr_pt, scene.ray.origin));
 			color = (t_color){0, 0, 0};		
 			if (loop_objects(scene, &scene.ray, &obj))
-			{
-				sum = init_color(scene.amb);
-				obj->hit = ray_at(scene.ray, scene.ray.tmax);
-				if (check_hit_light(scene, obj, scene.ray.tmax))
-					sum = add_light(sum, scene, *obj);
-				sum = add_obj_color(sum, *obj);
-				color = color_normalize(sum);
-			}
+				color = color_object(scene, obj);
 			put_img(mlx->img, win_pxl, color);
 			++(win_pxl.x);
 		}
