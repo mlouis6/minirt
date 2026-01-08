@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 22:56:25 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:14:55 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ typedef struct s_parser
 	size_t	offset;
 }	t_parser;
 
-int	    parsing(int ac, char **av, t_scene *ptr_scene);
-int	    get_line(int fd, char **ptr_line);
-char	**split_line(char *line, char *set);
-void    free_split(char **split);
+int		parsing(int ac, char **av, t_scene *ptr_scene);
 int		get_line(int fd, char **ptr_line);
-int		fill_item(char **line_split, void *ptr_item, const t_parser parser[], size_t parser_size);
+char	**split_line(char *line, char *set);
+void	free_split(char **split);
+int		parse_line(char *line, t_scene *ptr_scene);
 int		get_coordinates(char *line, void *ptr_point);
 int		get_norm_vect3(char *line, void *ptr_vect3);
 int		get_color(char *line, void *color);

@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/29 12:51:42 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/08 18:02:01 by cviel            ###   ########.fr       */
+/*   Created: 2026/01/08 18:04:58 by cviel             #+#    #+#             */
+/*   Updated: 2026/01/08 18:05:14 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include <math.h>
+#include "dim3.h"
 
-# include "dim3.h"
-
-typedef struct s_ray
+double	min_pos(double t1, double t2)
 {
-	t_pt3	origin;
-	t_vect3	dir;
-	double	tmax;
-	double	curr_t;
-}	t_ray;
+	if (t1 > 0 && t2 > 0)
+		return (fmin(t1, t2));
+	return ((t1 > 0) * t1 + (t2 > 0) * t2);
+}
 
-#endif
+t_vect3	orth(t_vect3 u, t_vect3 om)
+{
+	return (vect3_add(om, \
+vect3_mult_nb(vect3_mult_nb(u, vect3_mult(om, u)), -1)));
+}

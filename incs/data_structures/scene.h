@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 21:26:04 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:03:03 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_light
 	t_color	color;
 }	t_light;
 
-typedef	struct s_vp
+typedef struct s_vp
 {
 	double	height;
 	double	width;

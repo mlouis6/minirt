@@ -6,7 +6,7 @@
 #    By: cviel <cviel@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2026/01/07 22:44:19 by cviel            ###   ########.fr        #
+#    Updated: 2026/01/08 18:14:06 by cviel            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ BUILD_DIR := .build
 SRC_DIR := srcs
 SRC := 	parsing/get_line.c \
 		parsing/get_types.c \
-		parsing/fill_item.c \
+		parsing/parse_line.c \
 		parsing/parsing.c \
 		parsing/split_line.c \
 		ray/ray.c \
@@ -40,6 +40,7 @@ SRC := 	parsing/get_line.c \
 		window/display.c \
 		parsing/free_all.c \
 		collisions_check.c \
+		math_utils.c \
 		main.c \
 
 SRC := $(SRC:%=$(SRC_DIR)/%)

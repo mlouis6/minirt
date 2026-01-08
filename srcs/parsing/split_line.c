@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 17:59:28 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:05:58 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ size_t	word_len(char **ptr_line, char *set)
 	len_word = 0;
 	while (**ptr_line != '\0' && ft_strchr(set, **ptr_line) != NULL)
 		++(*ptr_line);
-	while ((*ptr_line)[len_word] != '\0' && ft_strchr(set, (*ptr_line)[len_word]) == NULL)
+	while ((*ptr_line)[len_word] != '\0'
+			&& ft_strchr(set, (*ptr_line)[len_word]) == NULL)
 		++len_word;
 	return (len_word);
 }
@@ -81,7 +82,7 @@ char	*fill_word(char **ptr_line, size_t len)
 {
 	char	*split_i;
 	size_t	i;
-	
+
 	split_i = malloc(sizeof(char) * (len + 1));
 	if (split_i == NULL)
 		return (NULL);

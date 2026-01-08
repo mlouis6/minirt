@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 17:41:17 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:05:23 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray)
 		return (-1);
 	pt_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 	cm = vect3_sub(pt_hit, cyl.origin);
-	if (vect3_mult(cm, cyl.normal) >= 0 && vect3_mult(cm, cyl.normal) <= cyl.height)
+	if (vect3_mult(cm, cyl.normal) >= 0
+		&& vect3_mult(cm, cyl.normal) <= cyl.height)
 		return (sol1);
 	return (-1);
 }
@@ -107,17 +108,4 @@ int	plane_check(t_ray ray, t_plane pl, double *t)
 		return (TRUE);
 	}
 	return (FALSE);
-}
-
-double	min_pos(double t1, double t2)
-{
-	if (t1 > 0 && t2 > 0)
-		return (fmin(t1, t2));
-	return ((t1 > 0) * t1 + (t2 > 0) * t2);
-}
-
-t_vect3	orth(t_vect3 u, t_vect3 om)
-{
-	return (vect3_add(om, \
-vect3_mult_nb(vect3_mult_nb(u, vect3_mult(om, u)), -1)));
 }
