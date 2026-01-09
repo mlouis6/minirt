@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 17:43:54 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/09 17:34:50 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	print_error(int err)
 	else if (err == INVALID_FILE)
 		printf("Error\nFile formatting issue\n");
 }
-
+#include <stdlib.h>
 #include "ray.h"
 int	main(int ac, char **av)
 {
@@ -137,6 +137,8 @@ int	main(int ac, char **av)
 	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);
+	mlx_destroy_display(mlx.mlx);
+	free(mlx.mlx);
 	free_obj(scene.obj);
 	return (SUCCESS);
 }
