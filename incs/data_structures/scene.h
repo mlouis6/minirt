@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   scene.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/07 18:03:18 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/09 14:07:50 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ void	put_img(t_img img, t_pxl win_pxl, t_color c);
 
 t_ray	init_ray_cam(t_camera cam);
 t_ray	init_ray_obj(double t, t_scene scene);
-int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t);
-int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr_obj);
 int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
 
 int	sphere_check(t_ray ray, t_sph sph, double *t);
@@ -81,8 +79,11 @@ t_color_sum init_color(t_ambient amb);
 t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj);
 t_color_sum	add_obj_color(t_color_sum sum, t_obj obj);
 t_color		color_normalize(t_color_sum sum);
-// t_color		remove_color(t_color c);
 
-t_pt3	ray_at(t_ray ray, double t);
+t_vect3	orth(t_vect3 u, t_vect3 om);
+
+t_vect3	get_right(t_camera cam);
+t_vect3	get_up(t_camera cam);
+t_pt3	get_vp_center(t_camera cam, double focale);
 
 #endif

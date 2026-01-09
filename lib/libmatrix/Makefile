@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2025/10/22 08:48:21 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/09 14:17:18 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME := libmatrix.a
 
-INCS := matrix.h error.h dim3.h
+INCS := dim3.h
 INC_DIR := inc ../libft/inc
 
 # LIBS := ft
@@ -22,8 +22,7 @@ INC_DIR := inc ../libft/inc
 LIBS_TARGET := ../libft/libft.a
 
 SRC_DIR := src
-SRCS := mat3.c \
-		vect3.c
+SRCS := vect3.c vect3_basic.c
 SRCS := $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR := .build
@@ -36,7 +35,6 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror
 CPPFLAGS := $(addprefix -I,$(INC_DIR)) -MMD -MP
 LDFLAGS = $(addprefix -L,$(dir $(LIBS_TARGET)))
-# LDLIBS := $(addprefix -l,$(LIBS))
 MAKEFLAGS += --no-print-directory
 
 all: $(NAME)

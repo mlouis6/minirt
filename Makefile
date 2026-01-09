@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2025/12/30 12:49:10 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/09 14:02:21 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC := 	parsing/fill_object.c \
 		ray/light.c \
 		window/window_manager.c \
 		window/viewport.c \
+		window/viewport_dir.c \
 		window/color.c \
 		window/display.c \
 		parsing/free_all.c \
