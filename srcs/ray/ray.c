@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/08 18:01:25 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/08 18:10:05 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "dim3.h"
 #include "scene.h"
 #include "objects.h"
+#include <stdlib.h>
 
 t_pt3	ray_at(t_ray ray, double t)
 {
@@ -33,7 +34,6 @@ t_ray	init_ray_cam(t_camera cam)
 	ray.origin = cam.pos;
 	return (ray);
 }
-#include <stdio.h>
 
 t_ray	init_ray_obj(double t, t_scene scene)
 {
@@ -42,7 +42,7 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	t_vect3	dir;
 	int		length;
 
-	at = ray_at(scene.ray, t - __FLT_EPSILON__);//1.0e-6);
+	at = ray_at(scene.ray, t - __FLT_EPSILON__);
 	dir = vect3_sub(scene.light.pos, at);
 	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.tmax = length;
@@ -51,7 +51,6 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	ray.dir = vect3_normalize(dir);
 	return (ray);
 }
-#include <stdlib.h>
 
 int	dispatch_func_call(t_type OBJ, t_scene scene, t_ray ray, size_t k, double *t)
 {
