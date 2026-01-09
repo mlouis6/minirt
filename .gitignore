@@ -5,7 +5,6 @@ tmp/
 *.a
 .build/
 miniRT
-*.rt
 *.out.*
 *.log
 .gdb_history
