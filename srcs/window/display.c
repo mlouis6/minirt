@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 11:23:31 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 12:26:53 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_color	color_object(t_scene scene, t_obj *obj)
 	sum = init_color(scene.amb);
 	obj->hit = ray_at(scene.ray, scene.ray.tmax);
 	sum = add_obj_color(sum, *obj);
-	if (scene.light.brightness > 0 && check_hit_light(scene, obj, scene.ray.tmax))
+	if ( check_hit_light(scene, obj, scene.ray.tmax))
 	{
 		sum = add_light(sum, scene, *obj);
 	}
