@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:20:14 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 14:49:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,10 @@ t_vect3	vect3_cross(t_vect3 v1, t_vect3 v2)
 	res.y = (v1.z * v2.x) - (v1.x * v2.z);
 	res.z = (v1.x * v2.y) - (v1.y * v2.x);
 	return (res);
+}
+
+t_vect3	vect3_orth(t_vect3 u, t_vect3 om)
+{
+	return (vect3_add(om,
+			vect3_mult_nb(vect3_mult_nb(u, vect3_mult(om, u)), -1)));
 }

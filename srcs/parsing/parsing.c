@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 17:56:57 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:15:07 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	init_scene(t_scene *ptr_scene)
 {
 	int	ret;
 	int	i;
-	
+
 	ptr_scene->amb.lightning = -1;
 	ptr_scene->cam.fov = -1;
 	ptr_scene->light.brightness = -1;
@@ -107,41 +107,6 @@ int	init_scene(t_scene *ptr_scene)
 		++i;
 	}
 	return (SUCCESS);
-}
-
-int	fill_scene_info(char **line_split, t_scene *ptr_scene)
-{
-	int		ret;
-
-	ret = -1;
-	if (!line_split[0])
-		return (ret);
-	if (ft_strcmp(line_split[0], "A") == 0)
-		ret = fill_ambient_info(line_split + 1, ptr_scene);
-	else if (ft_strcmp(line_split[0], "C") == 0)
-		ret = fill_camera_info(line_split + 1, ptr_scene);
-	else if (ft_strcmp(line_split[0], "L") == 0)
-		ret = fill_light_info(line_split + 1, ptr_scene);
-	return (ret);
-}
-
-int	parse_line(char *line, t_scene *ptr_scene)
-{
-	int		ret;
-	char	**line_split;
-	
-	line_split = split_line(line, WHITE_SPACES);
-	if (line_split == NULL)
-		return (ERROR_MALLOC);
-	ret = fill_scene_info(line_split, ptr_scene);
-	if (ret == -1)
-	{
-		ret = fill_object_info(line_split, ptr_scene);
-		if (ret == -1)
-			ret = SUCCESS;
-	}
-	free_split(line_split);
-	return (ret);
 }
 
 int	get_scene(int fd, t_scene *ptr_scene)

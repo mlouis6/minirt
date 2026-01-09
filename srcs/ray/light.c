@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:05:09 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 16:29:54 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
 	else if (obj.type == CYLINDER)
 	{
 		normal = vect3_sub(obj.hit, obj.shape.cyl.origin);
-		normal = vect3_normalize(orth(obj.shape.cyl.normal, normal));
+		normal = vect3_normalize(vect3_orth(obj.shape.cyl.normal, normal));
 	}
 	else
 		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));

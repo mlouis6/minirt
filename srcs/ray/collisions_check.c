@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collisions_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 17:45:41 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/09 16:45:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@
 #include "ray.h"
 #include "deg2.h"
 
-double	min_pos(double t1, double t2);
-t_vect3	orth(t_vect3 u, t_vect3 om);
 double	find_sol(t_cyl cyl, t_coef coef, t_ray ray);
+double	min_pos(double t1, double t2);
 
-int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
+double	min_pos(double t1, double t2)
+{
+	if (t1 > 0 && t2 > 0)
+		return (fmin(t1, t2));
+	return ((t1 > 0) * t1 + (t2 > 0) * t2);
+}
+
+int	sphere_check(t_ray ray, t_sph sph, double *t)
 {
 	t_vect3	oc;
 	t_coef	coef;
@@ -37,7 +43,6 @@ int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 	if (coef.delta == 0 && sol1 > 0)
 	{
 		*t = sol1;
-		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 		return (TRUE);
 	}
 	sol1 = (-coef.b - sqrt(coef.delta)) / (2 * coef.a);
@@ -45,22 +50,20 @@ int	sphere_check(t_ray ray, t_sph sph, double *t) //, t_pt3 *ptr_hit)
 	if (coef.delta > 0 && min_pos(sol1, sol2) > 0)
 	{
 		*t = min_pos(sol1, sol2);
-		// *ptr_hit = vect3_add(ray.origin,
-		// 		vect3_mult_nb(ray.dir, min_pos(sol1, sol2)));
 		return (TRUE);
 	}
 	return (FALSE);
 }
 
-int	cylinder_check(t_ray ray, t_cyl cyl, double *t) //, t_pt3 *ptr_hit)
+int	cylinder_check(t_ray ray, t_cyl cyl, double *t)
 {
 	t_vect3	oc_orth;
 	t_vect3	ray_orth;
 	t_coef	coef;
 
-	oc_orth = orth(cyl.normal, vect3_add(cyl.origin,
+	oc_orth = vect3_orth(cyl.normal, vect3_add(cyl.origin,
 				vect3_mult_nb(ray.origin, -1)));
-	ray_orth = orth(cyl.normal, ray.dir);
+	ray_orth = vect3_orth(cyl.normal, ray.dir);
 	coef.a = vect3_mult(ray_orth, ray_orth);
 	coef.b = -2.0f * vect3_mult(oc_orth, ray_orth);
 	coef.c = vect3_mult(oc_orth, oc_orth) - pow(cyl.radius, 2);
@@ -92,12 +95,13 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray)
 		return (-1);
 	pt_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol1));
 	cm = vect3_sub(pt_hit, cyl.origin);
-	if (vect3_mult(cm, cyl.normal) >= 0 && vect3_mult(cm, cyl.normal) <= cyl.height)
+	if (vect3_mult(cm, cyl.normal) >= 0
+		&& vect3_mult(cm, cyl.normal) <= cyl.height)
 		return (sol1);
 	return (-1);
 }
 
-int	plane_check(t_ray ray, t_plane pl, double *t) //, t_pt3 *ptr_hit)
+int	plane_check(t_ray ray, t_plane pl, double *t)
 {
 	t_vect3	oc;
 	double	sol;
@@ -107,21 +111,7 @@ int	plane_check(t_ray ray, t_plane pl, double *t) //, t_pt3 *ptr_hit)
 	if (sol > 0)
 	{
 		*t = sol;
-		// *ptr_hit = vect3_add(ray.origin, vect3_mult_nb(ray.dir, sol));
 		return (TRUE);
 	}
 	return (FALSE);
-}
-
-double	min_pos(double t1, double t2)
-{
-	if (t1 > 0 && t2 > 0)
-		return (fmin(t1, t2));
-	return ((t1 > 0) * t1 + (t2 > 0) * t2);
-}
-
-t_vect3	orth(t_vect3 u, t_vect3 om)
-{
-	return (vect3_add(om, \
-vect3_mult_nb(vect3_mult_nb(u, vect3_mult(om, u)), -1)));
 }

@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 17:45:21 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 17:43:54 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 #include "window.h"
 #include "scene.h"
 #include "color.h"
-
-void	free_scene(t_scene *scene)
-{
-	free_obj(scene->obj);
-}
 
 void	print_sphere(t_vector vector_sph)
 {
@@ -143,5 +138,5 @@ int	main(int ac, char **av)
 	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
 	mlx_loop(mlx.mlx);
 	free_obj(scene.obj);
-	return (0);
+	return (SUCCESS);
 }

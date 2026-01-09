@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/05 17:47:26 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/08 18:05:58 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 #include <stdlib.h>
 #include "libft.h"
 
-int		count_words(char *line, char *set);
-int		word_len(char *line, char *set);
+size_t	count_words(char *line, char *set);
+size_t	word_len(char **ptr_line, char *set);
+char	*fill_word(char **ptr_line, size_t len);
 void	free_split(char **split);
 
 char	**split_line(char *line, char *set)
 {
 	char	**split;	
-	int		count;
-	int		i;
+	size_t	count;
+	size_t	i;
 
 	count = count_words(line, set);
 	split = malloc(sizeof(char *) * (count + 1));
@@ -31,27 +32,22 @@ char	**split_line(char *line, char *set)
 	i = 0;
 	while (*line != '\0')
 	{
-		while (*line != '\0' && ft_strchr(set, *line) != NULL)
-			++line;
-		count = word_len(line, set);
+		count = word_len(&line, set);
 		if (count == 0)
 			break ;
-		split[i] = malloc(sizeof(char) * (count + 1));
+		split[i] = fill_word(&line, count);
 		if (split[i] == NULL)
 		{
 			free_split(split);
 			return (NULL);
 		}
-		ft_strlcpy(split[i], line, count + 1);
-		while (ft_strchr(set, *line) == NULL)
-			++line;
 		++i;
 	}
 	split[i] = NULL;
 	return (split);
 }
 
-int	count_words(char *line, char *set)
+size_t	count_words(char *line, char *set)
 {
 	int	nb_words;
 
@@ -69,14 +65,36 @@ int	count_words(char *line, char *set)
 	return (nb_words);
 }
 
-int	word_len(char *line, char *set)
+size_t	word_len(char **ptr_line, char *set)
 {
 	int	len_word;
 
 	len_word = 0;
-	while (line[len_word] != '\0' && ft_strchr(set, line[len_word]) == NULL)
+	while (**ptr_line != '\0' && ft_strchr(set, **ptr_line) != NULL)
+		++(*ptr_line);
+	while ((*ptr_line)[len_word] != '\0'
+			&& ft_strchr(set, (*ptr_line)[len_word]) == NULL)
 		++len_word;
 	return (len_word);
+}
+
+char	*fill_word(char **ptr_line, size_t len)
+{
+	char	*split_i;
+	size_t	i;
+
+	split_i = malloc(sizeof(char) * (len + 1));
+	if (split_i == NULL)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		split_i[i] = **ptr_line;
+		++(*ptr_line);
+		++i;
+	}
+	split_i[i] = '\0';
+	return (split_i);
 }
 
 void	free_split(char **split)

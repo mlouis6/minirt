@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:07:50 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 16:29:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_light
 	t_color	color;
 }	t_light;
 
-typedef	struct s_vp
+typedef struct s_vp
 {
 	double	height;
 	double	width;
@@ -80,7 +80,7 @@ t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj);
 t_color_sum	add_obj_color(t_color_sum sum, t_obj obj);
 t_color		color_normalize(t_color_sum sum);
 
-t_vect3	orth(t_vect3 u, t_vect3 om);
+// t_vect3	orth(t_vect3 u, t_vect3 om);
 
 t_vect3	get_right(t_camera cam);
 t_vect3	get_up(t_camera cam);
