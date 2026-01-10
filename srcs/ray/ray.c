@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:08:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 20:48:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	int		length;
 
 	at = vect3_add(scene.ray.origin,
-			vect3_mult_nb(scene.ray.dir, t - __FLT_EPSILON__));
+			vect3_mult_nb(scene.ray.dir, t));
 	dir = vect3_sub(scene.light.pos, at);
 	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.tmax = length;

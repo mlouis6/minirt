@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/09 14:28:17 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/09 16:59:29 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int	get_coordinates(char *line, void *ptr_point)
 	char	*ptr_end;
 
 	((t_pt3 *)ptr_point)->x = ft_strtod(line, &ptr_end);
-	if (*ptr_end != ',')
+	if (line == ptr_end || *ptr_end != ',')
 		return (INVALID_FILE);
 	line = ptr_end + 1;
 	((t_pt3 *)ptr_point)->y = ft_strtod(line, &ptr_end);
-	if (*ptr_end != ',')
+	if (line == ptr_end || *ptr_end != ',')
 		return (INVALID_FILE);
 	line = ptr_end + 1;
 	((t_pt3 *)ptr_point)->z = ft_strtod(line, &ptr_end);
-	if (*ptr_end != '\0')
+	if (line == ptr_end || *ptr_end != '\0')
 		return (INVALID_FILE);
 	return (SUCCESS);
 }
@@ -62,17 +62,17 @@ int	get_color(char *line, void *ptr_color)
 	char	*ptr_end;
 
 	data = ft_strtoi(line, &ptr_end);
-	if (*ptr_end != ',' || data < 0 || data > 255)
+	if (line == ptr_end || *ptr_end != ',' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->r = data;
 	line = ptr_end + 1;
 	data = ft_strtoi(line, &ptr_end);
-	if (*ptr_end != ',' || data < 0 || data > 255)
+	if (line == ptr_end || *ptr_end != ',' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->g = data;
 	line = ptr_end + 1;
 	data = ft_strtoi(line, &ptr_end);
-	if (*ptr_end != '\0' || data < 0 || data > 255)
+	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->b = data;
 	return (SUCCESS);
@@ -84,7 +84,7 @@ int	get_intensity(char *line, void *ptr_intensity)
 	char	*ptr_end;
 
 	data = ft_strtod(line, &ptr_end);
-	if (*ptr_end != '\0' || data < 0 || data > 1)
+	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data > 1)
 		return (INVALID_FILE);
 	*(double *)ptr_intensity = data;
 	return (SUCCESS);
@@ -96,7 +96,7 @@ int	get_dist(char *line, void *ptr_dist)
 	char	*ptr_end;
 
 	data = ft_strtod(line, &ptr_end);
-	if (*ptr_end != '\0' || data < 0)
+	if (line == ptr_end || *ptr_end != '\0' || data < 0)
 		return (INVALID_FILE);
 	*(double *)ptr_dist = data;
 	return (SUCCESS);
@@ -119,7 +119,7 @@ int	get_fov(char *line, void *ptr_fov)
 	int		data;
 
 	data = ft_strtoi(line, &ptr_end);
-	if (*ptr_end != '\0' || data < 0 || data >= 180)
+	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data >= 180)
 		return (INVALID_FILE);
 	*(int *)ptr_fov = data;
 	return (SUCCESS);
