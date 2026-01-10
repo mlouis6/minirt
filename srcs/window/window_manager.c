@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 17:34:48 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/10 09:04:51 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,40 +21,37 @@ static bool	check_window_size(t_mlx *mlx)
 	mlx_get_screen_size(mlx->mlx, &mlx->screen_x, &mlx->screen_y);
 	if (mlx->screen_x < WINDOW_WIDTH || mlx->screen_y < WINDOW_HEIGHT)
 	{
-		ft_printf("x= %d ; y= %d\n", mlx->screen_x, mlx->screen_y);
-		ft_putendl_fd("Error\n", 2);
+		ft_putendl_fd("Error", 2);
 		ft_putendl_fd("Window is too big", 2);
-		close_window(mlx);
 		return (false);
 	}
 	return (true);
 }
 
-void	init_window(t_mlx *mlx, char *file)
+int	init_window(t_mlx *mlx, char *file)
 {
+	if (WINDOW_HEIGHT < 1 || WINDOW_WIDTH < 1)
+		return (1);
 	mlx->height = WINDOW_HEIGHT;
 	mlx->width = WINDOW_WIDTH;
-	mlx->win = NULL;
 	mlx->mlx = mlx_init();
+	mlx->img_height = WINDOW_HEIGHT;
 	mlx->img_width = WINDOW_WIDTH;
-	if (WINDOW_HEIGHT < 1)
-		mlx->img_height = 1;
-	else
-		mlx->img_height = WINDOW_HEIGHT;
 	if (!mlx->mlx)
-		close_window(mlx);
+		return (close_window(mlx));
 	if (!check_window_size(mlx))
-		close_window(mlx);
+		return (close_window(mlx));
 	mlx->win = mlx_new_window(mlx->mlx, mlx->width, mlx->height, file);
 	if (!mlx->win)
-		close_window(mlx);
+		return (close_window(mlx));
 	mlx->img.img = mlx_new_image(mlx->mlx, mlx->img_width, mlx->img_height);
 	if (!mlx->img.img)
-		close_window(mlx);
+		return (close_window(mlx));
 	mlx->img.addr = mlx_get_data_addr(
 			mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
 	if (!mlx->img.addr)
-		close_window(mlx);
+		return (close_window(mlx));
+	return (0);
 }
 
 int	cross_button_handler(t_mlx *mlx)
@@ -76,6 +73,7 @@ int	close_window(t_mlx *mlx)
 		mlx_destroy_image(mlx->mlx, mlx->img.img);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
-	mlx_loop_end(mlx->mlx);
+	if (mlx->mlx)
+		mlx_loop_end(mlx->mlx);
 	return (1);
 }

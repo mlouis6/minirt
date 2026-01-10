@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/09 17:34:50 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/10 08:58:48 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "window.h"
 #include "scene.h"
 #include "color.h"
+#include "libft.h"
 
 void	print_sphere(t_vector vector_sph)
 {
@@ -131,14 +132,17 @@ int	main(int ac, char **av)
 	// printf("%d\n", ret);
 	// if (ret == TRUE)
 	// 	printf("%f %f %f\n", hit.x, hit.y, hit.z);
-	init_window(&mlx, av[1]);
-	// raycast_loop(mlx, scene);
-	display_scene(&mlx, scene);
-	mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
-	mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
-	mlx_loop(mlx.mlx);
-	mlx_destroy_display(mlx.mlx);
-	free(mlx.mlx);
+	ft_bzero(&mlx, sizeof(mlx));
+	if (init_window(&mlx, av[1]) == SUCCESS)
+	{
+		display_scene(&mlx, scene);
+		mlx_hook(mlx.win, ON_KEYDOWN, 1L << 0, key_event, &mlx);
+		mlx_hook(mlx.win, ON_DESTROY, 1L << 17, cross_button_handler, &mlx);
+		mlx_loop(mlx.mlx);
+		mlx_destroy_display(mlx.mlx);
+	}
+	if (mlx.mlx)
+		free(mlx.mlx);
 	free_obj(scene.obj);
 	return (SUCCESS);
 }

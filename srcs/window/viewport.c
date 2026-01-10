@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:37:03 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:03:16 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/10 09:08:56 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static double	get_viewport_width(t_camera cam)
 
 static double	get_viewport_height(t_camera cam)
 {
-	return (RATIO * get_viewport_width(cam));
+	return (((double) WINDOW_HEIGHT / (double) WINDOW_WIDTH)
+		* get_viewport_width(cam));
 }
 
 static t_pt3	get_vp_top_left(t_camera cam, double focale)

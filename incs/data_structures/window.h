@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/05 17:29:03 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/10 09:08:30 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@
 #  define WINDOW_HEIGHT 1000
 # endif
 
-//? const globals
-# define RATIO ((double) WINDOW_HEIGHT / (double) WINDOW_WIDTH)
-
-// # define VIEWPORT_HEIGHT 5.0
-// # define VIEWPORT_WIDTH (RATIO * VIEWPORT_HEIGHT)
-//??
-
 enum
 {
 	ON_KEYDOWN = 2,
@@ -39,22 +32,22 @@ enum
 	KEY_ESC = 65307
 };
 
-typedef	struct s_pxl
+typedef struct s_pxl
 {
 	int	x;
 	int	y;
 }	t_pxl;
 
-typedef	struct s_img
+typedef struct s_img
 {
 	void	*img;
 	char	*addr;
 	int		bpp;
 	int		len;
 	int		endian;
-}	t_img; 
+}	t_img;
 
-typedef	struct s_mlx
+typedef struct s_mlx
 {
 	void	*mlx;
 	void	*win;
@@ -67,9 +60,9 @@ typedef	struct s_mlx
 	t_img	img;
 }	t_mlx;
 
-void	init_window(t_mlx *mlx, char *file);
-int		cross_button_handler(t_mlx *mlx);
-int		key_event(int key, t_mlx *mlx);
-int		close_window(t_mlx *mlx);
+int	init_window(t_mlx *mlx, char *file);
+int	cross_button_handler(t_mlx *mlx);
+int	key_event(int key, t_mlx *mlx);
+int	close_window(t_mlx *mlx);
 
 #endif
