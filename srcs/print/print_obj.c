@@ -6,13 +6,13 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 11:47:50 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 11:54:10 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:41:56 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include "parsing.h"
-#include "scene.h"
+#include "ft_vector.h"
+#include "objects.h"
 
 static void	print_sphere(t_vector vector_sph)
 {

@@ -6,14 +6,14 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 18:15:25 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:49:01 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:25:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "dim3.h"
 #include <math.h>
 
-double	vect3_mult(t_vect3 v1, t_vect3 v2)
+double	vect3_dot(t_vect3 v1, t_vect3 v2)
 {
 	double	res;
 
@@ -45,6 +45,5 @@ t_vect3	vect3_cross(t_vect3 v1, t_vect3 v2)
 
 t_vect3	vect3_orth(t_vect3 u, t_vect3 om)
 {
-	return (vect3_add(om,
-			vect3_mult_nb(vect3_mult_nb(u, vect3_mult(om, u)), -1)));
+	return (vect3_sub(om, vect3_mult(u, vect3_dot(om, u))));
 }

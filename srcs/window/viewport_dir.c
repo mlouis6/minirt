@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 13:49:41 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 14:03:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:59:58 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ t_vect3	get_up(t_camera cam)
 	return (vect3_cross(cam.dir, get_right(cam)));
 }
 
-t_pt3	get_vp_center(t_camera cam, double focale)
+t_pt3	get_vp_center(t_camera cam, double focal)
 {
 	t_pt3	center;
 
-	center = vect3_add(cam.pos, vect3_mult_nb(cam.dir, focale));
+	center = vect3_add(cam.pos, vect3_mult(cam.dir, focal));
 	return (center);
 }

@@ -6,13 +6,18 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 16:29:54 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:47:13 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "scene.h"
 #include <stdbool.h>
 #include <math.h>
+#include "scene.h"
+#include "objects.h"
+#include "dim3.h"
+#include "ray.h"
+#include "color.h"
+#include "minirt.h"
 
 int	check_hit_light(t_scene scene, t_obj *obj, double t)
 {
@@ -46,9 +51,9 @@ static t_color_sum	get_specular(t_scene scene, t_obj obj, t_vect3 normal)
 	double		specular;
 	t_color_sum	spec_c;
 
-	reflexion = vect3_sub(vect3_mult_nb(normal,
-				vect3_mult(normal, obj.ray.dir) * 2), obj.ray.dir);
-	specular = pow(fmax(0, vect3_mult(reflexion,
+	reflexion = vect3_sub(vect3_mult(normal,
+				vect3_dot(normal, obj.ray.dir) * 2), obj.ray.dir);
+	specular = pow(fmax(0, vect3_dot(reflexion,
 					vect3_normalize(vect3_sub(scene.cam.pos, obj.hit)))), 60);
 	spec_c.r = scene.light.color.r * scene.light.brightness * specular / 255;
 	spec_c.g = scene.light.color.g * scene.light.brightness * specular / 255;
@@ -71,9 +76,9 @@ t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
 	}
 	else
 		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));
-	if (vect3_mult(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
-		normal = vect3_mult_nb(normal, -1);
-	diffusion = fmax(vect3_mult(normal, vect3_normalize(obj.ray.dir)), 0);
+	if (vect3_dot(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
+		normal = vect3_mult(normal, -1);
+	diffusion = fmax(vect3_dot(normal, vect3_normalize(obj.ray.dir)), 0);
 	specular = get_specular(scene, obj, normal);
 	sum.r = sum.r + (diffusion * obj.color.r / 255) + specular.r;
 	sum.g = sum.g + (diffusion * obj.color.g / 255) + specular.g;

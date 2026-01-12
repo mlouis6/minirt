@@ -6,16 +6,16 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 19:16:23 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:55:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <stdlib.h>
-// #include <stdbool.h>
 #include "mlx.h"
+#include "minirt.h"
 #include "scene.h"
+#include "objects.h"
+#include "color.h"
 #include "window.h"
-#include <stdio.h>
 
 t_color	color_object(t_scene scene, t_obj *obj)
 {
@@ -23,7 +23,7 @@ t_color	color_object(t_scene scene, t_obj *obj)
 
 	sum = init_color(scene.amb);
 	obj->hit = vect3_add(scene.ray.origin,
-			vect3_mult_nb(scene.ray.dir, scene.ray.tmax));
+			vect3_mult(scene.ray.dir, scene.ray.tmax));
 	sum = add_obj_color(sum, *obj);
 	if (check_hit_light(scene, obj, scene.ray.tmax))
 		sum = add_light(sum, scene, *obj);

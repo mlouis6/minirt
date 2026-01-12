@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2026/01/12 11:50:36 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/12 19:45:11 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ BUILD_DIR := .build
 
 SRC_DIR := srcs
 SRC := 	parsing/get_line.c \
+		parsing/get_simple_types.c \
 		parsing/get_types.c \
 		parsing/parse_line.c \
 		parsing/parsing.c \
@@ -35,6 +36,7 @@ SRC := 	parsing/get_line.c \
 		ray/ray.c \
 		ray/light.c \
 		ray/collisions_check.c \
+		ray/collisions_utils.c \
 		window/window_manager.c \
 		window/viewport.c \
 		window/viewport_dir.c \

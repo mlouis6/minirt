@@ -6,26 +6,21 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 12:57:09 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:03:57 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <inttypes.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include "libft.h"
 #include "ret_val.h"
 #include "scene.h"
 #include "parsing.h"
 #include "ft_vector.h"
 
-int		check_extension(int ac, char **av);
-int		get_scene(int fd, t_scene *ptr_scene);
-void	print_scene(t_scene scene);
+static int	check_extension(int ac, char **av);
+static int	get_scene(int fd, t_scene *ptr_scene);
 
 int	parsing(int ac, char **av, t_scene *ptr_scene)
 {
@@ -38,14 +33,14 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 	fd = open(av[1], O_RDONLY);
 	if (fd == -1)
 	{
-		printf("Error\n");
+		ft_putstr_fd("Error\n", 2);
 		perror("open");
 		return (ERROR_SYSCALL);
 	}
 	ret = get_scene(fd, ptr_scene);
 	if (close(fd) == -1)
 	{
-		printf("Error\n");
+		ft_putstr_fd("Error\n", 2);
 		perror("close");
 		if (ret != SUCCESS)
 			return (ret);
@@ -54,7 +49,7 @@ int	parsing(int ac, char **av, t_scene *ptr_scene)
 	return (ret);
 }
 
-int	check_extension(int ac, char **av)
+static int	check_extension(int ac, char **av)
 {
 	int	len_file;
 	int	len_ext;
@@ -70,7 +65,7 @@ int	check_extension(int ac, char **av)
 	return (SUCCESS);
 }
 
-int	init_scene(t_scene *ptr_scene)
+static int	init_scene(t_scene *ptr_scene)
 {
 	int	ret;
 	int	i;
@@ -97,7 +92,7 @@ int	init_scene(t_scene *ptr_scene)
 	return (SUCCESS);
 }
 
-int	get_scene(int fd, t_scene *ptr_scene)
+static int	get_scene(int fd, t_scene *ptr_scene)
 {
 	int		ret;
 	char	*line;
@@ -115,6 +110,10 @@ int	get_scene(int fd, t_scene *ptr_scene)
 			break ;
 		ret = get_line(fd, &line);
 	}
+	if (ret == SUCCESS
+		&& (ptr_scene->cam.fov == -1 || ptr_scene->amb.lightning == -1
+			|| ptr_scene->light.brightness == -1))
+		ret = INVALID_FILE;
 	if (ret != SUCCESS)
 		free_obj(ptr_scene->obj);
 	return (ret);

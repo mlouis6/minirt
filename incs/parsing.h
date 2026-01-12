@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/23 17:38:20 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 12:49:13 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:13:09 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,8 @@
 # define PARSING_H
 
 # define WHITE_SPACES "\t\n\v\f\r "
-# define NB_INFO_AMB 2
-# define NB_INFO_CAM 3
-# define NB_INFO_LIGHT 3
-# define NB_INFO_SPH 3
-# define NB_INFO_PL 3
-# define NB_INFO_CYL 5
 
 # include "scene.h"
-
-typedef struct s_parser
-{
-	int		(*getter)(char *, void *);
-	size_t	offset;
-}	t_parser;
 
 int		parsing(int ac, char **av, t_scene *ptr_scene);
 int		get_line(int fd, char **ptr_line);

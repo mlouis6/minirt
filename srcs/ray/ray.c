@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 20:48:11 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 19:53:58 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <math.h>
+#include "minirt.h"
 #include "scene.h"
+#include "ray.h"
+#include "dim3.h"
 
 t_ray	init_ray_cam(t_camera cam)
 {
 	t_ray	ray;
 
-	ray.tmax = 1.0e30;
+	ray.tmax = __FLT_MAX__;
 	ray.curr_t = ray.tmax;
 	ray.origin = cam.pos;
 	return (ray);
@@ -32,7 +35,7 @@ t_ray	init_ray_obj(double t, t_scene scene)
 	int		length;
 
 	at = vect3_add(scene.ray.origin,
-			vect3_mult_nb(scene.ray.dir, t));
+			vect3_mult(scene.ray.dir, t));
 	dir = vect3_sub(scene.light.pos, at);
 	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.tmax = length;

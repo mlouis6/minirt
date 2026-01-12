@@ -6,14 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:31:04 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 13:42:19 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:55:12 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
-#include "scene.h"
+#include "color.h"
 #include "window.h"
-#include <math.h>
 
 static inline int	encode_color(t_color c)
 {
@@ -41,8 +39,8 @@ t_color	color_normalize(t_color_sum sum)
 {
 	t_color	color;
 
-	color.r = fmin(sum.r, 1) * 255;
-	color.g = fmin(sum.g, 1) * 255;
-	color.b = fmin(sum.b, 1) * 255;
+	color.r = 255 * sum.r / (0.5 + sum.r);
+	color.g = 255 * sum.g / (0.5 + sum.g);
+	color.b = 255 * sum.b / (0.5 + sum.b);
 	return (color);
 }

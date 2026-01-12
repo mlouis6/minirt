@@ -6,12 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 12:48:51 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 20:02:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdbool.h>
+#include "ret_val.h"
 #include "mlx.h"
 #include "libft.h"
 #include "window.h"
@@ -34,13 +34,13 @@ static int	close_window(t_mlx *mlx)
 		mlx_destroy_image(mlx->mlx, mlx->img.img);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
-	return (1);
+	return (ERROR_MLX);
 }
 
 int	init_window(t_mlx *mlx, char *file)
 {
 	if (WINDOW_HEIGHT < 1 || WINDOW_WIDTH < 1)
-		return (1);
+		return (ERROR_MLX);
 	mlx->height = WINDOW_HEIGHT;
 	mlx->width = WINDOW_WIDTH;
 	mlx->mlx = mlx_init();
@@ -60,14 +60,14 @@ int	init_window(t_mlx *mlx, char *file)
 			mlx->img.img, &mlx->img.bpp, &mlx->img.len, &mlx->img.endian);
 	if (!mlx->img.addr)
 		return (close_window(mlx));
-	return (0);
+	return (SUCCESS);
 }
 
 int	cross_button_handler(t_mlx *mlx)
 {
 	close_window(mlx);
 	mlx_loop_end(mlx->mlx);
-	return (0);
+	return (SUCCESS);
 }
 
 int	key_event(int key, t_mlx *mlx)
@@ -77,5 +77,5 @@ int	key_event(int key, t_mlx *mlx)
 		close_window(mlx);
 		mlx_loop_end(mlx->mlx);
 	}
-	return (0);
+	return (SUCCESS);
 }

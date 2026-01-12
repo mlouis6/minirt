@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   split_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/25 08:19:58 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 18:05:58 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 19:41:13 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include "libft.h"
 
-size_t	count_words(char *line, char *set);
-size_t	word_len(char **ptr_line, char *set);
-char	*fill_word(char **ptr_line, size_t len);
-void	free_split(char **split);
+static size_t	count_words(char *line, char *set);
+static size_t	word_len(char **ptr_line, char *set);
+static char		*fill_word(char **ptr_line, size_t len);
+void			free_split(char **split);
 
 char	**split_line(char *line, char *set)
 {
@@ -47,7 +47,7 @@ char	**split_line(char *line, char *set)
 	return (split);
 }
 
-size_t	count_words(char *line, char *set)
+static size_t	count_words(char *line, char *set)
 {
 	int	nb_words;
 
@@ -65,7 +65,7 @@ size_t	count_words(char *line, char *set)
 	return (nb_words);
 }
 
-size_t	word_len(char **ptr_line, char *set)
+static size_t	word_len(char **ptr_line, char *set)
 {
 	int	len_word;
 
@@ -78,7 +78,7 @@ size_t	word_len(char **ptr_line, char *set)
 	return (len_word);
 }
 
-char	*fill_word(char **ptr_line, size_t len)
+static char	*fill_word(char **ptr_line, size_t len)
 {
 	char	*split_i;
 	size_t	i;

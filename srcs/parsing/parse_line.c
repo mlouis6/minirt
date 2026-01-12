@@ -3,63 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   parse_line.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 18:08:11 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 18:16:05 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 20:05:30 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include "libft.h"
 #include "parsing.h"
 #include "scene.h"
 #include "objects.h"
 #include "ret_val.h"
+#include "parser.h"
 
-static const t_parser	g_amb_parser[] = {
-{&get_intensity, offsetof(t_ambient, lightning)},
-{&get_color, offsetof(t_ambient, color)}};
-
-static const t_parser	g_cam_parser[] = {
-{&get_coordinates, offsetof(t_camera, pos)},
-{&get_norm_vect3, offsetof(t_camera, dir)},
-{&get_fov, offsetof(t_camera, fov)}};
-
-static const t_parser	g_light_parser[] = {
-{&get_coordinates, offsetof(t_light, pos)},
-{&get_intensity, offsetof(t_light, brightness)},
-{&get_color, offsetof(t_light, color)}};
-
-static const t_parser	g_sph_parser[] = {
-{&get_coordinates, offsetof(t_obj, shape) + offsetof(t_shape, sphere)
-	+ offsetof(t_sph, center)},
-{&get_radius, offsetof(t_obj, shape) + offsetof(t_shape, sphere)
-	+ offsetof(t_sph, radius)},
-{&get_color, offsetof(t_obj, color)}};
-
-static const t_parser	g_pl_parser[] = {
-{&get_coordinates, offsetof(t_obj, shape) + offsetof(t_shape, plane)
-	+ offsetof(t_plane, origin)},
-{&get_norm_vect3, offsetof(t_obj, shape) + offsetof(t_shape, plane)
-	+ offsetof(t_plane, normal)},
-{&get_color, offsetof(t_obj, color)}};
-
-static const t_parser	g_cyl_parser[] = {
-{&get_coordinates, offsetof(t_obj, shape) + offsetof(t_shape, cyl)
-	+ offsetof(t_cyl, origin)},
-{&get_norm_vect3, offsetof(t_obj, shape) + offsetof(t_shape, cyl)
-	+ offsetof(t_cyl, normal)},
-{&get_radius, offsetof(t_obj, shape) + offsetof(t_shape, cyl)
-	+ offsetof(t_cyl, radius)},
-{&get_dist, offsetof(t_obj, shape) + offsetof(t_shape, cyl)
-	+ offsetof(t_cyl, height)},
-{&get_color, offsetof(t_obj, color)}};
-
-int	fill_scene_info(char **line_split, t_scene *ptr_scene);
-int	fill_object_info(char **line_split, t_scene *ptr_scene);
-int	fill_item(char **line_split, void *ptr_item,
-		const t_parser parser[], size_t parser_size);
+static int	fill_scene_info(char **line_split, t_scene *ptr_scene);
+static int	fill_object_info(char **line_split, t_scene *ptr_scene);
+static int	fill_item(char **line_split, void *ptr_item,
+				const t_parser parser[], size_t parser_size);
 
 int	parse_line(char *line, t_scene *ptr_scene)
 {
@@ -69,35 +30,40 @@ int	parse_line(char *line, t_scene *ptr_scene)
 	line_split = split_line(line, WHITE_SPACES);
 	if (line_split == NULL)
 		return (ERROR_MALLOC);
-	ret = fill_scene_info(line_split, ptr_scene);
-	if (ret == -1)
+	ret = SUCCESS;
+	if (*line_split != NULL)
 	{
-		ret = fill_object_info(line_split, ptr_scene);
+		ret = fill_scene_info(line_split, ptr_scene);
+		if (ret == -1)
+		{
+			ret = fill_object_info(line_split, ptr_scene);
+		}
 	}
 	free_split(line_split);
 	return (ret);
 }
 
-int	fill_scene_info(char **line_split, t_scene *ptr_scene)
+static int	fill_scene_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
 
 	ret = -1;
 	if (!line_split[0])
 		return (ret);
-	if (ft_strcmp(line_split[0], "A") == 0)
+	if (ft_strcmp(line_split[0], "A") == 0 && ptr_scene->amb.lightning == -1)
 		ret = fill_item(line_split + 1,
 				&ptr_scene->amb, g_amb_parser, NB_INFO_AMB);
-	else if (ft_strcmp(line_split[0], "C") == 0)
+	else if (ft_strcmp(line_split[0], "C") == 0 && ptr_scene->cam.fov == -1)
 		ret = fill_item(line_split + 1,
 				&ptr_scene->cam, g_cam_parser, NB_INFO_CAM);
-	else if (ft_strcmp(line_split[0], "L") == 0)
+	else if (ft_strcmp(line_split[0], "L") == 0
+		&& ptr_scene->light.brightness == -1)
 		ret = fill_item(line_split + 1,
 				&ptr_scene->light, g_light_parser, NB_INFO_LIGHT);
 	return (ret);
 }
 
-int	choose_object(char **line_split, t_obj *ptr_obj)
+static int	choose_object(char **line_split, t_obj *ptr_obj)
 {
 	int	ret;
 
@@ -120,7 +86,7 @@ int	choose_object(char **line_split, t_obj *ptr_obj)
 	return (ret);
 }
 
-int	fill_object_info(char **line_split, t_scene *ptr_scene)
+static int	fill_object_info(char **line_split, t_scene *ptr_scene)
 {
 	int		ret;
 	t_obj	obj;
@@ -137,7 +103,7 @@ int	fill_object_info(char **line_split, t_scene *ptr_scene)
 	return (ret);
 }
 
-int	fill_item(char **line_split, void *ptr_item,
+static int	fill_item(char **line_split, void *ptr_item,
 	const t_parser parser[], size_t parser_size)
 {
 	int		ret;

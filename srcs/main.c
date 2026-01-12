@@ -6,18 +6,18 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 12:24:18 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 19:02:17 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include <stdlib.h>
+#include "minirt.h"
 #include "mlx.h"
 #include "ret_val.h"
 #include "parsing.h"
 #include "scene.h"
 #include "libft.h"
 #include "print.h"
-#include <stdlib.h>
 
 int	main(int ac, char **av)
 {
@@ -31,8 +31,6 @@ int	main(int ac, char **av)
 		print_error(err);
 		return (err);
 	}
-	print_scene(scene); //! del
-	print_obj(scene.obj); //! del
 	ft_bzero(&mlx, sizeof(mlx));
 	if (init_window(&mlx, av[1]) == SUCCESS)
 	{

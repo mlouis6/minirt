@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ret_val.h                                          :+:      :+:    :+:   */
+/*   collisions_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/08 18:45:55 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 17:15:58 by mlouis           ###   ########.fr       */
+/*   Created: 2026/01/12 19:42:55 by mlouis            #+#    #+#             */
+/*   Updated: 2026/01/12 19:43:19 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RET_VAL_H
-# define RET_VAL_H
+#include <math.h>
 
-enum e_ret_val
+double	min_pos(double t1, double t2)
 {
-	SUCCESS = 0,
-	ERROR_ARGUMENT,
-	ERROR_SYSCALL,
-	ERROR_MALLOC,
-	ERROR_FILENAME,
-	INVALID_FILE,
-	ERROR_MLX
-};
-
-#endif
+	if (t1 > 0 && t2 > 0)
+		return (fmin(t1, t2));
+	return ((t1 > 0) * t1 + (t2 > 0) * t2);
+}

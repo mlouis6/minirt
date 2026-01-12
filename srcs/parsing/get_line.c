@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_line.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/22 16:41:11 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/07 17:40:58 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 19:28:29 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 #define BUFF_SIZE 10
 
-int		handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
-char	*endl_cut(char *s, int len_endl);
+static int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check);
+static char	*endl_cut(char *s, int len_endl);
 
 int	get_line(int fd, char **ptr_line)
 {
@@ -49,7 +49,7 @@ int	get_line(int fd, char **ptr_line)
 	return (SUCCESS);
 }
 
-int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
+static int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 {
 	char	*endl;
 	int		len_endl;
@@ -76,7 +76,7 @@ int	handle_buffer(char **ptr_line, char *buff, int *ptr_full_check)
 	return (SUCCESS);
 }
 
-char	*endl_cut(char *s, int len_endl)
+static char	*endl_cut(char *s, int len_endl)
 {
 	char	*end_line;
 	int		i;
