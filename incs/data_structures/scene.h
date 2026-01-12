@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/09 16:29:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 11:36:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,32 +58,28 @@ typedef struct s_scene
 	t_ray		ray;
 }	t_scene;
 
-t_vp	init_viewport(t_camera cam);
-t_pt3	pixel_to_vp_pt(t_scene scene, t_pxl win_pxl);
-void	display_scene(t_mlx *mlx, t_scene scene);
-// void	put_img_ambient(t_img img, t_pxl win_pxl, t_ambient ambi);
-// void	put_img_object(t_img img, t_pxl win_pxl, t_obj obj, t_scene scene);
-void	put_img(t_img img, t_pxl win_pxl, t_color c);
+t_vp		init_viewport(t_camera cam);
+t_pt3		pixel_to_vp_pt(t_scene scene, t_pxl win_pxl);
+void		put_img(t_img img, t_pxl win_pxl, t_color c);
+void		display_scene(t_mlx *mlx, t_scene scene);
 
-t_ray	init_ray_cam(t_camera cam);
-t_ray	init_ray_obj(double t, t_scene scene);
-int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
+t_ray		init_ray_cam(t_camera cam);
+t_ray		init_ray_obj(double t, t_scene scene);
+int			loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
 
-int	sphere_check(t_ray ray, t_sph sph, double *t);
-int	cylinder_check(t_ray ray, t_cyl cyl, double *t);
-int	plane_check(t_ray ray, t_plane pl, double *t);
+int			sphere_check(t_ray ray, t_sph sph, double *t);
+int			cylinder_check(t_ray ray, t_cyl cyl, double *t);
+int			plane_check(t_ray ray, t_plane pl, double *t);
 
-int	check_hit_light(t_scene scene, t_obj *obj, double t);
+int			check_hit_light(t_scene scene, t_obj *obj, double t);
 
-t_color_sum init_color(t_ambient amb);
+t_color_sum	init_color(t_ambient amb);
 t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj);
 t_color_sum	add_obj_color(t_color_sum sum, t_obj obj);
 t_color		color_normalize(t_color_sum sum);
 
-// t_vect3	orth(t_vect3 u, t_vect3 om);
-
-t_vect3	get_right(t_camera cam);
-t_vect3	get_up(t_camera cam);
-t_pt3	get_vp_center(t_camera cam, double focale);
+t_vect3		get_right(t_camera cam);
+t_vect3		get_up(t_camera cam);
+t_pt3		get_vp_center(t_camera cam, double focale);
 
 #endif

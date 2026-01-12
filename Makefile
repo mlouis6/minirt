@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2026/01/09 16:44:51 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/12 11:50:36 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,9 @@ SRC := 	parsing/get_line.c \
 		window/color.c \
 		window/display.c \
 		parsing/free_all.c \
+		print/print_error.c \
+		print/print_obj.c \
+		print/print_scene.c \
 		main.c \
 
 SRC := $(SRC:%=$(SRC_DIR)/%)

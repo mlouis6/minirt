@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_vector.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 18:01:13 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/07 20:24:08 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 11:32:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_VECTOR_H
 # define FT_VECTOR_H
 
-#include <unistd.h>
+# include <unistd.h>
 
 enum e_ret
 {
