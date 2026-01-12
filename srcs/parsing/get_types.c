@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/09 16:59:29 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 10:48:59 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,17 @@ double	norm_sq(t_vect3 vect3)
 
 int	get_norm_vect3(char *line, void *ptr_vect3)
 {
-	int	ret;
+	int		ret;
+	double	norm;
 
 	ret = get_coordinates(line, ptr_vect3);
 	if (ret != SUCCESS)
 		return (ret);
-	if (norm_sq(*(t_vect3 *)ptr_vect3) != 1.0f)
-	{
+	norm = sqrt(norm_sq(*(t_vect3 *)ptr_vect3));
+	if (norm > 1.0f + 1e-3 || norm < 1.0f - 1e-3)
+		return (INVALID_FILE);
+	if (norm != 1.0f)
 		*(t_vect3 *)ptr_vect3 = vect3_normalize(*(t_vect3 *)ptr_vect3);
-		// return (INVALID_FILE);
-	}
 	return (SUCCESS);
 }
 
