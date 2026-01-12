@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 13:25:57 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 12:21:08 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 12:48:19 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ typedef struct s_mlx
 int	init_window(t_mlx *mlx, char *file);
 int	cross_button_handler(t_mlx *mlx);
 int	key_event(int key, t_mlx *mlx);
-int	close_window(t_mlx *mlx);
 
 #endif

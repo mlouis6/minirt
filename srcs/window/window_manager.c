@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 12:24:29 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 12:48:51 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ static bool	check_window_size(t_mlx *mlx)
 		return (false);
 	}
 	return (true);
+}
+
+static int	close_window(t_mlx *mlx)
+{
+	if (mlx->img.img)
+		mlx_destroy_image(mlx->mlx, mlx->img.img);
+	if (mlx->win)
+		mlx_destroy_window(mlx->mlx, mlx->win);
+	return (1);
 }
 
 int	init_window(t_mlx *mlx, char *file)
@@ -69,13 +78,4 @@ int	key_event(int key, t_mlx *mlx)
 		mlx_loop_end(mlx->mlx);
 	}
 	return (0);
-}
-
-int	close_window(t_mlx *mlx)
-{
-	if (mlx->img.img)
-		mlx_destroy_image(mlx->mlx, mlx->img.img);
-	if (mlx->win)
-		mlx_destroy_window(mlx->mlx, mlx->win);
-	return (1);
 }

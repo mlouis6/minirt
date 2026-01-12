@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/20 10:33:37 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 11:36:26 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 12:51:53 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ void		display_scene(t_mlx *mlx, t_scene scene);
 t_ray		init_ray_cam(t_camera cam);
 t_ray		init_ray_obj(double t, t_scene scene);
 int			loop_objects(t_scene scene, t_ray *ray, t_obj **obj);
+int			check_hit_light(t_scene scene, t_obj *obj, double t);
 
 int			sphere_check(t_ray ray, t_sph sph, double *t);
 int			cylinder_check(t_ray ray, t_cyl cyl, double *t);
 int			plane_check(t_ray ray, t_plane pl, double *t);
-
-int			check_hit_light(t_scene scene, t_obj *obj, double t);
 
 t_color_sum	init_color(t_ambient amb);
 t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj);

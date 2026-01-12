@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:20:46 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/08 18:15:07 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/12 12:57:09 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,13 @@ int	check_extension(int ac, char **av)
 	int	len_ext;
 
 	if (ac == 1)
-	{
-		printf("Error\n");
-		printf("You must specify a path to a .rt file\n");
 		return (ERROR_ARGUMENT);
-	}
 	len_file = ft_strlen(av[1]);
 	len_ext = ft_strlen(".rt");
 	if (len_file <= len_ext)
-	{
-		printf("Error\n");
-		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
-	}
 	if (ft_strncmp(&av[1][len_file - len_ext], ".rt", 4) != 0)
-	{
-		printf("Error\n");
-		printf("Wrong filename or file extension\n");
 		return (ERROR_FILENAME);
-	}
 	return (SUCCESS);
 }
 
