@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 11:43:27 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/10 09:04:51 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/12 12:24:29 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,17 @@ int	init_window(t_mlx *mlx, char *file)
 int	cross_button_handler(t_mlx *mlx)
 {
 	close_window(mlx);
+	mlx_loop_end(mlx->mlx);
 	return (0);
 }
 
 int	key_event(int key, t_mlx *mlx)
 {
 	if (key == KEY_ESC)
+	{
 		close_window(mlx);
+		mlx_loop_end(mlx->mlx);
+	}
 	return (0);
 }
 
@@ -73,7 +77,5 @@ int	close_window(t_mlx *mlx)
 		mlx_destroy_image(mlx->mlx, mlx->img.img);
 	if (mlx->win)
 		mlx_destroy_window(mlx->mlx, mlx->win);
-	if (mlx->mlx)
-		mlx_loop_end(mlx->mlx);
 	return (1);
 }
