@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_simple_types.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:31:39 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 19:33:14 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/13 19:37:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,13 @@ int	get_radius(char *line, void *ptr_radius)
 
 int	get_fov(char *line, void *ptr_fov)
 {
+	int		ret;
 	char	*ptr_end;
 	int		data;
 
-	data = ft_strtoi(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data >= 180)
+	ret = ft_strtoi(line, &ptr_end, &data);
+	if (ret != SUCCESS || line == ptr_end
+		|| *ptr_end != '\0' || data < 0 || data >= 180)
 		return (INVALID_FILE);
 	*(int *)ptr_fov = data;
 	return (SUCCESS);

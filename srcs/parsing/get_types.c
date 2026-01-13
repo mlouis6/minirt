@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_types.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 19:31:27 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/13 19:38:08 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,25 @@ int	get_norm_vect3(char *line, void *ptr_vect3)
 
 int	get_color(char *line, void *ptr_color)
 {
+	int		ret;
 	int		data;
 	char	*ptr_end;
 
-	data = ft_strtoi(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != ',' || data < 0 || data > 255)
+	ret = ft_strtoi(line, &ptr_end, &data);
+	if (ret != SUCCESS || line == ptr_end
+		|| *ptr_end != ',' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->r = data;
 	line = ptr_end + 1;
-	data = ft_strtoi(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != ',' || data < 0 || data > 255)
+	ret = ft_strtoi(line, &ptr_end, &data);
+	if (ret != SUCCESS || line == ptr_end
+		|| *ptr_end != ',' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->g = data;
 	line = ptr_end + 1;
-	data = ft_strtoi(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data > 255)
+	ret = ft_strtoi(line, &ptr_end, &data);
+	if (ret != SUCCESS || line == ptr_end
+		|| *ptr_end != '\0' || data < 0 || data > 255)
 		return (INVALID_FILE);
 	((t_color *)ptr_color)->b = data;
 	return (SUCCESS);

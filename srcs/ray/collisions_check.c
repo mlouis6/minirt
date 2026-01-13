@@ -6,7 +6,7 @@
 /*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/13 19:26:16 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/13 19:35:11 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ int	plane_check(t_ray ray, t_plane pl, double *t)
 	double	div;
 	double	sol;
 
-	if (vect3_dot(ray.dir, pl.normal) == 0)
+	div = vect3_dot(ray.dir, pl.normal);
+	if (div == 0)
 		return (false);
 	co = vect3_sub(pl.origin, ray.origin);
 	sol = vect3_dot(co, pl.normal) / div;
