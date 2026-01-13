@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collisions_check.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
+/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 19:45:31 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/13 19:26:16 by cviel            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,11 +105,14 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray)
 
 int	plane_check(t_ray ray, t_plane pl, double *t)
 {
-	t_vect3	oc;
+	t_vect3	co;
+	double	div;
 	double	sol;
 
-	oc = vect3_sub(pl.origin, ray.origin);
-	sol = vect3_dot(oc, pl.normal) / vect3_dot(ray.dir, pl.normal);
+	if (vect3_dot(ray.dir, pl.normal) == 0)
+		return (false);
+	co = vect3_sub(pl.origin, ray.origin);
+	sol = vect3_dot(co, pl.normal) / div;
 	if (sol > __FLT_EPSILON__)
 	{
 		*t = sol;
