@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 15:01:21 by mlouis            #+#    #+#             */
-/*   Updated: 2025/11/04 15:15:15 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:15:55 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ double	ft_strtod(char *str, char **endptr)
 		sign = -1;
 		++i;
 	}
+	else if (str[i ]== '+')
+		++i;
 	res = integer_part(str, &i);
 	res += fractional_part(str, &i);
 	while (ft_isdigit(str[i]))

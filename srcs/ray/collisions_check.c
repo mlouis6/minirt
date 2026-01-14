@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 16:59:05 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 19:45:31 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 19:59:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,25 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray);
 
 int	sphere_check(t_ray ray, t_sph sph, double *t)
 {
-	t_vect3	oc;
+	t_vect3	co;
 	t_coef	coef;
 	double	sol1;
 	double	sol2;
 
-	oc = vect3_sub(sph.center, ray.origin);
+	co = vect3_sub(ray.origin, sph.center);
 	coef.a = vect3_dot(ray.dir, ray.dir);
-	coef.b = -2.0f * vect3_dot(ray.dir, oc);
-	coef.c = vect3_dot(oc, oc) - pow(sph.radius, 2);
+	coef.b = 2.0f * vect3_dot(ray.dir, co);
+	coef.c = vect3_dot(co, co) - pow(sph.radius, 2);
 	coef.delta = pow(coef.b, 2) - 4 * coef.a * coef.c;
 	sol1 = -coef.b / (2 * coef.a);
-	if (coef.delta == 0 && sol1 > __FLT_EPSILON__)
+	if (fabs(coef.delta) <= __FLT_EPSILON__ && sol1 > __FLT_EPSILON__)
 	{
 		*t = sol1;
 		return (true);
 	}
 	sol1 = (-coef.b - sqrt(coef.delta)) / (2 * coef.a);
 	sol2 = (-coef.b + sqrt(coef.delta)) / (2 * coef.a);
-	if (coef.delta > 0 && min_pos(sol1, sol2) > __FLT_EPSILON__)
+	if (coef.delta > __FLT_EPSILON__ && min_pos(sol1, sol2) > __FLT_EPSILON__)
 	{
 		*t = min_pos(sol1, sol2);
 		return (true);
@@ -61,7 +61,7 @@ int	cylinder_check(t_ray ray, t_cyl cyl, double *t)
 	coef.c = vect3_dot(oc_orth, oc_orth) - pow(cyl.radius, 2);
 	coef.delta = pow(coef.b, 2) - 4 * coef.a * coef.c;
 	*t = find_sol(cyl, coef, ray);
-	if (*t < __FLT_EPSILON__)
+	if (*t < 0)
 		return (false);
 	return (true);
 }
@@ -71,7 +71,7 @@ int	check_sol(t_cyl cyl, t_ray ray, double sol)
 	t_pt3	pt_hit;
 	t_vect3	cm;
 
-	if (sol < __FLT_EPSILON__)
+	if (sol < 0)
 		return (false);
 	pt_hit = vect3_add(ray.origin, vect3_mult(ray.dir, sol));
 	cm = vect3_sub(pt_hit, cyl.origin);
@@ -85,9 +85,9 @@ double	find_sol(t_cyl cyl, t_coef coef, t_ray ray)
 {
 	double	sol;
 
-	if (coef.delta < -__FLT_EPSILON__)
+	if (coef.delta < 0)
 		return (-1);
-	if (coef.delta >= -__FLT_EPSILON__ && coef.delta <= __FLT_EPSILON__)
+	if (coef.delta == 0)
 	{
 		sol = -coef.b / (2 * coef.a);
 		if (check_sol(cyl, ray, sol) == true)
@@ -110,7 +110,7 @@ int	plane_check(t_ray ray, t_plane pl, double *t)
 
 	oc = vect3_sub(pl.origin, ray.origin);
 	sol = vect3_dot(oc, pl.normal) / vect3_dot(ray.dir, pl.normal);
-	if (sol > __FLT_EPSILON__)
+	if (sol > 0)
 	{
 		*t = sol;
 		return (true);

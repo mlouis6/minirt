@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:31:04 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 19:55:12 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 17:51:31 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,16 @@ void	put_img(t_img img, t_pxl win_pxl, t_color c)
 		i -= 8;
 	}
 }
-
+#include <math.h>
 t_color	color_normalize(t_color_sum sum)
 {
 	t_color	color;
 
-	color.r = 255 * sum.r / (0.5 + sum.r);
-	color.g = 255 * sum.g / (0.5 + sum.g);
-	color.b = 255 * sum.b / (0.5 + sum.b);
+	color.r = 255 * sum.r / (1.0f + sum.r);
+	color.g = 255 * sum.g / (1.0f + sum.g);
+	color.b = 255 * sum.b / (1.0f + sum.b);
+	// color.r = fmin(1, sum.r) * 255;
+	// color.g = fmin(1, sum.g) * 255;
+	// color.b = fmin(1, sum.b) * 255;
 	return (color);
 }

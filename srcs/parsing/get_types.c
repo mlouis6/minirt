@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 19:17:02 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/12 19:31:27 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:37:27 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,18 @@ int	get_coordinates(char *line, void *ptr_point)
 	char	*ptr_end;
 
 	((t_pt3 *)ptr_point)->x = ft_strtod(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != ',')
+	if (line == ptr_end || *ptr_end != ','
+		|| ((t_pt3 *)ptr_point)->x == INFINITY || ((t_pt3 *)ptr_point)->x == -INFINITY)
 		return (INVALID_FILE);
 	line = ptr_end + 1;
 	((t_pt3 *)ptr_point)->y = ft_strtod(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != ',')
+	if (line == ptr_end || *ptr_end != ','
+		|| ((t_pt3 *)ptr_point)->y == INFINITY || ((t_pt3 *)ptr_point)->y == -INFINITY)
 		return (INVALID_FILE);
 	line = ptr_end + 1;
 	((t_pt3 *)ptr_point)->z = ft_strtod(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != '\0')
+	if (line == ptr_end || *ptr_end != '\0'
+		|| ((t_pt3 *)ptr_point)->z == INFINITY || ((t_pt3 *)ptr_point)->z == -INFINITY)
 		return (INVALID_FILE);
 	return (SUCCESS);
 }

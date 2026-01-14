@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 19:53:58 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 18:26:01 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_ray	init_ray_cam(t_camera cam)
 {
 	t_ray	ray;
 
-	ray.tmax = __FLT_MAX__;
+	ray.tmax = INFINITY;
 	ray.curr_t = ray.tmax;
 	ray.origin = cam.pos;
 	return (ray);

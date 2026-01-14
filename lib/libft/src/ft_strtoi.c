@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtoi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cviel <cviel@student.42.fr>                +#+  +:+       +#+        */
+/*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 14:35:45 by cviel             #+#    #+#             */
-/*   Updated: 2025/11/12 14:50:15 by cviel            ###   ########.fr       */
+/*   Updated: 2026/01/14 16:15:26 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_strtoi(char *ptr_str, char **ptr_end)
 {
@@ -24,6 +26,10 @@ int	ft_strtoi(char *ptr_str, char **ptr_end)
 	}
 	else if (*ptr_str == '+')
 		++ptr_str;
+	while(*ptr_str == '0')
+		ptr_str++;
+	if (ft_strlen(ptr_str) > 12)
+		return (-1);
 	while (*ptr_str >= '0' && *ptr_str <= '9')
 	{
 		res = res * 10 + *ptr_str - '0';

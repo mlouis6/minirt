@@ -6,12 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 18:16:56 by mlouis            #+#    #+#             */
-/*   Updated: 2025/01/29 18:20:36 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:13:17 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <limits.h>
 long	ft_strtol(const char *nptr)
 {
 	long long	nb;

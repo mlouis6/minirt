@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 17:38:20 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 19:47:13 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 19:55:25 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@
 
 int	check_hit_light(t_scene scene, t_obj *obj, double t)
 {
+	t_ray ray_diff;
+
 	obj->ray = init_ray_obj(t, scene);
-	if (!loop_objects(scene, &(obj->ray), NULL))
+	ray_diff = obj->ray;
+	ray_diff.origin = vect3_add(obj->ray.origin, vect3_mult(obj->ray.dir, 0.000000000001));
+	if (!loop_objects(scene, &ray_diff, NULL))
 		return (true);
 	return (false);
 }
@@ -45,43 +49,28 @@ t_color_sum	add_obj_color(t_color_sum sum, t_obj obj)
 	return (sum);
 }
 
-static t_color_sum	get_specular(t_scene scene, t_obj obj, t_vect3 normal)
+t_color_sum	add_specular(t_color_sum sum, t_scene scene, t_obj obj, t_vect3 normal)
 {
 	t_vect3		reflexion;
 	double		specular;
-	t_color_sum	spec_c;
 
 	reflexion = vect3_sub(vect3_mult(normal,
 				vect3_dot(normal, obj.ray.dir) * 2), obj.ray.dir);
 	specular = pow(fmax(0, vect3_dot(reflexion,
 					vect3_normalize(vect3_sub(scene.cam.pos, obj.hit)))), 60);
-	spec_c.r = scene.light.color.r * scene.light.brightness * specular / 255;
-	spec_c.g = scene.light.color.g * scene.light.brightness * specular / 255;
-	spec_c.b = scene.light.color.b * scene.light.brightness * specular / 255;
-	return (spec_c);
+	sum.r += scene.light.color.r * scene.light.brightness * specular / 255;
+	sum.g += scene.light.color.g * scene.light.brightness * specular / 255;
+	sum.b += scene.light.color.b * scene.light.brightness * specular / 255;
+	return (sum);
 }
 
-t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj)
+t_color_sum	add_light(t_color_sum sum, t_scene scene, t_obj obj, t_vect3 normal)
 {
 	double		diffusion;
-	t_vect3		normal;
-	t_color_sum	specular;
 
-	if (obj.type == PLANE)
-		normal = obj.shape.plane.normal;
-	else if (obj.type == CYLINDER)
-	{
-		normal = vect3_sub(obj.hit, obj.shape.cyl.origin);
-		normal = vect3_normalize(vect3_orth(obj.shape.cyl.normal, normal));
-	}
-	else
-		normal = vect3_normalize(vect3_sub(obj.hit, obj.shape.sphere.center));
-	if (vect3_dot(normal, vect3_sub(obj.hit, scene.cam.pos)) > 0)
-		normal = vect3_mult(normal, -1);
 	diffusion = fmax(vect3_dot(normal, vect3_normalize(obj.ray.dir)), 0);
-	specular = get_specular(scene, obj, normal);
-	sum.r = sum.r + (diffusion * obj.color.r / 255) + specular.r;
-	sum.g = sum.g + (diffusion * obj.color.g / 255) + specular.g;
-	sum.b = sum.b + (diffusion * obj.color.b / 255) + specular.b;
+	sum.r = sum.r + (diffusion * scene.light.color.r * scene.light.brightness / 255);
+	sum.g = sum.g + (diffusion * scene.light.color.g * scene.light.brightness / 255);
+	sum.b = sum.b + (diffusion * scene.light.color.b * scene.light.brightness / 255);
 	return (sum);
 }

@@ -6,10 +6,11 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:31:39 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/12 19:33:14 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/14 16:39:44 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "ret_val.h"
 #include "libft.h"
 
@@ -31,7 +32,8 @@ int	get_dist(char *line, void *ptr_dist)
 	char	*ptr_end;
 
 	data = ft_strtod(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != '\0' || data < 0)
+	if (line == ptr_end || *ptr_end != '\0'
+		|| data < 0 || data == INFINITY)
 		return (INVALID_FILE);
 	*(double *)ptr_dist = data;
 	return (SUCCESS);
