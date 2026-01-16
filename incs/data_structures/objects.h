@@ -6,14 +6,12 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 18:02:40 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/15 18:42:32 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/16 18:56:27 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef OBJECTS_H
 # define OBJECTS_H
-
-# define NB_OBJ 3
 
 # include "dim3.h"
 # include "color.h"
@@ -23,7 +21,8 @@ typedef enum e_type
 {
 	SPHERE = 0,
 	CYLINDER,
-	PLANE
+	PLANE,
+	NB_OBJ
 }	t_type;
 
 typedef struct s_sph

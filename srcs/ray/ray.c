@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/16 16:34:58 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/16 19:58:29 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static double	dispatch_func(t_type OBJ, t_scene scene, t_ray ray, size_t i)
 		res = plane_check(ray,
 				((t_obj *)scene.obj[PLANE].data)[i].shape.plane, &t);
 	}
-	if (res == 0)
+	if (res == false)
 		t = -1;
 	return (t);
 }
@@ -98,7 +98,7 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 		while (i < scene.obj[obj_type].size)
 		{
 			t = dispatch_func(obj_type, scene, *ray, i);
-			if (t >= 0 && check_closest(t, &(ray->tmax), obj,
+			if (t > 0 && check_closest(t, &(ray->tmax), obj,
 					&((t_obj *)scene.obj[obj_type].data)[i]))
 				hit = 1;
 			++i;
