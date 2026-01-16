@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/17 14:07:31 by mlouis            #+#    #+#              #
-#    Updated: 2026/01/12 19:45:11 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/15 18:16:26 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,15 +60,25 @@ LDFLAGS = $(addprefix -Llib/,$(dir $(LIB_TARGET)))
 LDLIBS := $(addprefix -l,$(LIB))
 MAKEFLAGS += --no-print-directory
 
+
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIB_TARGET)
 	$(CC) $(LDFLAGS) $(OBJ) $(LDLIBS) -o $(NAME)
 
-$(LIB_TARGET):
+libft/libft.a:
 	$(MAKE) -C lib/libft
+
+libmatrix/libmatrix.a:
 	$(MAKE) -C lib/libmatrix
+
+lib_vector/libvector.a:
 	$(MAKE) -C lib/lib_vector
+
+minilibx-linux/libmlx_Linux.a:
+	$(MAKE) -C lib/minilibx-linux
+
+minilibx-libft/libmlx.a:
 	$(MAKE) -C lib/minilibx-linux
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c

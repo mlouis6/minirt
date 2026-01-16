@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/12 19:31:39 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/14 16:39:44 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/15 13:02:42 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,13 @@ int	get_radius(char *line, void *ptr_radius)
 
 int	get_fov(char *line, void *ptr_fov)
 {
+	int		ret;
 	char	*ptr_end;
 	int		data;
 
-	data = ft_strtoi(line, &ptr_end);
-	if (line == ptr_end || *ptr_end != '\0' || data < 0 || data >= 180)
+	ret = ft_strtoi(line, &ptr_end, &data);
+	if (ret != SUCCESS || line == ptr_end
+		|| *ptr_end != '\0' || data < 0 || data >= 180)
 		return (INVALID_FILE);
 	*(int *)ptr_fov = data;
 	return (SUCCESS);

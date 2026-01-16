@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/29 18:50:12 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/14 20:01:07 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/16 17:28:13 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ static t_vect3	get_normal(t_scene scene, t_obj *obj)
 		normal = obj->shape.plane.normal;
 	else if (obj->type == CYLINDER)
 	{
-		normal = vect3_sub(obj->ray.origin, obj->shape.cyl.origin);
+		normal = vect3_sub(obj->hit, obj->shape.cyl.origin);
 		normal = vect3_normalize(vect3_orth(obj->shape.cyl.normal, normal));
 	}
 	else
-		normal = vect3_normalize(vect3_sub(obj->ray.origin, obj->shape.sphere.center));
+		normal = vect3_normalize(vect3_sub(obj->hit, obj->shape.sphere.center));
 	if (vect3_dot(normal, vect3_sub(obj->ray.origin, scene.cam.pos)) > 0)
 		normal = vect3_mult(normal, -1);
 	return (normal);
@@ -46,12 +46,12 @@ t_color	color_object(t_scene scene, t_obj *obj)
 	sum = init_color(scene.amb);
 	obj->hit = vect3_add(scene.ray.origin,
 			vect3_mult(scene.ray.dir, scene.ray.tmax));
-	hit_light = check_hit_light(scene, obj, scene.ray.tmax);
+	hit_light = check_hit_light(scene, obj, scene.ray.tmax, normal);
 	if (hit_light)
 		sum = add_light(sum, scene, *obj, normal);
 	sum = add_obj_color(sum, *obj);
-	// if (hit_light)
-	// 	sum = add_specular(sum, scene, *obj, normal);
+	if (hit_light)
+		sum = add_specular(sum, scene, *obj, normal);
 	return (color_normalize(sum));
 }
 

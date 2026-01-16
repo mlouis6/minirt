@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/29 12:48:56 by mlouis            #+#    #+#             */
-/*   Updated: 2026/01/14 18:26:01 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/16 16:34:58 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,17 @@ t_ray	init_ray_cam(t_camera cam)
 	return (ray);
 }
 
-t_ray	init_ray_obj(double t, t_scene scene)
+t_ray	init_ray_obj(double t, t_scene scene, t_vect3 normal)
 {
 	t_ray	ray;
 	t_pt3	at;
 	t_vect3	dir;
-	int		length;
 
 	at = vect3_add(scene.ray.origin,
 			vect3_mult(scene.ray.dir, t));
+	at = vect3_add(at, vect3_mult(normal, __FLT_EPSILON__));
 	dir = vect3_sub(scene.light.pos, at);
-	length = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
-	ray.tmax = length;
+	ray.tmax = sqrt(pow(dir.x, 2) + pow(dir.y, 2) + pow(dir.z, 2));
 	ray.curr_t = ray.tmax;
 	ray.origin = at;
 	ray.dir = vect3_normalize(dir);
@@ -74,7 +73,7 @@ static double	dispatch_func(t_type OBJ, t_scene scene, t_ray ray, size_t i)
 
 static int	check_closest(double t, double *closest, t_obj **obj, t_obj *curr)
 {
-	if (t < *closest)
+	if (t < *closest - __FLT_EPSILON__)
 	{
 		*closest = t;
 		if (obj != NULL)
@@ -99,7 +98,7 @@ int	loop_objects(t_scene scene, t_ray *ray, t_obj **obj)
 		while (i < scene.obj[obj_type].size)
 		{
 			t = dispatch_func(obj_type, scene, *ray, i);
-			if (t > -1 && check_closest(t, &(ray->tmax), obj,
+			if (t >= 0 && check_closest(t, &(ray->tmax), obj,
 					&((t_obj *)scene.obj[obj_type].data)[i]))
 				hit = 1;
 			++i;

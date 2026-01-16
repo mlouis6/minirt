@@ -6,7 +6,7 @@
 /*   By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/08 17:42:42 by cviel             #+#    #+#             */
-/*   Updated: 2026/01/14 16:27:02 by mlouis           ###   ########.fr       */
+/*   Updated: 2026/01/16 17:30:17 by mlouis           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int ac, char **av)
 		print_error(err);
 		return (err);
 	}
-	print_scene(scene);
 	ft_bzero(&mlx, sizeof(mlx));
 	if (init_window(&mlx, av[1]) == SUCCESS)
 	{

@@ -6,7 +6,7 @@
 #    By: mlouis <mlouis@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/14 15:08:26 by mlouis            #+#    #+#              #
-#    Updated: 2026/01/09 14:17:18 by mlouis           ###   ########.fr        #
+#    Updated: 2026/01/15 18:17:02 by mlouis           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,6 @@ NAME := libmatrix.a
 
 INCS := dim3.h
 INC_DIR := inc ../libft/inc
-
-# LIBS := ft
 
 LIBS_TARGET := ../libft/libft.a
 
@@ -39,14 +37,12 @@ MAKEFLAGS += --no-print-directory
 
 all: $(NAME)
 
-libft:
-	$(MAKE) -C $(LIB_DIR)
 
 $(NAME): $(OBJS) $(LIBS_TARGET)
 	ar rcs $(NAME) $(OBJS)
 
-$(LIBS_TARGET):
-	$(MAKE) -C ../libft
+../libft/libft.a:
+	$(MAKE) -C $(LIB_DIR)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(@D)
